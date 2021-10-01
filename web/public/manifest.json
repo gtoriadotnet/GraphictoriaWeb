@@ -1,0 +1,25 @@
+{
+  "short_name": "gtoria",
+  "name": "Graphictoria",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "256x256 64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "images/logo.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+	{
+      "src": "images/banner.png",
+      "type": "image/png",
+      "sizes": "400x300"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#348AFF",
+  "background_color": "#ffffff"
+}

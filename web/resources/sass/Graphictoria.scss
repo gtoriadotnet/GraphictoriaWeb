@@ -1,0 +1,701 @@
+// © XlXi 2021
+// Graphictoria 5
+
+// Lumen 5.0.1
+// Bootswatch
+
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+// Variables
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" !default;
+@if $web-font-path {
+  @import url($web-font-path);
+}
+
+// Mixins
+
+@mixin shadow($width: 4px){
+  border-style: solid;
+  border-width: 0 1px $width 1px;
+}
+
+// Background
+
+html, body, #gtoria-root {
+  height: 100%;
+  background: transparent;
+  color: inherit;
+}
+
+html {
+  &.gtoria-light {
+	background-color: $gray-100;
+	color: $gray-900;
+  }
+  
+  &.gtoria-dark {
+	background-color: shade-color($gray-900, 30%);
+	color: $gray-100;
+  }
+}
+
+#gtoria-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.graphictoria-home {
+  background-image: url("/Images/HomeBackground.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: calc(100vh - 63px);
+  display: flex;
+  margin-top: -16px;
+}
+
+// Home Page
+
+.graphictoria-homepage-header {
+	font-size: 4rem;
+	font-weight: bold;
+}
+
+.graphictoria-homepage-fine-print {
+	font-size: .6rem;
+	opacity: 70%;
+}
+
+.graphictoria-small-aligned-text {
+	font-size: .6rem;
+    vertical-align: middle;
+}
+
+.graphictoria-home-shadow {
+	text-shadow: 0 0 4px $gray-700;
+}
+
+// Navbar
+
+.navbar {
+  @include shadow();
+
+  @each $color, $value in $theme-colors {
+    &.bg-#{$color} {
+      border-color: shade-color($value, 10%);
+    }
+  }
+}
+
+.bg-graphictoria {
+  background-color: $graphictoria;
+}
+
+.graphictoria-navbar {
+  background-color: $white;
+  border-color: shade-color($white, 10%);
+  border-style: solid;
+  border-width: 0 0 2px 0;
+  
+  padding-top: 4px;
+  padding-bottom: 4px;
+  
+  html.gtoria-light & {
+    background-color: $white;
+    border-color: shade-color($white, 10%);
+	
+	.navbar-brand {
+      color: $navbar-light-brand-color;
+    
+      &:hover,
+      &:focus {
+        color: $navbar-light-brand-hover-color;
+      }
+    }
+    
+    .navbar-nav {
+      .nav-link {
+        color: $navbar-light-color;
+    
+        &:hover,
+        &:focus {
+          color: $navbar-light-hover-color;
+        }
+    
+        &.disabled {
+          color: $navbar-light-disabled-color;
+        }
+      }
+    
+      .show > .nav-link,
+      .nav-link.active {
+        color: $navbar-light-active-color;
+      }
+    }
+    
+    .navbar-toggler {
+      color: $navbar-light-color;
+      border-color: $navbar-light-toggler-border-color;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: escape-svg($navbar-light-toggler-icon-bg);
+    }
+    
+    .navbar-text {
+      color: $navbar-light-color;
+    
+      a,
+      a:hover,
+      a:focus  {
+        color: $navbar-light-active-color;
+      }
+    }
+  }
+  
+  html.gtoria-dark & {
+    background-color: $gray-900;
+    border-color: tint-color($gray-900, 10%);
+	
+	.navbar-brand {
+      color: $navbar-dark-brand-color;
+    
+      &:hover,
+      &:focus {
+        color: $navbar-dark-brand-hover-color;
+      }
+    }
+    
+    .navbar-nav {
+      .nav-link {
+        color: $navbar-dark-color;
+    
+        &:hover,
+        &:focus {
+          color: $navbar-dark-hover-color;
+        }
+    
+        &.disabled {
+          color: $navbar-dark-disabled-color;
+        }
+      }
+    
+      .show > .nav-link,
+      .nav-link.active {
+        color: $navbar-dark-active-color;
+      }
+    }
+    
+    .navbar-toggler {
+      color: $navbar-dark-color;
+      border-color: $navbar-dark-toggler-border-color;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: escape-svg($navbar-dark-toggler-icon-bg);
+    }
+    
+    .navbar-text {
+      color: $navbar-dark-color;
+      a,
+      a:hover,
+      a:focus {
+        color: $navbar-dark-active-color;
+      }
+    }
+  }
+}
+
+.graphictoria-nav-margin {
+  margin-top: 63px;
+}
+
+.graphictoria-nav-splitter {
+  margin-top: 16px;
+}
+
+.graphictoria-search, #graphictoria-search-dropdown {
+  position: absolute;
+  @media (max-width: 992px) {
+    display: none;
+  }
+  @media (min-width: 992px) {
+    width: 15rem;
+    left: calc(50% - 15rem/2);
+  }
+  @media (min-width: 1200px) {
+    width: 20rem;
+    left: calc(50% - 20rem/2);
+  }
+} 
+
+.graphictoria-search {
+  font-family: "FontAwesome", $font-family-sans-serif;
+}
+
+.graphictoria-search-dropdown-truncate {
+  @media (min-width: 992px) {
+    max-width: 5.375rem;
+  }
+  @media (min-width: 1200px) {
+    max-width: 10.438rem;
+  }
+  display: inline-block;
+  margin-bottom: -0.35rem;
+}
+
+#graphictoria-search-dropdown > .dropdown-menu {
+  width: 100%;
+  left: 0;
+  top: 1.5rem;
+}
+
+// Cards
+
+.graphictoria-small-card {
+  @media (min-width: 992px) {
+    max-width: 50%;
+	margin: auto;
+  }
+}
+
+.card {
+  @include shadow();
+  html.gtoria-dark & {
+    background-color: #222;
+  }
+}
+
+.sc-gsTEea {
+   display: flex;
+   flex-direction: column;
+   overflow-x: hidden !important;
+   overflow-y: auto !important;
+}
+
+.graphictoria-center-vh {
+   margin: auto;
+}
+
+// Offcanvas
+
+.offcanvas-header {
+  @include shadow();
+  
+  border-color: shade-color($white, 10%);
+}
+
+.offcanvas-body {
+  background-color: $gray-100;
+}
+
+.offcanvas {
+  max-width: 18rem;
+}
+
+// Buttons
+
+.btn {
+  @include shadow();
+  text-transform: uppercase;
+
+  &:not(.disabled):hover {
+    margin-top: 1px;
+    border-bottom-width: 3px;
+  }
+
+  &:not(.disabled):active {
+    margin-top: 2px;
+    border-bottom-width: 2px;
+    @include box-shadow(none);
+  }
+
+  &-primary {
+    border-color: shade-color($primary, 10%);
+  }
+
+  &-secondary {
+    border-color: shade-color($secondary, 10%);
+	html.gtoria-dark & {
+	  color: $white;
+	  background-color: $dark;
+	  border-color: shade-color($dark, 10%);
+	}
+  }
+
+  &-success {
+    border-color: shade-color($success, 10%);
+  }
+
+  &-info {
+    border-color: shade-color($info, 10%);
+  }
+
+  &-danger {
+    border-color: shade-color($danger, 10%);
+  }
+
+  &-warning {
+    border-color: shade-color($warning, 10%);
+  }
+
+  &-light {
+    border-color: shade-color($light, 10%);
+  }
+
+  &-dark {
+    border-color: shade-color($dark, 10%);
+  }
+}
+
+[class*="btn-outline"] {
+  border-top-width: 1px;
+}
+
+.btn-group-vertical {
+  .btn + .btn {
+    &:hover {
+      margin-top: -1px;
+      border-top-width: 1px;
+    }
+
+    &:active {
+      margin-top: -1px;
+      border-top-width: 2px;
+    }
+  }
+}
+
+// Typography
+
+.text-secondary {
+  color: $gray-700 !important;
+}
+
+.blockquote-footer {
+  color: $gray-600;
+}
+
+// Forms
+
+.form-control {
+  box-shadow: inset 0 2px 0 rgba(0, 0, 0, .075);
+}
+
+.input-group-sm {
+  > .input-group-prepend,
+  > .input-group-append {
+    .btn {
+      font-size: $btn-font-size-sm;
+    }
+  }
+}
+
+input {
+  html.gtoria-dark & {
+    background-color: $gray-800;
+	color: $gray-100;
+	border-color: $gray-700;
+    &:not(.disabled):focus {
+	  color: $gray-100;
+	  background-color: $gray-800;
+	}
+  }
+}
+
+// Navs
+
+.nav {
+  .open > a,
+  .open > a:hover,
+  .open > a:focus {
+    border-color: transparent;
+  }
+}
+
+.nav-tabs {
+  .nav-link {
+    color: $body-color;
+
+    &,
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      margin-top: 6px;
+      border-color: $nav-tabs-border-color;
+      transition: padding-bottom .2s ease-in-out, margin-top .2s ease-in-out, border-bottom .2s ease-in-out;
+    }
+
+    &:not(.disabled):hover,
+    &:not(.disabled):focus,
+    &.active {
+      padding-bottom: add(.5rem, 6px);
+      border-bottom-color: transparent;
+      margin-top: 0;
+    }
+  }
+
+  &.nav-justified > li {
+    vertical-align: bottom;
+  }
+}
+
+@keyframes dropdownEase {
+	0% {
+		transform: translateY(-50%) scale(1,0);
+	}
+	100% {
+		transform: translateY(0) scale(1,1);
+	}
+}
+
+@-webkit-keyframes dropdownEase {
+	0% {
+		-webkit-transform: translateY(-50%) scale(1,0);
+	}
+	100% {
+		-webkit-transform: translateY(0) scale(1,1);
+	}
+}
+
+.dropdown-menu {
+  margin-top: 0;
+  @include shadow();
+  border-top-width: 1px;
+  @include box-shadow(none);
+  
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-name: dropdownEase;
+  
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-name: dropdownEase;
+  
+  html.gtoria-dark & {
+    color: $gray-100;
+    background-color: $gray-800;
+    border-color: $gray-700;
+  }
+}
+
+.dropdown-item {
+  html.gtoria-dark & {
+    color: $gray-100;
+	
+	&:not(.disabled):hover {
+	  background-color: $gray-700;
+	}
+  }
+}
+
+.graphictoria-nav-dropdown {
+  margin-top: 11px !important;
+  border-top: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.breadcrumb {
+  border-color: shade-color($breadcrumb-bg, 10%);
+  @include shadow();
+}
+
+.pagination {
+  > li > a,
+  > li > span {
+    position: relative;
+    top: 0;
+    @include shadow();
+    color: $pagination-color;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      top: 1px;
+      border-bottom-width: 3px;
+      text-decoration: none;
+    }
+
+    &:active {
+      top: 2px;
+      border-bottom-width: 2px;
+    }
+  }
+
+  > .disabled > a,
+  > .disabled > span {
+    &:hover {
+      top: 0;
+      @include shadow();
+    }
+
+    &:active {
+      top: 0;
+      @include shadow();
+    }
+  }
+}
+
+.pager {
+  > li > a,
+  > li > span,
+  > .disabled > a,
+  > .disabled > span {
+    &,
+    &:hover,
+    &:active {
+      border-left-width: 2px;
+      border-right-width: 2px;
+    }
+  }
+}
+
+// Indicators
+
+.btn-close {
+  text-decoration: none;
+  opacity: .4;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+}
+
+.alert {
+  color: $white;
+  @include shadow();
+
+  &-primary {
+    background-color: $primary;
+    border-color: shade-color($primary, 10%);
+  }
+
+  &-secondary {
+    background-color: $secondary;
+    border-color: shade-color($secondary, 10%);
+  }
+
+  &-success {
+    background-color: $success;
+    border-color: shade-color($success, 10%);
+  }
+
+  &-info {
+    background-color: $info;
+    border-color: shade-color($info, 10%);
+  }
+
+  &-danger {
+    background-color: $danger;
+    border-color: shade-color($danger, 10%);
+  }
+
+  &-warning {
+    background-color: $warning;
+    border-color: shade-color($warning, 10%);
+  }
+
+  &-dark {
+    background-color: $dark;
+    border-color: shade-color($dark, 10%);
+  }
+
+  &-light {
+    background-color: $light;
+    border-color: shade-color($light, 10%);
+  }
+
+  .alert-link {
+    font-weight: 400;
+    color: $white;
+    text-decoration: underline;
+  }
+
+  &-secondary,
+  &-light {
+    &,
+    a,
+    .alert-link {
+      color: $body-color;
+    }
+  }
+}
+
+.graphictoria-alert {
+	border-radius: 0;
+	text-align: center;
+	margin-bottom: 0;
+	padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.graphictoria-alert > .btn-close {
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+}
+
+.badge {
+  &.bg-secondary,
+  &.bg-light {
+    color: $dark;
+  }
+}
+
+// Containers
+
+a.list-group-item {
+  &-success {
+    &.active {
+      background-color: $success;
+    }
+
+    &.active:hover,
+    &.active:focus {
+      background-color: shade-color($success, 10%);
+    }
+  }
+
+  &-warning {
+    &.active {
+      background-color: $warning;
+    }
+
+    &.active:hover,
+    &.active:focus {
+      background-color: shade-color($warning, 10%);
+    }
+  }
+
+  &-danger {
+    &.active {
+      background-color: $danger;
+    }
+
+    &.active:hover,
+    &.active:focus {
+      background-color: shade-color($danger, 10%);
+    }
+  }
+}
+
+.modal,
+.toast {
+  .btn-close {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>");
+  }
+}
+
+// Footer
+.footer {
+	html.gtoria-dark & {
+		background-color: $gray-900 !important;
+	}
+	html.gtoria-light & {
+		background-color: $white !important;
+	}
+}
