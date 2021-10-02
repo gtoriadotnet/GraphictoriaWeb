@@ -14,7 +14,7 @@ const Banner = (props) => {
 	
 	return (
 		<div className={`alert${props.dismissible === true || props.dismissible === 'true' ? ' alert-dismissible' : ''} graphictoria-alert alert-${type}`}>
-			<p className="mb-0">{description}</p>
+			<p className="mb-0" dangerouslySetInnerHTML={{ __html: description }}></p>
 			{CloseButton}
 		</div>
 	);
