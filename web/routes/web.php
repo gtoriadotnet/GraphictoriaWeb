@@ -44,3 +44,7 @@ Route::get('/legal/privacy-policy', function () {
 Route::get('/legal/dmca', function () {
     return view('main');
 });
+
+Route::get('/games', function () {
+    return view('main');
+});

@@ -6,11 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<meta name="theme-color" content="#348AFF"/>
 		<meta name="author" content="Graphictoria"/>
-		<meta name="description" content="Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 1.7k+ other users in reliving the good ol' days! Graphictoria is not affiliated with Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation."/>
+		<meta name="description" content="Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 1.7k+ other users in reliving the good ol' days! Graphictoria is not affiliated with or sponsored by Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation."/>
 		<meta name="keywords" content="Graphictoria, XDiscuss, nostalgia, roblox, gtoria, private server"/>
 		<meta property="og:title" content="Graphictoria"/>
 		<meta property="og:site_name" content="Graphictoria"/>
-		<meta property="og:description" content="Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 1.7k+ other users in reliving the good ol' days! Graphictoria is not affiliated with Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation."/>
+		<meta property="og:description" content="Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 1.7k+ other users in reliving the good ol' days! Graphictoria is not affiliated with or sponsored by Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation."/>
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content="{{ asset('images/banner.png') }}">
 		<meta name="twitter:image" content="{{ asset('images/banner.png') }}">
