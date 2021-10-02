@@ -74,4 +74,4 @@ class InternalServerError extends React.Component {
 	}
 }
 
-export { NotFound, InternalServerError };
+export { NotFound, InternalServerError, GenericErrorModal };

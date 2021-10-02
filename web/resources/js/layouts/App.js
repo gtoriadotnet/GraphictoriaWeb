@@ -16,6 +16,8 @@ import { Auth } from '../Pages/Auth.js';
 import { NotFound, InternalServerError } from '../Pages/Errors.js';
 import { Maintenance } from '../Pages/Maintenance.js';
 
+import { Games } from '../Pages/Games.js';
+
 import { About } from '../Pages/Legal/About.js';
 import { Copyright } from '../Pages/Legal/Copyright.js';
 import { Privacy } from '../Pages/Legal/Privacy.js';
@@ -112,6 +114,10 @@ class App extends React.Component {
 										</Route>
 										<Route exact path="/passwordreset">
 											<Auth location={location.pathname}/>
+										</Route>
+										
+										<Route exact path="/games">
+											<Games/>
 										</Route>
 										
 										<Route path="*">

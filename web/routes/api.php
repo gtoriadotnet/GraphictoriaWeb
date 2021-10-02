@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\GamesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ Route::get('/', function () {
 });
 
 Route::get('/web/activebanners', [BannerController::class, 'getBanners']);
+
+Route::get('/web/games/status', [GamesController::class, 'isAvailable']);
 
 Route::fallback(function () {
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
