@@ -16,3 +16,31 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('main');
 });
+
+Route::get('/login', function () {
+    return view('main');
+});
+
+Route::get('/register', function () {
+    return view('main');
+});
+
+Route::get('/passwordreset', function () {
+    return view('main');
+});
+
+Route::get('/legal/about-us', function () {
+    return view('main');
+});
+
+Route::get('/legal/terms-of-service', function () {
+    return view('main');
+});
+
+Route::get('/legal/privacy-policy', function () {
+    return view('main');
+});
+
+Route::get('/legal/dmca', function () {
+    return view('main');
+});

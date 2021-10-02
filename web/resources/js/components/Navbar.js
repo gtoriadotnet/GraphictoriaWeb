@@ -33,10 +33,10 @@ const Navbar = (props) => {
 				<NavLink className="navbar-brand" to="/">
 					<img src="/images/logo.png" alt="Graphictoria" width="43" height="43" draggable="false"/>
 				</NavLink>
-				<button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#graphictoria-nav" aria-controls="graphictoria-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#graphictoria-nav" aria-controls="graphictoria-nav" aria-expanded="false" aria-label="Toggle navigation">
 					<span className="navbar-toggler-icon"></span>
 				</button>
-				<div className="collapse navbar-collapse">
+				<div className="collapse navbar-collapse" id="graphictoria-nav">
 					<ul className="navbar-nav me-auto">
 						{
 							!props.maintenanceEnabled ?
@@ -99,19 +99,6 @@ const Navbar = (props) => {
 			</div>
 		</nav>
 		<div className="graphictoria-nav-margin">
-		</div>
-		<div className="offcanvas offcanvas-end" tabIndex="-1" id="graphictoria-nav" aria-labelledby="graphictoria-nav">
-			<div className="offcanvas-header d-flex">
-				<div className="d-flex me-auto">
-					<a className="btn btn-success btn-sm" href="/login">Login</a>
-					<p className="text-muted my-auto mx-1">OR</p>
-					<a className="btn btn-primary btn-sm" href="/register">Sign up</a>
-				</div>
-				<button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-			</div>
-			<div className="offcanvas-body">
-				egg
-			</div>
 		</div>
 	</>
   );
