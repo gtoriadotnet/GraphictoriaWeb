@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 use App\Models\Banner;
 
@@ -16,12 +17,28 @@ class BannerController extends Controller
      */
     public function getBanners()
     {
-		$banners = Banner::select('type', 'message as text', 'dismissable')
-					->get();
+		$redis = Cache::store('redis');
+		$content = '[{}]'; // fallback
 		
-        return response()->json($banners)
-				->header('Access-Control-Allow-Origin', env('APP_URL'))
-				->header('Vary', 'origin')
-				->header('Content-Type', 'application/json');
+		if($bannerSettings = $redis->get('bannerSetting'))
+		{
+			$content = $bannerSettings;
+		}
+		else
+		{
+			$banners = Banner::select('type', 'message as text', 'dismissable')
+						->get();
+			
+			$response = $banners->toJson();
+			
+			$redis->put('bannerSetting', $response, now()->addMinutes(5));
+			
+			$content = $response;
+		}
+		
+		return response($content)
+					->header('Access-Control-Allow-Origin', env('APP_URL'))
+					->header('Vary', 'origin')
+					->header('Content-Type', 'application/json');
     }
 }

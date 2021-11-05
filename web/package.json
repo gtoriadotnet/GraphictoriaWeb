@@ -14,6 +14,7 @@
         "@popperjs/core": "^2.9.2",
         "axios": "^0.21",
         "bootstrap": "5.0.1",
+        "css-loader": "^6.4.0",
         "jquery": "^3.6.0",
         "laravel-mix": "^6.0.6",
         "laravel-mix-banner": "^0.1.4",
@@ -29,6 +30,8 @@
     },
     "dependencies": {
         "@steveeeie/react-page-transition": "^1.2.1",
+        "laravel-mix-react-css-modules": "^2.0.0",
+        "mini-css-extract-plugin": "^2.4.3",
         "react-google-recaptcha": "^2.1.0",
         "styled-components": "^5.3.1"
     }
