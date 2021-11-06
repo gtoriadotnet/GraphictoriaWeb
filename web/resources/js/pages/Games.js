@@ -24,11 +24,11 @@ class Games extends React.Component {
 	{
 		var app = this;
 		
-		SetTitle("Games");
+		SetTitle('Games');
 		
 		function updateBanners()
 		{
-			axios.get(protocol + 'api.' + url + '/web/games/status').then((response) => {
+			axios.get(protocol + 'api.' + url + '/games/metadata').then((response) => {
 				app.setState({offline: !response.data.available});
 			});
 		}

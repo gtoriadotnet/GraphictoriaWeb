@@ -20,9 +20,9 @@ Route::get('/', function () {
     return 'API OK';
 });
 
-Route::get('/web/activebanners', [BannerController::class, 'getBanners']);
+Route::get('/banners/data', [BannerController::class, 'getBanners']);
 
-Route::get('/web/games/status', [GamesController::class, 'isAvailable']);
+Route::get('/games/metadata', [GamesController::class, 'isAvailable']);
 
 Route::fallback(function () {
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
