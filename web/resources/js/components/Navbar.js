@@ -1,31 +1,11 @@
 // © XlXi 2021
 // Graphictoria 5
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-
-const dropdownLinks = [
-	{
-		area: 'Games',
-		urlbase: '/games/search/'
-	},
-	{
-		area: 'Catalog',
-		urlbase: '/catalog/search/'
-	},
-	{
-		area: 'Users',
-		urlbase: '/users/search/'
-	},
-	{
-		area: 'Groups',
-		urlbase: '/groups/search/'
-	}
-];
+import SearchBar from './SearchBar.js';
 
 const Navbar = (props) => {
-  const [searchQuery, setSearchQuery] = useState('');
-
   return (
     <>
 		<nav className="navbar graphictoria-navbar fixed-top navbar-expand-md shadow-sm">
@@ -65,33 +45,13 @@ const Navbar = (props) => {
 							</li>
 						}
 					</ul>
-					{
-						!props.maintenanceEnabled ?
-						<input type="text" className="form-control d-lg-flex graphictoria-search" placeholder="Search" aria-label="Search" aria-describedby="graphictoria-nav-search-button" onChange={ changeEvent => setSearchQuery(changeEvent.target.value) } value={ searchQuery }/>
-						:
-						null
-					}
-					
-					{
-						searchQuery.length !== 0 ?
-						<div id="graphictoria-search-dropdown">
-							<ul className="dropdown-menu show" area-labelledby="graphictoria-search-dropdown">
-								{
-									dropdownLinks.map(({ area, urlbase }, index) => 
-										<li key={index}>
-											<Link className="dropdown-item py-2" onClick={ () => setSearchQuery('') } to={urlbase + encodeURIComponent(searchQuery)}>Search <b className="text-truncate graphictoria-search-dropdown-truncate">{searchQuery}</b> in {area}</Link>
-										</li>
-									)
-								}
-							</ul>
-						</div>
-						:
-						null
-					}
 					
 					{
 						!props.maintenanceEnabled ?
-						<Link className="btn btn-success" to="/login">Login / Sign up</Link>
+						<>
+							<SearchBar />
+							<Link className="btn btn-success" to="/login">Login / Sign up</Link>
+						</>
 						:
 						null
 					}
