@@ -37,8 +37,6 @@ class BannerController extends Controller
 		}
 		
 		return response($content)
-				->header('Access-Control-Allow-Origin', env('APP_URL'))
-				->header('Vary', 'origin')
 				->header('Content-Type', 'application/json');
     }
 }

@@ -37,7 +37,7 @@ class App extends React.Component {
 		
 		function updateBanners()
 		{
-			axios.get(protocol + 'api.' + url + '/banners/data').then((response) => {
+			axios.get(protocol + 'apis.' + url + '/banners/data').then((response) => {
 				var result = [];
 				response.data.map(function(banner){
 					result.push(<Banner type={banner.type} description={banner.text} dismissible={banner.dismissable} />);

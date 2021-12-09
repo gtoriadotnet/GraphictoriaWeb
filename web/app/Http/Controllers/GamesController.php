@@ -20,8 +20,6 @@ class GamesController extends Controller
 					->first();
 		
         return response()->json(['available' => $status->operational])
-				->header('Access-Control-Allow-Origin', env('APP_URL'))
-				->header('Vary', 'origin')
 				->header('Content-Type', 'application/json');
 	}
 }

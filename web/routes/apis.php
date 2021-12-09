@@ -16,16 +16,20 @@ use App\Http\Controllers\GamesController;
 |
 */
 
-Route::get('/', function () {
-    return 'API OK';
-});
+Route::middleware(['cors'])->group(function() {
 
-Route::get('/banners/data', [BannerController::class, 'getBanners']);
+	Route::get('/', function () {
+		return 'API OK';
+	});
 
-Route::get('/games/metadata', [GamesController::class, 'isAvailable']);
+	Route::get('/banners/data', [BannerController::class, 'getBanners']);
 
-Route::fallback(function () {
-	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
-		->header('Cache-Control', 'private')
-		->header('Content-Type', 'application/json; charset=utf-8');
+	Route::get('/games/metadata', [GamesController::class, 'isAvailable']);
+
+	Route::fallback(function () {
+		return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
+			->header('Cache-Control', 'private')
+			->header('Content-Type', 'application/json; charset=utf-8');
+	});
+
 });

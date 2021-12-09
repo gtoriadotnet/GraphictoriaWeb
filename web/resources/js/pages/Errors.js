@@ -6,37 +6,34 @@ import { Link, useHistory } from "react-router-dom";
 
 import SetTitle from "../Helpers/Title.js";
 
+import { Card, CardTitle } from '../Layouts/Card.js';
+
 function GenericErrorModal(props)
 {
 	const history = useHistory();
 
 	return (
-	<div className="container graphictoria-center-vh">
-		<div className="card graphictoria-small-card shadow-sm">
-			<div className="card-body text-center">
-				<h5 className="card-title fw-bold">{ props.title }</h5>
-				<hr className="mx-5"/>
-				<p className="card-text">{ props.children }</p>
-				{
-					props.stack !== undefined && process.env.NODE_ENV === 'development'
-					?
-						<div className="border border-primary bg-dark p-3 m-4">
-							{/* this code is a jumbled mess */}
-							<code>
-								STACK TRACE<br/>{("-").repeat(15)}<br/>{ props.stack }
-							</code>
-						</div>
-					:
-						null
-				}
-				<div className="mt-2">
-					<Link className="btn btn-primary px-4 me-2" to="/home">Home</Link>
-					{/* eslint-disable-next-line */}
-					<a className="btn btn-secondary px-4" onClick={ () => history.goBack() }>Back</a>
+	<Card>
+		<CardTitle>{ props.title }</CardTitle>
+		<p className="card-text">{ props.children }</p>
+		{
+			props.stack !== undefined && process.env.NODE_ENV === 'development'
+			?
+				<div className="border border-primary bg-dark p-3 m-4">
+					{/* this code is a jumbled mess */}
+					<code>
+						STACK TRACE<br/>{("-").repeat(15)}<br/>{ props.stack }
+					</code>
 				</div>
-			</div>
+			:
+				null
+		}
+		<div className="mt-2">
+			<Link className="btn btn-primary px-4 me-2" to="/home">Home</Link>
+			{/* eslint-disable-next-line */}
+			<a className="btn btn-secondary px-4" onClick={ () => history.goBack() }>Back</a>
 		</div>
-	</div>
+	</Card>
 	);
 }
 
