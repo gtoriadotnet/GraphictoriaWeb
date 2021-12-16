@@ -53,7 +53,8 @@ class App extends React.Component {
 		{
 			axios.get(protocol + 'apis.' + url + '/')
 				.then((response) => {
-					app.setState({maintenance: false});
+					if(app.state.maintenance == true)
+						window.location.reload();
 				})
 				.catch((error) => {
 					if (error.response)

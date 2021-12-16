@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 		$this->call([
-			WebStatusSeeder::class
+			WebStatusSeeder::class,
+			FFlagSeeder::class
 		]);
     }
 }

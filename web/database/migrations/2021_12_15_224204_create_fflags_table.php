@@ -17,8 +17,8 @@ class CreateFflagsTable extends Migration
             $table->id();
 			$table->string('name');
 			$table->string('value');
-			$table->enum('dataType', ['Log', 'Int', 'String']);
-			$table->enum('type', ['Raw', 'Fast', 'Dynamic', 'Shared']);
+			$table->enum('dataType', ['Log', 'Int', 'String', 'Boolean']);
+			$table->enum('type', ['Unscoped', 'Fast', 'Dynamic', 'Synchronised']);
 			$table->bigInteger('groupId');
             $table->timestamps();
         });

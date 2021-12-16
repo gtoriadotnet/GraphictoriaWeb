@@ -17,6 +17,7 @@ class CreateFastgroupsTable extends Migration
             $table->id();
 			$table->string('name');
 			$table->boolean('protected')->default(false);
+			$table->json('inheritedGroupIds')->default('[]');
             $table->timestamps();
         });
     }

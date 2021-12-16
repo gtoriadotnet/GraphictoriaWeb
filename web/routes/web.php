@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/javascript', function () {
+    return view('javascript');
+});
+
 Route::get('/', function () {
     return view('main');
 });
