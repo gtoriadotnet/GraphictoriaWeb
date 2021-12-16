@@ -29,11 +29,13 @@
         "webpack-subresource-integrity": "^5.0.0"
     },
     "dependencies": {
+        "@react-three/fiber": "^7.0.24",
         "@steveeeie/react-page-transition": "^1.2.1",
         "laravel-mix-react-css-modules": "^2.0.0",
         "mini-css-extract-plugin": "^2.4.3",
         "react-bootstrap": "^2.0.2",
         "react-google-recaptcha": "^2.1.0",
-        "styled-components": "^5.3.1"
+        "styled-components": "^5.3.1",
+        "three": "^0.135.0"
     }
 }

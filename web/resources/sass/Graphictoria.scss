@@ -21,7 +21,19 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   border-width: 0 1px $width 1px;
 }
 
+// Maintenance
+.gtoria-maintenance-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -9999;
+}
+
 // Loader
+
+.gtoria-loader-center {
+	margin: auto;
+}
 
 .gtoria-loader {
   display: inline-block;

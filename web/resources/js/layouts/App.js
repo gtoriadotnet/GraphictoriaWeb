@@ -9,6 +9,8 @@ import Navbar from '../components/Navbar.js';
 import Banner from '../components/Banner.js';
 import Footer from '../components/Footer.js';
 
+import Loader from '../Components/Loader.js';
+
 import { Home } from '../Pages/Home.js';
 
 import { Auth } from '../Pages/Auth.js';
@@ -29,7 +31,7 @@ var protocol = Config.Protocol;
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {maintenance: false, theme: 0, banners: []};
+		this.state = {maintenance: false, theme: 0, banners: [], offlineFetched: false};
 	}
 	
 	componentDidMount() {
@@ -37,22 +39,38 @@ class App extends React.Component {
 		
 		function updateBanners()
 		{
-			axios.get(protocol + 'apis.' + url + '/banners/data').then((response) => {
-				var result = [];
-				response.data.map(function(banner){
-					result.push(<Banner type={banner.type} description={banner.text} dismissible={banner.dismissable} />);
+			axios.get(protocol + 'apis.' + url + '/banners/data')
+				.then((response) => {
+					var result = [];
+					response.data.map(function(banner){
+						result.push(<Banner type={banner.type} description={banner.text} dismissible={banner.dismissable} />);
+					});
+					app.setState({banners: result});
 				});
-				app.setState({banners: result});
-			});
 		}
 		
-		if(this.state.maintenance === true)
+		function updateOfflineStatus()
 		{
-			this.setState({theme: 1});
+			axios.get(protocol + 'apis.' + url + '/')
+				.then((response) => {
+					app.setState({maintenance: false});
+				})
+				.catch((error) => {
+					if (error.response)
+					{
+						if(error.response.status == 503)
+							app.setState({maintenance: true, theme: 1});
+					}
+				})
+				.finally(() => {
+					app.setState({offlineFetched: true});
+				});
 		}
 		
 		updateBanners();
+		updateOfflineStatus();
 		setInterval(updateBanners, 2*60*1000 /* 2 mins */);
+		setInterval(updateOfflineStatus, 10*60*1000 /* 10 mins */);
 	}
 	
 	render() {
@@ -60,8 +78,9 @@ class App extends React.Component {
 		document.documentElement.classList.remove(!(this.state.theme === 0) ? 'gtoria-light' : 'gtoria-dark');
 		
 		return (
+			this.state.offlineFetched == true ?
 			<Router>
-				<Navbar maintenanceEnabled={false} />
+				<Navbar maintenanceEnabled={this.state.maintenance} />
 				{
 					
 					this.state.banners.length !== 0 ?
@@ -134,6 +153,10 @@ class App extends React.Component {
 						);
 					}}/>
 			</Router>
+			:
+			<div className="gtoria-loader-center">
+				<Loader />
+			</div>
 		);
 	}
 }

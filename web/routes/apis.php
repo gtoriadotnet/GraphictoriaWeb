@@ -16,12 +16,11 @@ use App\Http\Controllers\GamesController;
 |
 */
 
-Route::middleware(['cors'])->group(function() {
-
+Route::middleware(['cors', 'maintenance'])->group(function() {
 	Route::get('/', function () {
 		return 'API OK';
 	});
-
+	
 	Route::get('/banners/data', [BannerController::class, 'getBanners']);
 
 	Route::get('/games/metadata', [GamesController::class, 'isAvailable']);
@@ -31,5 +30,4 @@ Route::middleware(['cors'])->group(function() {
 			->header('Cache-Control', 'private')
 			->header('Content-Type', 'application/json; charset=utf-8');
 	});
-
 });

@@ -23,7 +23,7 @@ const LoginForm = (props) => {
 			</div>
 			<div className="col">
 				<h5>New to Graphictoria?</h5>
-				<p>Creating an account takes less than a minute, and you can join a community of 6k+ users for <b>completely free</b>.<br/><Link to="/register" className="text-decoration-none fw-normal">Sign Up</Link></p>
+				<p>Creating an account takes less than a minute, and you can join a community of 7k+ users for <b>completely free</b>.<br/><Link to="/register" className="text-decoration-none fw-normal">Sign Up</Link></p>
 			</div>
 		</>
 	);
