@@ -83,7 +83,7 @@ class Maintenance extends React.Component {
 				</div>
 				<div className="text-center mt-auto container">
 					<h1>Graphictoria is currently under maintenance.</h1>
-					<h4>Our advanced team of cyber monkes are working to make Graphictoria better. We'll be back soon!</h4>
+					<h4>Our advanced cyborg team of code-monkes are working to make Graphictoria better. We'll be back soon!</h4>
 					<div className="input-group mt-5">
 						<input type="password" className="form-control" placeholder="Password" autoComplete="off"/>
 						{

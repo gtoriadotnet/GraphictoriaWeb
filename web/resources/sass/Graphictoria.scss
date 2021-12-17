@@ -133,13 +133,20 @@ html {
 }
 
 .graphictoria-home {
-  background-image: url("/Images/HomeBackground.png");
+  background-image: url("/Images/Backgrounds/Home.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   min-height: calc(100vh - 63px);
   display: flex;
   margin-top: -16px;
+}
+
+.graphictoria-nojs {
+  background-image: url("/Images/Backgrounds/NoJs.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 // Home Page

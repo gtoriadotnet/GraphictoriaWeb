@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="{{ isset($jsPage) ? 'gtoria-dark' : 'gtoria-light' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="{{ isset($jsPage) ? 'gtoria-dark graphictoria-nojs' : 'gtoria-light' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
 		<title>Graphictoria{{ isset($title) ? ' | ' . $title : '' }}</title>
 		<meta charset="utf-8" />
