@@ -4,43 +4,16 @@
 import React, { useRef } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
+import { Instances, Instance, PerspectiveCamera } from '@react-three/drei'
 
 import SetTitle from "../Helpers/Title.js";
 
+const randomVector = (r) => [r / 2 - Math.random() * r, r / 2 - Math.random() * r, r / 2 - Math.random() * r];
+const randomEuler = () => [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI];
+const randomData = Array.from({ length: 500 }, (r = 100) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
+
 let Buttons = [];
 let ButtonsAlreadyTemplated = false;
-
-function Box(props) {
-	const ref = useRef();
-	
-	const distanceFromCamera = Math.random() * 30
-	
-	const rotX = (Math.random() * 200 - 100)/300
-	const rotZ = (Math.random() * 200 - 100)/300
-	
-	useFrame((state, delta) => {
-		ref.current.position.y -= 0.6 * delta
-		ref.current.rotation.x += rotX * delta
-		ref.current.rotation.z += rotZ * delta
-		
-		if(ref.current.position.y < -30)
-		{
-			ref.current.position.y = 30;
-		}
-	});
-	
-	return (
-		<mesh
-			{...props}
-			ref={ref}
-			scale={1}
-			position={[(Math.random() * 120) - 60, (Math.random() * 60) - 30, -distanceFromCamera]}
-			rotation={[Math.random() * 360, Math.random() * 360, Math.random() * 360]}>
-			<boxGeometry args={[1, 0.3, 0.5]} />
-			<meshStandardMaterial color={'grey'} />
-		</mesh>
-	)
-}
 
 function MakeButtons()
 {
@@ -60,6 +33,31 @@ function DoButton(position)
 	console.log(position);
 }
 
+function Box({ random, ...props }){
+	const ref = useRef()
+	useFrame((state) => {
+		const t = state.clock.getElapsedTime() + random * 10000
+		ref.current.rotation.set(Math.cos(t / 4) / 2, Math.sin(t / 4) / 2, Math.cos(t / 1.5) / 2)
+		ref.current.position.y = Math.sin(t / 1.5) / 2
+	});
+	return (
+		<group {...props}>
+			<Instance ref={ref} />
+		</group>
+	)
+}
+
+function Camera({ ...props }){
+	const ref = useRef()
+	useFrame((state) => {
+		const t = state.clock.getElapsedTime() / 70
+		ref.current.rotation.set(t, 0, t)
+	});
+	return (
+		<PerspectiveCamera ref={ref} {...props} />
+	)
+}
+
 class Maintenance extends React.Component {
 	
 	componentDidMount()
@@ -76,9 +74,16 @@ class Maintenance extends React.Component {
 					<Canvas>
 						<ambientLight />
 						<pointLight position={[10, 10, 10]} />
-						{
-							[...Array(100)].map((e, i) => (<Box key={i}/>))
-						}
+						<Instances range={500}>
+							<boxGeometry args={[1, 0.3, 0.5]} />
+							<meshStandardMaterial color={'grey'} />
+							{
+								randomData.map((props, i) => (
+									<Box key={i} {...props} />
+								))
+							}
+						</Instances>
+						<Camera makeDefault />
 					</Canvas>
 				</div>
 				<div className="text-center mt-auto container">
