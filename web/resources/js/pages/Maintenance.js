@@ -10,7 +10,7 @@ import SetTitle from '../Helpers/Title.js';
 
 const randomVector = (r) => [r / 2 - Math.random() * r, r / 2 - Math.random() * r, r / 2 - Math.random() * r];
 const randomEuler = () => [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI];
-const randomData = Array.from({ length: 500 }, (r = 200) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
+const randomData = Array.from({ length: 2000 }, (r = 200) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
 
 let Buttons = [];
 let ButtonsAlreadyTemplated = false;
@@ -40,7 +40,7 @@ function Scene() {
 		<>
 			<ambientLight />
 			<pointLight position={[10, 10, 10]} />
-			<Instances range={500} material={materials.Material} geometry={nodes.Cube.geometry} >
+			<Instances range={2000} material={materials.Material} geometry={nodes.Cube.geometry} >
 				{
 					randomData.map((props, i) => (
 						<Box key={i} {...props} />
