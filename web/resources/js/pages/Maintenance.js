@@ -1,16 +1,16 @@
 // © XlXi 2021
 // Graphictoria 5
 
-import React, { useRef } from 'react';
+import React, { useRef, Suspense } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Instances, Instance, PerspectiveCamera } from '@react-three/drei'
+import { Instances, Instance, PerspectiveCamera, useGLTF } from '@react-three/drei';
 
-import SetTitle from "../Helpers/Title.js";
+import SetTitle from '../Helpers/Title.js';
 
 const randomVector = (r) => [r / 2 - Math.random() * r, r / 2 - Math.random() * r, r / 2 - Math.random() * r];
 const randomEuler = () => [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI];
-const randomData = Array.from({ length: 500 }, (r = 100) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
+const randomData = Array.from({ length: 500 }, (r = 200) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
 
 let Buttons = [];
 let ButtonsAlreadyTemplated = false;
@@ -20,7 +20,7 @@ function MakeButtons()
 	if(!ButtonsAlreadyTemplated)
 	{
 		ButtonsAlreadyTemplated = true;
-		let name = "Graphictoria";
+		let name = 'Graphictoria';
 		
 		for (var i = 0; i < name.length; i++) {
 			Buttons.push({id: i, value: name.charAt(i)});
@@ -31,6 +31,25 @@ function MakeButtons()
 function DoButton(position)
 {
 	console.log(position);
+}
+
+function Scene() {
+	const { nodes, materials } = useGLTF('/models/graphictoriapart.glb');
+	
+	return (
+		<>
+			<ambientLight />
+			<pointLight position={[10, 10, 10]} />
+			<Instances range={500} material={materials.Material} geometry={nodes.Cube.geometry} >
+				{
+					randomData.map((props, i) => (
+						<Box key={i} {...props} />
+					))
+				}
+			</Instances>
+			<Camera makeDefault />
+		</>
+	);
 }
 
 function Box({ random, ...props }){
@@ -72,23 +91,14 @@ class Maintenance extends React.Component {
 			<>
 				<div className="gtoria-maintenance-background">
 					<Canvas>
-						<ambientLight />
-						<pointLight position={[10, 10, 10]} />
-						<Instances range={500}>
-							<boxGeometry args={[1, 0.3, 0.5]} />
-							<meshStandardMaterial color={'grey'} />
-							{
-								randomData.map((props, i) => (
-									<Box key={i} {...props} />
-								))
-							}
-						</Instances>
-						<Camera makeDefault />
+						<Suspense fallback={null}>
+							<Scene />
+						</Suspense>
 					</Canvas>
 				</div>
 				<div className="text-center mt-auto container">
 					<h1>Graphictoria is currently under maintenance.</h1>
-					<h4>Our advanced cyborg team of code-monkes are working to make Graphictoria better. We'll be back soon!</h4>
+					<h4>Our cyborg team of highly trained code-monkes are working to make Graphictoria better. We'll be back soon!</h4>
 					<div className="input-group mt-5">
 						<input type="password" className="form-control" placeholder="Password" autoComplete="off"/>
 						{
