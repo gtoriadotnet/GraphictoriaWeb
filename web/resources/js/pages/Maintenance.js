@@ -69,8 +69,11 @@ function Box({ random, ...props }){
 function Camera({ ...props }){
 	const ref = useRef()
 	useFrame((state) => {
-		const t = state.clock.getElapsedTime() / 70
-		ref.current.rotation.set(t, 0, t)
+		const t = state.clock.getElapsedTime() / 30
+		ref.current.position.x = 10 * Math.cos(t);
+		ref.current.position.y = 4 * Math.sin(t);
+		ref.current.position.z = 10 * Math.sin(t);
+		ref.current.lookAt(0, 0, 0);
 	});
 	return (
 		<PerspectiveCamera ref={ref} {...props} />
