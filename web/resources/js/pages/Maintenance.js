@@ -99,7 +99,7 @@ class Maintenance extends React.Component {
 						</Suspense>
 					</Canvas>
 				</div>
-				<div className="text-center mt-auto container">
+				<div className="text-center mt-auto container gtoria-maintenance-form">
 					<h1>Graphictoria is currently under maintenance.</h1>
 					<h4>Our cyborg team of highly trained code-monkes are working to make Graphictoria better. We'll be back soon!</h4>
 					<div className="input-group mt-5">

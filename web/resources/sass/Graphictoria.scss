@@ -22,11 +22,25 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
 }
 
 // Maintenance
+
 .gtoria-maintenance-background {
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: -9999;
+}
+  
+.gtoria-maintenance-form {
+  html.gtoria-light & {
+  	background: radial-gradient($gray-100 5%, transparent 65%);
+  }
+  
+  html.gtoria-dark & {
+  	background: radial-gradient(shade-color($gray-900, 30%) 5%, transparent 65%);
+  }
+  
+  background-repeat: no-repeat;
+  padding: 20px;
 }
 
 // Loader
