@@ -13,42 +13,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/javascript', function () {
+Route::get('/javascript', function(){
     return view('javascript');
 });
 
-Route::get('/', function () {
+Route::get('/', function(){
     return view('main');
 });
 
-Route::get('/login', function () {
+Route::get('/login', function(){
     return view('main');
 });
 
-Route::get('/register', function () {
+Route::get('/register', function(){
     return view('main');
 });
 
-Route::get('/passwordreset', function () {
+Route::get('/passwordreset', function(){
     return view('main');
 });
 
-Route::get('/legal/about-us', function () {
+Route::get('/legal/about-us', function(){
     return view('main');
 });
 
-Route::get('/legal/terms-of-service', function () {
+Route::get('/legal/terms-of-service', function(){
     return view('main');
 });
 
-Route::get('/legal/privacy-policy', function () {
+Route::get('/legal/privacy-policy', function(){
     return view('main');
 });
 
-Route::get('/legal/dmca', function () {
+Route::get('/legal/dmca', function(){
     return view('main');
 });
 
-Route::get('/games', function () {
+Route::get('/games', function(){
     return view('main');
 });

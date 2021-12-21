@@ -1,12 +1,17 @@
 // © XlXi 2021
 // Graphictoria 5
 
+import axios from 'axios';
 import React, { useRef, Suspense } from 'react';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Instances, Instance, PerspectiveCamera, useGLTF } from '@react-three/drei';
 
+import Config from '../config.js';
 import SetTitle from '../Helpers/Title.js';
+
+var url = Config.BaseUrl.replace('http://', '');
+var protocol = Config.Protocol;
 
 const randomVector = (r) => [r / 2 - Math.random() * r, r / 2 - Math.random() * r, r / 2 - Math.random() * r];
 const randomEuler = () => [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI];
@@ -28,9 +33,18 @@ function MakeButtons()
 	}
 }
 
-function DoButton(position)
+let ButtonHistory = []
+
+function DoButton(position, state)
 {
-	console.log(position);
+	ButtonHistory.push(position);
+	axios.post(protocol + 'apis.' + url + '/maintenance/bypass', {
+			'password': state.passwordState,
+			'buttons': ButtonHistory
+		})
+		.then((response) => {
+			console.log(response);
+		});
 }
 
 function Scene() {
@@ -82,6 +96,11 @@ function Camera({ ...props }){
 
 class Maintenance extends React.Component {
 	
+	constructor(props) {
+		super(props);
+		this.state = { passwordState: '' };
+	}
+	
 	componentDidMount()
 	{
 		SetTitle("Maintenance");
@@ -103,11 +122,11 @@ class Maintenance extends React.Component {
 					<h1>Graphictoria is currently under maintenance.</h1>
 					<h4>Our cyborg team of highly trained code-monkes are working to make Graphictoria better. We'll be back soon!</h4>
 					<div className="input-group mt-5">
-						<input type="password" className="form-control" placeholder="Password" autoComplete="off"/>
+						<input type="password" className="form-control" placeholder="Password" autoComplete="off" onChange={ changeEvent => this.setState({passwordState: changeEvent.target.value}) } value={ this.state.passwordState }/>
 						{
 							Buttons.map(character => (
 								<React.Fragment key={character.id}>
-									<button className="btn btn-secondary" type="button" onClick={ () => DoButton(character.id) }>{character.value}</button>
+									<button className="btn btn-secondary" type="button" onClick={ () => DoButton(character.id, this.state) }>{character.value}</button>
 								</React.Fragment>
 							))
 						}

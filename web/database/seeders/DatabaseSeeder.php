@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 
 use Database\Seeders\WebStatusSeeder;
 
+use Database\Seeders\WebConfigurationSeeder;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -17,7 +19,8 @@ class DatabaseSeeder extends Seeder
     {
 		$this->call([
 			WebStatusSeeder::class,
-			FFlagSeeder::class
+			FFlagSeeder::class,
+			WebConfigurationSeeder::class
 		]);
     }
 }
