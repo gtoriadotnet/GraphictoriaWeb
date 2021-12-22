@@ -25,6 +25,8 @@ import { Copyright } from '../Pages/Legal/Copyright.js';
 import { Privacy } from '../Pages/Legal/Privacy.js';
 import { Terms } from '../Pages/Legal/Terms.js';
 
+axios.defaults.withCredentials = true
+
 var url = Config.BaseUrl.replace('http://', '');
 var protocol = Config.Protocol;
 

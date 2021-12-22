@@ -31,9 +31,10 @@ class Games extends React.Component {
 		
 		SetTitle('Games');
 
-		axios.get(protocol + 'apis.' + url + '/games/metadata').then((response) => {
-			app.setState({loading: !(response.data.available == false), offline: !response.data.available});
-		});
+		axios.get(protocol + 'apis.' + url + '/games/metadata')
+			.then((response) => {
+				app.setState({loading: !(response.data.available == false), offline: !response.data.available});
+			});
 	}
 	
 	render()

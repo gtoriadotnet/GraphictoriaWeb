@@ -20,13 +20,11 @@ Route::get('/', function(){
 	return 'API OK';
 });
 
-Route::get('/banners/data', [BannerController::class, 'getBanners']);
+Route::get('/banners/data', 'BannerController@getBanners');
 
-Route::get('/games/metadata', [GamesController::class, 'isAvailable']);
+Route::get('/games/metadata', 'GamesController@isAvailable');
 
-Route::post('/maintenance/bypass', function(){
-	return 'test';
-});
+Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

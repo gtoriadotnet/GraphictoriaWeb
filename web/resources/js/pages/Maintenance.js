@@ -43,7 +43,7 @@ function DoButton(position, state)
 			'buttons': ButtonHistory
 		})
 		.then((response) => {
-			console.log(response);
+			window.location.reload();
 		});
 }
 

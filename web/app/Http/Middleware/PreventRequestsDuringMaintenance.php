@@ -39,19 +39,14 @@ class PreventRequestsDuringMaintenance
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  $group
      * @return mixed
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    public function handle($request, Closure $next, $group = null)
+    public function handle($request, Closure $next)
     {
         if ($this->app->isDownForMaintenance()) {
             $data = json_decode(file_get_contents($this->app->storagePath().'/framework/down'), true);
-
-            if (isset($data['secret']) && $request->path() === $data['secret']) {
-                return $this->bypassResponse($data['secret']);
-            }
 			
             if ($this->hasValidBypassCookie($request, $data) ||
                 $this->inExceptArray($request)) {
@@ -76,9 +71,9 @@ class PreventRequestsDuringMaintenance
     protected function hasValidBypassCookie($request, array $data)
     {
         return isset($data['secret']) &&
-                $request->cookie('laravel_maintenance') &&
+                $request->cookie('gt_constraint') &&
                 MaintenanceModeBypassCookie::isValid(
-                    $request->cookie('laravel_maintenance'),
+                    $request->cookie('gt_constraint'),
                     $data['secret']
                 );
     }

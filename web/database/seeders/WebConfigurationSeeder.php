@@ -19,7 +19,7 @@ class WebConfigurationSeeder extends Seeder
 			'name' => 'MaintenancePassword',
 			'value' => json_encode(
 				[
-					'combination' => ['g','t','o','r','i','a'],
+					'combination' => [0,7,8,9,10,11],
 					'password' => '@bs0lut3lyM@55!v3P@55w0rd'
 				])
 		]); // please please please please please please please change the default password
