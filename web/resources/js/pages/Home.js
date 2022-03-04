@@ -1,21 +1,18 @@
 // © XlXi 2021
 // Graphictoria 5
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import SetTitle from "../Helpers/Title.js";
 
 import SocialCard from "../Components/Landing/SocialCard.js";
 
-class Home extends React.Component {
-	componentDidMount()
-	{
+const Home = () => {
+	useEffect(()=>{
 		SetTitle();
-	}
+	}, [])
 	
-	render()
-	{
 		return (
 			<>
 				<div className="graphictoria-home">
@@ -42,7 +39,6 @@ class Home extends React.Component {
 				</div>
 			</>
 		);
-	}
 }
 
 export { Home };
