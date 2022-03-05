@@ -41,8 +41,8 @@ const LoginForm = (props) => {
 					e.preventDefault();
 					SubmitLogin(new FormData(e.target));
 				}} class="fs">
-				<input type="username" className={`form-control mb-4 ${(validity.inputs.find(input=>input == `username`)? `is-invalid` : ``)}`} placeholder="Username" name="Username"/>
-				<input type="password" className={`form-control mb-4 ${(validity.inputs.find(input=>input == `password`)? `is-invalid` : ``)}`} placeholder="Password" name="Password"/>
+				<input type="username" className={`form-control mb-4 ${(validity.inputs.find(input=>input == `username`)? `is-invalid` : ``)}`} placeholder="Username" name="username"/>
+				<input type="password" className={`form-control mb-4 ${(validity.inputs.find(input=>input == `password`)? `is-invalid` : ``)}`} placeholder="Password" name="password"/>
 				<div className="d-flex mb-3">
 					<ReCAPTCHA
 						sitekey="6LeyHsUbAAAAAJ9smf-als-hXqrg7a-lHZ950-fL"

@@ -14,6 +14,7 @@
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content="{{ asset('images/banner.png') }}">
 		<meta name="twitter:image" content="{{ asset('images/banner.png') }}">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="twitter:card" content="summary_large_image">
 		@once
 			<link href="{{ asset('favicon.ico') }}" rel="icon" integrity="{{ Sri::hash('favicon.ico') }}" crossorigin="anonymous" />

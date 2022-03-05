@@ -9,45 +9,40 @@ axios.defaults.withCredentials = true
 var url = Config.BaseUrl.replace('http://', '');
 var protocol = Config.Protocol;
 
-export async function CreateAccount(form)
+export function CreateAccount(form)
 {
-    console.log(form.get('username'));
 
-    const finished = false;
     const body = form;
+    var badInputs = [];
 
-    await axios.post(`${protocol}apis.${url}/account/register`, body, {headers: {"Access-Control-Allow-Origin": "*"}}).then(res=>{
-        console.log(res);
-    }).catch(error=>console.log(error));
-
-    return new Promise((resolve, reject)=>{
-
-        if (finished) {
+    return new Promise(async (resolve, reject)=>{
+        await axios.post(`${protocol}apis.${url}/account/register`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content}}).then(data=>{
+            const res = data.data;
+            if (res.badInputs.length >= 1) {
+                badInputs=res.badInputs;
+                resolve({message: res.message, inputs: res.badInputs});
+            }
             resolve("good");
-        }else{
-            resolve({message: `bad`, inputs: [`username`]});
-        }
+        }).catch(error=>{console.log(error);});
+
     });
 }
 
-export const LoginToAccount = async (form) => {
+export const LoginToAccount = (form) => {
 
-    console.log(form.get('Username'));
-
-    const finished = true;
     const body = form;
 
-    await axios.post(`${protocol}${url}/api/login`, body).then(res=>{
-        console.log(body);
-    }).catch(error=>console.log(error));
+    return new Promise(async (resolve, reject)=>{
 
-    return new Promise((resolve, reject)=>{
-
-        if (finished) {
+        await axios.post(`${protocol}apis.${url}/account/login`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content}}).then(data=>{
+            const res = data.data;
+            if (res.badInputs.length >= 1) {
+                badInputs=res.badInputs;
+                resolve({message: res.message, inputs: res.badInputs});
+            }
             resolve("good");
-        }else{
-            reject({message: `bad`, inputs: [`username`]});
-        }
+        }).catch(error=>{console.log(error);});
+
     });
 
 }

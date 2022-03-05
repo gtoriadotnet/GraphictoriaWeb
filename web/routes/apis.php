@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\GamesController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,9 @@ Route::get('/games/metadata', 'GamesController@isAvailable');
 
 Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
 
-Route::post('/account/register', 'Controller@register');
+Route::post('/account/register', 'Auth\RegisterController@create');
+
+Route::post('/account/login', 'Controller@login');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Request;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -50,7 +52,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:16', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -62,12 +64,37 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+
+        $data = Request::all();
+
+        if (Request::input('password') != Request::input('confirmation')) {
+            return Response()->json(['message'=>"Those passwords don't match!", 'badInputs'=>['password','confirmation']]);
+        }
+
+        $valid = Validator::make($data, [
+            'username' => ['required', 'string', 'max:16', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
+
+        if ($valid->stopOnFirstFailure()->fails()) {
+            $error = $valid->errors()->first();
+            $messages = $valid->messages()->get('*');
+            return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
+        }
+        
+        $user = new User;
+        $user->username = $data['username'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        Auth::login($user);
+        Request::session()->regenerate();
+
+        return Response()->json('good');
+
     }
 }
