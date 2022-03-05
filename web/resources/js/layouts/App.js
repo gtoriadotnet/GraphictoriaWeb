@@ -39,10 +39,7 @@ const App = () => {
 	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false}); /* Easier way of defining constants */
 	/* Defining a new constant is just like above -> [custom, setCustom] = useState({something: false}); OR useState(false) */
 
-	useEffect(()=>{ /* useEffect = componentDidMount btw */
-		/* Don't need 'var app' anymore. */
-		
-		function updateBanners()
+	function updateBanners()
 		{
 			axios.get(`${protocol}apis.${url}/banners/data`) /* `` <-- Using these characters instead allow you to insert variables inside the string via ${}, instead of adding '++' */
 				.then((response) => {
@@ -72,6 +69,9 @@ const App = () => {
 					setState({offlineFetched: true});
 				});
 		}
+
+	useEffect(()=>{ /* useEffect = componentDidMount btw */
+		/* Don't need 'var app' anymore. Functions don't need to be inside of useEffect. */
 		
 		updateBanners();
 		updateOfflineStatus();
