@@ -83,14 +83,7 @@ const App = () => {
 			state.offlineFetched == true ?
 			<Router>
 				<Navbar maintenanceEnabled={state.maintenance} />
-				{
-					
-					state.banners && state.banners.length >= 1 ? 
-					state.banners 
-					:
-					null
-					
-				}
+				{state.banners && state.banners.length >= 1 ? state.banners : null}
 				
 				<Route render={({ location }) => {
 						return (

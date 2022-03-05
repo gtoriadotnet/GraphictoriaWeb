@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\GamesController;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,8 @@ Route::get('/banners/data', 'BannerController@getBanners');
 Route::get('/games/metadata', 'GamesController@isAvailable');
 
 Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
+
+Route::post('/account/register', 'Controller@register');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

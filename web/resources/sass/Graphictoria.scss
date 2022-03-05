@@ -812,3 +812,25 @@ a.list-group-item {
 		background-color: $white !important;
 	}
 }
+
+// Dialog
+
+.error-dialog.show {
+  display: block;
+}
+
+.error-dialog {
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: var(--bs-red);
+  
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-name: dropdownEase;
+
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-name: dropdownEase;
+}
