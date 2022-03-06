@@ -28,10 +28,11 @@ export function CreateAccount(form)
     });
 }
 
-export const LoginToAccount = (form) => {
+export function LoginToAccount(form) {
 
     const body = form;
-
+    var badInputs = [];
+    
     return new Promise(async (resolve, reject)=>{
 
         await axios.post(`${protocol}apis.${url}/account/login`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content}}).then(data=>{

@@ -38,6 +38,10 @@ class Controller extends BaseController
             $messages = $valid->messages()->get('*');
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
+
+        if (!User::where('username', Request::input('username'))->first()) {
+            return Response()->json(['message'=>"Sorry, that user wasn't found!", 'badInputs'=>['username']]);
+        }
         
         if (!Auth::attempt(Request::only('username', 'password'))) {
             return Response()->json(['message'=>'Sorry, thats the wrong password!', 'badInputs'=>['password']]);

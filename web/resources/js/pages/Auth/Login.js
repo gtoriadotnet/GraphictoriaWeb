@@ -22,6 +22,8 @@ const LoginForm = (props) => {
 				setValidity({error: true, message:res.message, inputs: res.inputs});
 				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.inputs});}, 4000);
 			}
+			window.history.pushState(`/home`);
+			return;
 		}).catch(error=>console.log(error));
 		setWaitingForSubmission(false);
 	}
