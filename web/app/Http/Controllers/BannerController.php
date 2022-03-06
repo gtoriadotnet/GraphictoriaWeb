@@ -39,4 +39,5 @@ class BannerController extends Controller
 		return response($content)
 				->header('Content-Type', 'application/json');
     }
+
 }

@@ -34,7 +34,8 @@ var protocol = Config.Protocol;
 
 const App = () => {
 
-	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false});
+	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false, user: []});
+	var finished = false;
 
 	function updateBanners()
 		{
@@ -46,6 +47,12 @@ const App = () => {
 					});
 					setState({banners: result});
 				});
+		}
+
+		function fetchUser() {
+			axios.post(`${protocol}apis.${url}/fetch/user`).then((res)=>{
+				setState({user: res.data.data}, (e)=>{console.log(state.user)});
+			});
 		}
 		
 		function updateOfflineStatus()
@@ -67,13 +74,12 @@ const App = () => {
 				});
 		}
 
-	useEffect(()=>{ 
-		
+	useEffect(async ()=>{ 
+		await fetchUser();
 		updateBanners();
 		updateOfflineStatus();
 		setInterval(updateBanners, 2*60*1000 /* 2 mins */);
 		setInterval(updateOfflineStatus, 10*60*1000 /* 10 mins */);
-		console.log(state);
 	}, []);
 
 	document.documentElement.classList.add(state.theme == 0 ? 'gtoria-light' : 'gtoria-dark');
@@ -103,13 +109,13 @@ const App = () => {
 								<Route exact path="/" component={Home}/>
 								
 								<Route exact path="/login">
-									<Auth location={location.pathname}/>
+									{state.user? <NotFound/> : <Auth location={location.pathname}/>}
 								</Route>
 								<Route exact path="/register">
-									<Auth location={location.pathname}/>
+									{state.user? <NotFound/> : <Auth location={location.pathname}/>}
 								</Route>
 								<Route exact path="/passwordreset">
-									<Auth location={location.pathname}/>
+									{state.user? <NotFound/> : <Auth location={location.pathname}/>}
 								</Route>
 								
 								<Route exact path="/games" component={Games}/>

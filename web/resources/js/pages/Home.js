@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import SetTitle from "../Helpers/Title.js";
 
 import SocialCard from "../Components/Landing/SocialCard.js";
+import { user } from "../helpers/utils.js";
 
 const Home = () => {
 	useEffect(()=>{

@@ -19,11 +19,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
     public function login(Request $request) {
 
         $data = Request::all();
@@ -42,12 +37,16 @@ class Controller extends BaseController
         if (!User::where('username', Request::input('username'))->first()) {
             return Response()->json(['message'=>"Sorry, that user wasn't found!", 'badInputs'=>['username']]);
         }
+
+        $user = User::where('username', Request::input('username'))->first();
         
         if (!Auth::attempt(Request::only('username', 'password'))) {
             return Response()->json(['message'=>'Sorry, thats the wrong password!', 'badInputs'=>['password']]);
         }
 
         Request::session()->regenerate();
+
+        Auth::login($user);
 
         return Response()->json('good');
 

@@ -84,15 +84,23 @@ class RegisterController extends Controller
             $messages = $valid->messages()->get('*');
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
+
+        $prws = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 8)); 
+        shuffle($prws); 
+        $sc = substr(implode($prws), 0, 56);
         
         $user = new User;
         $user->username = $data['username'];
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
+        $user->token = $sc;
         $user->save();
 
-        Auth::login($user);
         Request::session()->regenerate();
+
+        Auth::login($user);
+
+        setcookie('gtok', $sc, time()+(345600*30), "/");
 
         return Response()->json('good');
 

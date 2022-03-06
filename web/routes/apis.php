@@ -6,6 +6,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\GamesController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,16 @@ Route::get('/', function(){
 Route::get('/banners/data', 'BannerController@getBanners');
 
 Route::get('/games/metadata', 'GamesController@isAvailable');
+
+Route::post('/fetch/user', function(){
+	$cookie;
+    if (!isset($_COOKIE['gtok'])) {return Response()->json(false);}
+    $cookie = $_COOKIE['gtok'];
+    $user = User::where('token', $cookie)->first();
+	$array = $user->toArray();
+    if (!$user) {return Response()->json(false);}
+    return Response()->json(["data"=>$array]);
+});
 
 Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
 

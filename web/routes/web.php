@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/javascript', function(){
     return view('javascript');
-});
+})->middleware('auth');
 
 Route::get('/', function(){
     return view('main');

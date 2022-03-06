@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
 			$table->string('email');
             $table->timestamp('email_verified_at')->default(null);
 			$table->string('password');
+            $table->string('token');
             $table->timestamps();
         });
     }
