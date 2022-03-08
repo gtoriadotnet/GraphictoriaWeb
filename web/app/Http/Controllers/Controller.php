@@ -19,6 +19,23 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function fetchUser() {
+        $POST;
+
+        if (!isset($_POST['token'])) {return Response()->json(false);}
+
+        $POST = $_POST['token'];
+        $user = User::where('token', $POST)->first();
+
+        if (!$user) {return Response()->json(false);}
+
+        $array = $user->toArray();
+
+        if (!$user) {return Response()->json(false);}
+
+        return Response()->json(["data"=>$array]);
+    }
+
     public function login(Request $request) {
 
         $data = Request::all();
@@ -45,6 +62,8 @@ class Controller extends BaseController
         }
 
         Request::session()->regenerate();
+
+        setcookie('gtok', $user->token, time()+(345600*30), "/");
 
         Auth::login($user);
 

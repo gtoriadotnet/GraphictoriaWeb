@@ -27,15 +27,7 @@ Route::get('/banners/data', 'BannerController@getBanners');
 
 Route::get('/games/metadata', 'GamesController@isAvailable');
 
-Route::post('/fetch/user', function(){
-	$cookie;
-    if (!isset($_COOKIE['gtok'])) {return Response()->json(false);}
-    $cookie = $_COOKIE['gtok'];
-    $user = User::where('token', $cookie)->first();
-	$array = $user->toArray();
-    if (!$user) {return Response()->json(false);}
-    return Response()->json(["data"=>$array]);
-});
+Route::post('/fetch/user', 'Controller@fetchUser');
 
 Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
 

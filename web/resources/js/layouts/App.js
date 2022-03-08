@@ -26,6 +26,7 @@ import { About } from '../Pages/Legal/About.js';
 import { Copyright } from '../Pages/Legal/Copyright.js';
 import { Privacy } from '../Pages/Legal/Privacy.js';
 import { Terms } from '../Pages/Legal/Terms.js';
+import { getCookie } from '../helpers/utils.js';
 
 axios.defaults.withCredentials = true
 
@@ -34,8 +35,8 @@ var protocol = Config.Protocol;
 
 const App = () => {
 
-	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false, user: []});
-	var finished = false;
+	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false, loading: true});
+	const [user, setUser] = useState([]);
 
 	function updateBanners()
 		{
@@ -50,9 +51,14 @@ const App = () => {
 		}
 
 		function fetchUser() {
-			axios.post(`${protocol}apis.${url}/fetch/user`).then((res)=>{
-				setState({user: res.data.data}, (e)=>{console.log(state.user)});
+			const body = new FormData();
+			body.append('token', encodeURIComponent(getCookie(`gtok`)));
+			axios.post(`${protocol}apis.${url}/fetch/user`, body).then((res)=>{
+				setUser(res.data.data);
 			});
+			return new Promise(async (resolve, reject)=>{
+				resolve("good");
+			}); 
 		}
 		
 		function updateOfflineStatus()
@@ -80,13 +86,14 @@ const App = () => {
 		updateOfflineStatus();
 		setInterval(updateBanners, 2*60*1000 /* 2 mins */);
 		setInterval(updateOfflineStatus, 10*60*1000 /* 10 mins */);
+		setState({loading: true});
 	}, []);
 
 	document.documentElement.classList.add(state.theme == 0 ? 'gtoria-light' : 'gtoria-dark');
 	document.documentElement.classList.remove(!(state.theme == 0) ? 'gtoria-light' : 'gtoria-dark');
 
 		return (
-			state.offlineFetched == true ?
+			!state.loading?
 			<Router>
 				<Navbar maintenanceEnabled={state.maintenance} />
 				{state.banners && state.banners.length >= 1 ? state.banners : null}
@@ -109,13 +116,13 @@ const App = () => {
 								<Route exact path="/" component={Home}/>
 								
 								<Route exact path="/login">
-									{state.user? <NotFound/> : <Auth location={location.pathname}/>}
+									<Auth location={user && user.id? null : location.pathname}/>
 								</Route>
 								<Route exact path="/register">
-									{state.user? <NotFound/> : <Auth location={location.pathname}/>}
+									<Auth location={user? null : location.pathname}/>
 								</Route>
 								<Route exact path="/passwordreset">
-									{state.user? <NotFound/> : <Auth location={location.pathname}/>}
+									<Auth location={user? null : location.pathname}/>
 								</Route>
 								
 								<Route exact path="/games" component={Games}/>

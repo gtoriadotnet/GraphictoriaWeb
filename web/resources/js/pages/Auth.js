@@ -48,6 +48,8 @@ class Auth extends React.Component {
 				pageContent = (<ForgotPasswordForm />);
 				break;
 			default:
+				pageLabel = (<><i className={`"fas fa-question-circle"`}></i> YOU'RE LOGGED IN!</>);
+				pageContent = (<div><div>Sorry, this page is for unauthenticated members only!</div></div>);
 				break;
 		}
 		
