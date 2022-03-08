@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { PageTransition } from '@steveeeie/react-page-transition';
+import { GuardProvider, GuardedRoute } from 'react-router-guards'
 
 import Config from '../config.js';
 
@@ -27,6 +28,10 @@ import { Copyright } from '../Pages/Legal/Copyright.js';
 import { Privacy } from '../Pages/Legal/Privacy.js';
 import { Terms } from '../Pages/Legal/Terms.js';
 import { getCookie } from '../helpers/utils.js';
+import Dashboard from '../pages/Dashboard.js';
+import Forum from '../pages/Forum.js';
+import Post from '../pages/Post.js';
+import CreatePost from '../pages/CreatePost.js';
 
 axios.defaults.withCredentials = true
 
@@ -39,46 +44,56 @@ const App = () => {
 	const [user, setUser] = useState([]);
 
 	function updateBanners()
-		{
-			axios.get(`${protocol}apis.${url}/banners/data`)
-				.then((response) => {
-					var result = [];
-					response.data.map(function(banner){
-						result.push(<Banner type={banner.type} description={banner.text} dismissible={banner.dismissable} />);
-					});
-					setState({banners: result});
+	{
+		axios.get(`${protocol}apis.${url}/banners/data`)
+			.then((response) => {
+				var result = [];
+				response.data.map(function(banner){
+					result.push(<Banner type={banner.type} description={banner.text} dismissible={banner.dismissable} />);
 				});
-		}
-
-		function fetchUser() {
-			const body = new FormData();
-			body.append('token', encodeURIComponent(getCookie(`gtok`)));
-			axios.post(`${protocol}apis.${url}/fetch/user`, body).then((res)=>{
-				setUser(res.data.data);
+				setState({banners: result});
 			});
-			return new Promise(async (resolve, reject)=>{
-				resolve("good");
-			}); 
+	}
+
+	function fetchUser() {
+		const body = new FormData();
+		body.append('token', encodeURIComponent(getCookie(`gtok`)));
+		axios.post(`${protocol}apis.${url}/fetch/user`, body).then((res)=>{
+			setUser(res.data.data);
+		});
+		return new Promise(async (resolve, reject)=>{
+			resolve("good");
+		}); 
+	}
+	
+	function updateOfflineStatus()
+	{
+		axios.get(`${protocol}apis.${url}/`)
+			.then((response) => {
+				if(state.maintenance == true)
+					window.location.reload();
+			})
+			.catch((error) => {
+				if (error.response)
+				{
+					if(error.response.status == 503)
+						setState({maintenance: true, theme: 1});
+				}
+			})
+			.finally(() => {
+				setState({offlineFetched: true});
+			});
+	}
+
+	const authMiddleware = (to, from, next) => {
+		if (to.meta.auth) {
+			if (user) {next();}
+			next.redirect(`/login`);
+		}else if (to.meta.guest) {
+			if (!user) {next();}
+			next.redirect(`/home`);
 		}
-		
-		function updateOfflineStatus()
-		{
-			axios.get(`${protocol}apis.${url}/`)
-				.then((response) => {
-					if(state.maintenance == true)
-						window.location.reload();
-				})
-				.catch((error) => {
-					if (error.response)
-					{
-						if(error.response.status == 503)
-							setState({maintenance: true, theme: 1});
-					}
-				})
-				.finally(() => {
-					setState({offlineFetched: true});
-				});
-		}
+	}
 
 	useEffect(async ()=>{ 
 		await fetchUser();
@@ -95,6 +110,7 @@ const App = () => {
 		return (
 			!state.loading?
 			<Router>
+				<GuardProvider guards={[authMiddleware]}>
 				<Navbar maintenanceEnabled={state.maintenance} user={user} />
 				{state.banners && state.banners.length >= 1 ? state.banners : null}
 				
@@ -113,17 +129,39 @@ const App = () => {
 								<Route exact path="/legal/terms-of-service" component={Terms}/>
 								{state.maintenance ? <Route path="*" component={Maintenance}/> : null}
 								
-								<Route exact path="/" component={Home}/>
+								<GuardedRoute exact path="/" meta={{guest: true}}>
+									<Home user={user}/>
+								</GuardedRoute>
+
+								<GuardedRoute exact path="/home" meta={{auth: true}}>
+									<Dashboard user={user}/>
+								</GuardedRoute>
+
+								<Route exact path="/forum">
+									<Forum user={user}/>
+								</Route>
+
+								<GuardedRoute exact path="/forum/post" meta={{auth: true}}>
+									<CreatePost user={user}/>
+								</GuardedRoute>
+
+								<Route exact path="/forum/category/:id">
+									<Forum user={user}/>
+								</Route>
+
+								<Route exact path="/forum/post/:id">
+									<Post user={user}/>
+								</Route>
 								
-								<Route exact path="/login">
-									<Auth location={user && user.id? null : location.pathname}/>
-								</Route>
-								<Route exact path="/register">
+								<GuardedRoute exact path="/login" meta={{guest: true}}>
 									<Auth location={user? null : location.pathname}/>
-								</Route>
-								<Route exact path="/passwordreset">
+								</GuardedRoute>
+								<GuardedRoute exact path="/register" meta={{guest: true}}>
 									<Auth location={user? null : location.pathname}/>
-								</Route>
+								</GuardedRoute>
+								<GuardedRoute exact path="/passwordreset" meta={{guest: true}}>
+									<Auth location={user? null : location.pathname}/>
+								</GuardedRoute>
 								
 								<Route exact path="/games" component={Games}/>
 								
@@ -138,6 +176,7 @@ const App = () => {
 						</PageTransition>
 						);
 					}}/>
+					</GuardProvider>
 			</Router>
 			:
 			<div className="gtoria-loader-center">

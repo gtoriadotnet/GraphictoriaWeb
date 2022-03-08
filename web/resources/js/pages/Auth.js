@@ -47,6 +47,10 @@ class Auth extends React.Component {
 				pageLabel = (<><i className="fas fa-question-circle"></i> RESET PASSWORD</>);
 				pageContent = (<ForgotPasswordForm />);
 				break;
+			case `guest`:
+				pageLabel = (<><i className="fas fa-question-circle"></i> YOU NEED TO BE A GUEST!</>);
+				pageContent = (<div><div>Sorry, this page is for guests only!</div></div>);
+				break;
 			default:
 				pageLabel = (<><i className={`"fas fa-question-circle"`}></i> YOU'RE LOGGED IN!</>);
 				pageContent = (<div><div>Sorry, this page is for unauthenticated members only!</div></div>);

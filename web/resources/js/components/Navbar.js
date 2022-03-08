@@ -10,7 +10,7 @@ const Navbar = (props) => {
     <>
 		<nav className="navbar graphictoria-navbar fixed-top navbar-expand-md shadow-sm">
 			<div className="container-sm">
-				<NavLink className="navbar-brand" to="/">
+				<NavLink className="navbar-brand" to={props.user? `/home` : `/`}>
 					<img src="/images/logo.png" alt="Graphictoria" width="43" height="43" draggable="false"/>
 				</NavLink>
 				<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#graphictoria-nav" aria-controls="graphictoria-nav" aria-expanded="false" aria-label="Toggle navigation">

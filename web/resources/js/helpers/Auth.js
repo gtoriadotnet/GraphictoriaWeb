@@ -24,7 +24,6 @@ export function CreateAccount(form)
                 resolve({message: res.message, inputs: res.badInputs});
                 return;
             }
-            window.location.replace(`/`);
             resolve("good");
         }).catch(error=>{console.log(error);});
 
@@ -46,12 +45,29 @@ export function LoginToAccount(form) {
                 resolve({message: res.message, inputs: res.badInputs});
                 return;
             }
-            window.location.replace(`/`);
             resolve("good");
         }).catch(error=>{console.log(error);});
 
     });
 
+}
+
+export function CreateForum(form) {
+
+    const body = form;
+    var badInputs = [];
+
+    return new Promise(async (resolve, reject)=>{
+        axios.post(`${protocol}apis.${url}/api/create/forum`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+            const res = data.data;
+            if (res.badInputs.length >= 1) {
+                badInputs=res.badInputs;
+                resolve({message: res.message, inputs: res.badInputs});
+                return;
+            }
+            resolve("good");
+        }).catch(error=>{console.log(error);});
+    });
 }
 
 export function LogoutOfAccount() {

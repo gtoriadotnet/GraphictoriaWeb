@@ -36,6 +36,7 @@
         "mini-css-extract-plugin": "^2.4.3",
         "react-bootstrap": "^2.0.2",
         "react-google-recaptcha": "^2.1.0",
+        "react-router-guards": "^1.0.2",
         "styled-components": "^5.3.1",
         "three": "^0.135.0"
     }

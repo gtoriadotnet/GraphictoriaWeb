@@ -21,6 +21,14 @@ Route::get('/', function(){
     return view('main');
 });
 
+Route::get('/home', function(){
+    return view('main');
+});
+
+Route::get('/forum', function(){
+    return view('main');
+});
+
 Route::get('/login', function(){
     return view('main');
 });

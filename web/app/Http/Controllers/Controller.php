@@ -8,6 +8,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Reply;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -33,6 +36,44 @@ class Controller extends BaseController
 
         return Response()->json(["data"=>$array]);
     }
+
+    public function fetchCategories() {
+        
+        $categories = Category::get();
+
+        return Response()->json(["data"=>$categories]);
+    }
+
+    public function fetchCategory($id) {
+        
+        $category = Category::where('id', $id)->first();
+
+        if (!$category) {return Response()->json(false);}
+
+        $posts = $category->posts()->paginate(20);
+
+        foreach ($posts as &$post) {
+            $post['creator'] = User::where('id', $post['creator_id'])->first();
+        }
+
+        return Response()->json(["data"=>$category, "posts"=>$posts]);
+    }
+
+    public function fetchPost($id) {
+        
+        $post = Post::where('id', $id)->first();
+
+        if (!$post) {return Response()->json(false);}
+
+        $postA = $post->toArray();
+
+        $postA['creator'] = User::where('id', $postA['creator_id'])->first();;
+
+        $replies = $post->replies()->paginate(10);
+
+        return Response()->json(["post"=>$postA,"replies"=>$replies]);
+    }
+
 
     public function logout(Request $request) {
 

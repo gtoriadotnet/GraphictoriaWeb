@@ -23,7 +23,7 @@ const LoginForm = (props) => {
 				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.inputs});}, 4000);
 				return;
 			}
-			window.location.replace(`/home`);
+			window.location.reload();
 		}).catch(error=>console.log(error));
 		setWaitingForSubmission(false);
 	}

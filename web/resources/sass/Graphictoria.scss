@@ -823,6 +823,109 @@ a.list-group-item {
   color: transparent !important;
 }
 
+.p5r {
+  padding: .5rem .5rem !important;
+}
+
+.flex {
+  display: flex;
+}
+
+.jcc {
+  justify-content: center;
+}
+
+.alc {
+  align-items: center;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.jumbo {
+  background-color: #222;
+  padding: 1.3rem 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 60%;
+  border-radius: 0.25rem;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.m-0 {
+  margin: 0px !important;
+}
+
+p {
+  margin: 0px !important;
+}
+
+.fs12 {
+  font-size: 12px !important;
+}
+
+.graphic-post {
+  padding: 1rem 1rem;
+  text-align: start;
+  color: inherit !important;
+  text-decoration: none !important;
+  background-color: #222 !important;
+  border-radius: 0.25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center !important;
+}
+
 .error-dialog {
   padding: 5px;
   margin-bottom: 10px;

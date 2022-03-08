@@ -27,6 +27,14 @@ Route::get('/banners/data', 'BannerController@getBanners');
 
 Route::get('/games/metadata', 'GamesController@isAvailable');
 
+Route::get('/fetch/categories', 'Controller@fetchCategories');
+
+Route::get('/fetch/category/{id}', 'Controller@fetchCategory');
+
+Route::get('/fetch/posts/{id}', 'Controller@fetchPosts');
+
+Route::get('/fetch/post/{id}', 'Controller@fetchPost');
+
 Route::post('/fetch/user', 'Controller@fetchUser');
 
 Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
@@ -34,6 +42,8 @@ Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
 Route::post('/account/register', 'Auth\RegisterController@create');
 
 Route::post('/account/login', 'Controller@login');
+
+Route::post('/api/create/forum', 'HomeController@createPost');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
