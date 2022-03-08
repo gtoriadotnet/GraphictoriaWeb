@@ -45,10 +45,8 @@ const RegisterForm = (props) => {
 			if (res != `good`) {
 				setValidity({error: true, message:res.message, inputs: res.inputs});
 				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.inputs});}, 4000);
-			}else{
-				window.history.pushState(`/home`);
-				return;
 			}
+			window.location.replace(`/home`);
 		}).catch(error=>console.log(error));
 		setWaitingForSubmission(false);
 	}

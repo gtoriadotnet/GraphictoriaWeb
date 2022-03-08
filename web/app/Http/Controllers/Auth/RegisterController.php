@@ -100,7 +100,7 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        setcookie('gtok', $sc, time()+(345600*30), "/");
+        setcookie('gtok', $sc, time()+(345600*30), "/", $_POST['host']);
 
         return Response()->json('good');
 

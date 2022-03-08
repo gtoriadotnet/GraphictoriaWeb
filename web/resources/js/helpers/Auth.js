@@ -13,6 +13,7 @@ export function CreateAccount(form)
 {
 
     const body = form;
+    body.append('host', url);
     var badInputs = [];
 
     return new Promise(async (resolve, reject)=>{
@@ -21,7 +22,9 @@ export function CreateAccount(form)
             if (res.badInputs.length >= 1) {
                 badInputs=res.badInputs;
                 resolve({message: res.message, inputs: res.badInputs});
+                return;
             }
+            window.location.replace(`/`);
             resolve("good");
         }).catch(error=>{console.log(error);});
 
@@ -31,6 +34,7 @@ export function CreateAccount(form)
 export function LoginToAccount(form) {
 
     const body = form;
+    body.append('host', url);
     var badInputs = [];
     
     return new Promise(async (resolve, reject)=>{
@@ -40,7 +44,9 @@ export function LoginToAccount(form) {
             if (res.badInputs.length >= 1) {
                 badInputs=res.badInputs;
                 resolve({message: res.message, inputs: res.badInputs});
+                return;
             }
+            window.location.replace(`/`);
             resolve("good");
         }).catch(error=>{console.log(error);});
 

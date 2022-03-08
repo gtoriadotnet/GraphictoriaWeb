@@ -35,6 +35,8 @@ Route::post('/account/register', 'Auth\RegisterController@create');
 
 Route::post('/account/login', 'Controller@login');
 
+Route::post('/account/logout', 'Controller@logout');
+
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
 		->header('Cache-Control', 'private')

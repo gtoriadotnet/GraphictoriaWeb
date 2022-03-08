@@ -31,9 +31,25 @@ class Controller extends BaseController
 
         $array = $user->toArray();
 
+        return Response()->json(["data"=>$array]);
+    }
+
+    public function logout(Request $request) {
+
+        $POST;
+
+        if (!isset($_POST['token'])) {return Response()->json(false);}
+
+        $POST = $_POST['token'];
+
+        $user = User::where('token', $POST)->first();
+
         if (!$user) {return Response()->json(false);}
 
-        return Response()->json(["data"=>$array]);
+        setcookie('gtok', null, time()+(345600*30), "/", $_POST['host']);
+
+        return Response()->json('good');
+
     }
 
     public function login(Request $request) {
@@ -63,7 +79,7 @@ class Controller extends BaseController
 
         Request::session()->regenerate();
 
-        setcookie('gtok', $user->token, time()+(345600*30), "/");
+        setcookie('gtok', $user->token, time()+(345600*30), "/", $_POST['host']);
 
         Auth::login($user);
 
