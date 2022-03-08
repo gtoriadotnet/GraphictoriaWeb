@@ -53,3 +53,15 @@ export function LoginToAccount(form) {
     });
 
 }
+
+export function LogoutOfAccount() {
+
+    const body = form;
+    var badInputs = [];
+
+     axios.post(`${protocol}apis.${url}/account/logout`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+        window.location.replace(`/`);
+        resolve("good");
+    }).catch(error=>{console.log(error);});
+
+}

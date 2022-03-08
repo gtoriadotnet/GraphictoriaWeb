@@ -38,17 +38,17 @@ class Controller extends BaseController
 
         $POST;
 
-        if (!isset($_POST['token'])) {return Response()->json(false);}
+        if (!isset($_COOKIE['gtok'])) {return Redirect('/login');}
 
-        $POST = $_POST['token'];
+        $POST = $_COOKIE['gtok'];
 
         $user = User::where('token', $POST)->first();
 
-        if (!$user) {return Response()->json(false);}
+        if (!$user) {return Redirect('/login');}
 
-        setcookie('gtok', null, time()+(345600*30), "/", $_POST['host']);
+        setcookie('gtok', null, time()+(345600*30), "/", $_SERVER['HTTP_HOST']);
 
-        return Response()->json('good');
+        return Redirect('/');
 
     }
 

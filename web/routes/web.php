@@ -52,3 +52,5 @@ Route::get('/legal/dmca', function(){
 Route::get('/games', function(){
     return view('main');
 });
+
+Route::get('/account/logout', 'Controller@logout');

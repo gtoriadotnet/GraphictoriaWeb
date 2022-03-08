@@ -55,6 +55,7 @@ const Navbar = (props) => {
 								<button className="btn btn-secondary nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">{props.user.username}</button>
 								<ul className="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">
 									<li><NavLink className="dropdown-item" to="/users">Users</NavLink></li>
+									<li><a className="dropdown-item" href={`/account/logout`}>Logout</a></li>
 								</ul>
 							</li> : <Link className="btn btn-success" to="/login">Login / Sign up</Link>}
 						</>
