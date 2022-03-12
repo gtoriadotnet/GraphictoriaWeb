@@ -9,6 +9,14 @@ import { CreateAccount, LoginToAccount, CreateForum } from '../Helpers/Auth';
 import Loader from '../Components/Loader';
 import { getCookie } from '../helpers/utils';
 
+import axios from "axios";
+import Config from '../config.js';
+
+axios.defaults.withCredentials = true
+
+var url = Config.BaseUrl.replace('http://', '');
+var protocol = Config.Protocol;
+
 const CreatePost = (props) => {
 
 	const [waitingForSubmission, setWaitingForSubmission] = useState(false);
@@ -19,15 +27,16 @@ const CreatePost = (props) => {
 	{
         form.append('creator_id', user.id);
 		setWaitingForSubmission(true);
-		await CreateForum(form).then(res=>{
+		await axios.post(`${protocol}apis.${url}/api/create/forum`, form, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+            const res = data.data;
             console.log(res);
-			if (res != `good`) {
-				setValidity({error: true, message:res.message, inputs: res.inputs});
-				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.inputs});}, 4000);
-				return;
-			}
-			window.location.href=`/forum`;
-		}).catch(error=>console.log(error));
+            if (res.badInputs.length >= 1) {
+                setValidity({error: true, message:res.message, inputs: res.badInputs});
+				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
+                return;
+            }
+            window.location.replace(`/forum`);
+        }).catch(error=>{console.log(error);});
 		setWaitingForSubmission(false);
 	}
 

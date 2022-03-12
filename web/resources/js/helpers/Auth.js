@@ -63,7 +63,6 @@ export function CreateForum(form) {
             if (res.badInputs.length >= 1) {
                 badInputs=res.badInputs;
                 resolve({message: res.message, inputs: res.badInputs});
-                return;
             }
             resolve("good");
         }).catch(error=>{console.log(error);});
