@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GridTest;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +63,5 @@ Route::get('/games', function(){
 });
 
 Route::get('/account/logout', 'Controller@logout');
+
+Route::get('/test123', 'GridTest@generateThumbnail');
