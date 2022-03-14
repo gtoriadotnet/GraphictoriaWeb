@@ -85,7 +85,8 @@ const Post = (props) => {
                 {post.replies.replies.length <= 0 && post.post.locked != 1? <p className={`w-100 text-center`}>There isn't any replies to this post yet!</p> : null}
                 <div className={`flex column w-100`}>
                     {post.replies.replies.map(reply=>(
-                        <Card>
+                        <div className={`mb-15`}>
+                            <Card>
                             <div className={`flex w-100 column`}>
                                 <div className={`flex row fs12`}>
                                     <div className={`row w-fit-content`}>
@@ -105,6 +106,7 @@ const Post = (props) => {
                                 </div>
                             </div>
                         </Card>
+                        </div>
                     ))}
                 </div>
             </div>

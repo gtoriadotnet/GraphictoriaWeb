@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Carbon;
 use Request;
 use Auth;
 
@@ -90,6 +91,7 @@ class RegisterController extends Controller
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
         $user->token = $sc;
+        $user->token_expires = Carbon\Carbon::now()->addDays(2);
         $user->save();
 
         Request::session()->regenerate();

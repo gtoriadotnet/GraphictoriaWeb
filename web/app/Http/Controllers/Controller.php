@@ -11,12 +11,15 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Reply;
+use App\Models\Staff;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller as BaseController;
+use Carbon;
 use Auth;
 use Request;
+use DateTime;
 
 class Controller extends BaseController
 {
@@ -34,34 +37,31 @@ class Controller extends BaseController
 
         $array = $user->toArray();
 
-        if ($user->Staff()) $array['power'] = $user->Staff()->power_level;
+        $staff = Staff::where('user_id', $user->id)->first();
+
+        if ($staff) {$array['power'] = $staff->power_level;}
 
         return Response()->json(["data"=>$array]);
     }
 
     public function fetchCategoriesFP() {
-        if (!isset($_COOKIE['gtok'])) {return Response()->json(["error"=>"No user."]);}
 
-        $POST = $_COOKIE['gtok'];
+        if (!isset($_POST['token'])) {return Response()->json(["error"=>"No user."]);}
+
+        $POST = $_POST['token'];
 
         $user = User::where('token', $POST)->first();
 
         if (!$user) {return Response()->json(["error"=>"No user."]);}
 
-        if ($user->Staff() && $user->Staff()->power_level >= 2) {$categories = Category::get();}else{$categories = Category::where('staffOnly', '0')->get();}
+        $staff = Staff::where('user_id', $user->id)->first();
+
+        if ($staff) {$categories = Category::get();}else{$categories = Category::where('staffOnly', '0')->get();}
 
         return Response()->json(["categories"=>$categories]);
     }
 
     public function fetchCategories() {
-
-        if (!isset($_COOKIE['gtok'])) {return Response()->json(["error"=>"No user."]);}
-
-        $POST = $_COOKIE['gtok'];
-
-        $user = User::where('token', $POST)->first();
-
-        if (!$user) {return Response()->json(["error"=>"No user."]);}
 
         $categories = Category::orderBy('staffOnly', 'desc')->get();
 
@@ -154,6 +154,14 @@ class Controller extends BaseController
         }
 
         Request::session()->regenerate();
+
+        $prws = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 8)); 
+        shuffle($prws); 
+        $sc = substr(implode($prws), 0, 56);
+
+        $user->token = $sc;
+        $user->token_expires = Carbon\Carbon::now()->addDays(2);
+        $user->save();
 
         setcookie('gtok', $user->token, time()+(345600*30), "/", $_POST['host']);
 

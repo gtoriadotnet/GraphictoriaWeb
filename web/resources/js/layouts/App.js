@@ -27,7 +27,7 @@ import { About } from '../Pages/Legal/About.js';
 import { Copyright } from '../Pages/Legal/Copyright.js';
 import { Privacy } from '../Pages/Legal/Privacy.js';
 import { Terms } from '../Pages/Legal/Terms.js';
-import { getCookie } from '../helpers/utils.js';
+import { getCookie, setCookie } from '../helpers/utils.js';
 import Dashboard from '../pages/Dashboard.js';
 import Forum from '../pages/Forum.js';
 import Post from '../pages/Post.js';
@@ -43,6 +43,7 @@ const App = () => {
 
 	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false, loading: true});
 	const [user, setUser] = useState([]);
+	const [userLoad, setUserLoad] = useState(true);
 
 	function updateBanners()
 	{
@@ -60,7 +61,9 @@ const App = () => {
 		const body = new FormData();
 		body.append('token', encodeURIComponent(getCookie(`gtok`)));
 		axios.post(`${protocol}apis.${url}/fetch/user`, body).then((res)=>{
+			if (res.data.data == `expired`) {setCookie(`gtok`, null, null);window.location.replace(`/login`);}
 			setUser(res.data.data);
+			setUserLoad(false);
 		});
 		return new Promise(async (resolve, reject)=>{
 			resolve("good");
@@ -112,7 +115,7 @@ const App = () => {
 	document.documentElement.classList.remove(!(state.theme == 0) ? 'gtoria-light' : 'gtoria-dark');
 
 		return (
-			!state.loading?
+			!state.loading && !userLoad?
 			<Router>
 				<GuardProvider guards={[authMiddleware]}>
 				<Navbar maintenanceEnabled={state.maintenance} user={user} />

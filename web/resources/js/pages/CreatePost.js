@@ -27,7 +27,9 @@ const CreatePost = (props) => {
     const history = useHistory();
 
     useEffect(async()=>{
-        await axios.get(`${protocol}apis.${url}/fetch/categories/post`, null, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+        const body = new FormData();
+		body.append('token', encodeURIComponent(getCookie(`gtok`)));
+        await axios.post(`${protocol}apis.${url}/fetch/categories/post`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
             const res = data.data;
             setCategoires({loading: false, categories: res.categories});
         }).catch(error=>{console.log(error);});

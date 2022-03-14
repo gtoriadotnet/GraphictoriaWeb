@@ -29,7 +29,7 @@ Route::get('/games/metadata', 'GamesController@isAvailable');
 
 Route::get('/fetch/categories', 'Controller@fetchCategories');
 
-Route::get('/fetch/categories/post', 'Controller@fetchCategoriesFP');
+Route::post('/fetch/categories/post', 'Controller@fetchCategoriesFP');
 
 Route::get('/fetch/category/{id}', 'Controller@fetchCategory');
 

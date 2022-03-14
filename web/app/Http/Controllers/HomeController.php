@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Category;
+use App\Models\Staff;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,7 +65,9 @@ class HomeController extends Controller
 
         $category = Category::where('id', $categoryId)->first();
 
-        if ($category->staffOnly == '1' && !$user->Staff()) {return Response()->json(['message'=>'You cant use that category.', 'badInputs'=>['category']]);}
+        $staff = Staff::where('user_id', $user->id)->first();
+
+        if ($category->staffOnly == '1' && !$staff) {return Response()->json(['message'=>'You cant use that category.', 'badInputs'=>['category']]);}
 
         $post = new Post;
         $post->title = $_POST['title'];
@@ -112,6 +115,8 @@ class HomeController extends Controller
         $reply->body = $_POST['body'];
         $reply->creator_id = $user->id;
         $post->replies()->save($reply);
+
+        $post->touch();
 
         return Response()->json(['message'=>'Success!', 'badInputs'=>[], 'post_id'=>$post->id]);
 
