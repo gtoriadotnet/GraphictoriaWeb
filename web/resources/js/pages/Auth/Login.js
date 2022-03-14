@@ -2,7 +2,7 @@
 // Graphictoria 5
 
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import ReCAPTCHA from 'react-google-recaptcha';
 import { CreateAccount, LoginToAccount } from '../../Helpers/Auth';
@@ -11,8 +11,8 @@ import Loader from '../../Components/Loader';
 const LoginForm = (props) => {
 
 	const [waitingForSubmission, setWaitingForSubmission] = useState(false);
-	
 	const [validity, setValidity] = useState({error: false, message: ``, inputs: []});
+	const history = useHistory();
 	
 	async function SubmitLogin(form)
 	{
@@ -22,8 +22,9 @@ const LoginForm = (props) => {
 				setValidity({error: true, message:res.message, inputs: res.inputs});
 				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.inputs});}, 4000);
 				return;
+			}else{
+				window.location.replace(`/home`);
 			}
-			window.location.reload();
 		}).catch(error=>console.log(error));
 		setWaitingForSubmission(false);
 	}

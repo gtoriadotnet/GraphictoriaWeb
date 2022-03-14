@@ -3,7 +3,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { PageTransition } from '@steveeeie/react-page-transition';
+import { PageTransition, __esModule } from '@steveeeie/react-page-transition';
 import { GuardProvider, GuardedRoute } from 'react-router-guards'
 
 import Config from '../config.js';
@@ -32,6 +32,7 @@ import Dashboard from '../pages/Dashboard.js';
 import Forum from '../pages/Forum.js';
 import Post from '../pages/Post.js';
 import CreatePost from '../pages/CreatePost.js';
+import CreateReply from '../pages/CreateReply.js';
 
 axios.defaults.withCredentials = true
 
@@ -92,6 +93,9 @@ const App = () => {
 		}else if (to.meta.guest) {
 			if (!user) {next();}
 			next.redirect(`/home`);
+		}else if (to.meta.staff) {
+			if (user && user.power) {next();}
+			next.redirect(`/`);
 		}
 	}
 
@@ -143,6 +147,10 @@ const App = () => {
 
 								<GuardedRoute exact path="/forum/post" meta={{auth: true}}>
 									<CreatePost user={user}/>
+								</GuardedRoute>
+
+								<GuardedRoute exact path="/forum/reply/:id" meta={{auth: true}}>
+									<CreateReply user={user}/>
 								</GuardedRoute>
 
 								<Route exact path="/forum/category/:id">

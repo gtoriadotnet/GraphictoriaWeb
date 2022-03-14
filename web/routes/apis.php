@@ -29,6 +29,8 @@ Route::get('/games/metadata', 'GamesController@isAvailable');
 
 Route::get('/fetch/categories', 'Controller@fetchCategories');
 
+Route::get('/fetch/categories/post', 'Controller@fetchCategoriesFP');
+
 Route::get('/fetch/category/{id}', 'Controller@fetchCategory');
 
 Route::get('/fetch/posts/{id}', 'Controller@fetchPosts');
@@ -44,6 +46,8 @@ Route::post('/account/register', 'Auth\RegisterController@create');
 Route::post('/account/login', 'Controller@login');
 
 Route::post('/api/create/forum', 'HomeController@createPost');
+
+Route::post('/api/create/reply/{id}', 'HomeController@createReply');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

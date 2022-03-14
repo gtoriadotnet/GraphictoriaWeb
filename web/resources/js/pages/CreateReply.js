@@ -2,34 +2,36 @@
 // Graphictoria 5
 
 import React, {useEffect, useState} from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 import ReCAPTCHA from 'react-google-recaptcha';
 import { CreateAccount, LoginToAccount, CreateForum } from '../Helpers/Auth';
 import Loader from '../Components/Loader';
 import { getCookie } from '../helpers/utils';
+import { Card, CardTitle } from '../Layouts/Card';
 
 import axios from "axios";
 import Config from '../config.js';
-import { Card, CardTitle } from '../Layouts/Card';
 
 axios.defaults.withCredentials = true
 
 var url = Config.BaseUrl.replace('http://', '');
 var protocol = Config.Protocol;
 
-const CreatePost = (props) => {
+const CreateReply = (props) => {
 
 	const [waitingForSubmission, setWaitingForSubmission] = useState(false);
 	const [validity, setValidity] = useState({error: false, message: ``, inputs: []});
-    const [categories, setCategoires] = useState({loading: true, categories: []});
+    const [post, setPost] = useState({loading: true, post: []});
     const user = props.user;
+    const postId = useParams().id;
     const history = useHistory();
 
     useEffect(async()=>{
-        await axios.get(`${protocol}apis.${url}/fetch/categories/post`, null, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+        await axios.get(`${protocol}apis.${url}/fetch/post/${postId}`, {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+            if (!data.data) {history.push(`/forum`);}
             const res = data.data;
-            setCategoires({loading: false, categories: res.categories});
+            setPost({loading: false, post: res.post});
         }).catch(error=>{console.log(error);});
     }, []);
 	
@@ -37,7 +39,7 @@ const CreatePost = (props) => {
 	{
         form.append('creator_id', user.id);
 		setWaitingForSubmission(true);
-		await axios.post(`${protocol}apis.${url}/api/create/forum`, form, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+		await axios.post(`${protocol}apis.${url}/api/create/reply/${post.post.id}`, form, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
             const res = data.data;
             console.log(res);
             if (res.badInputs.length >= 1) {
@@ -51,10 +53,10 @@ const CreatePost = (props) => {
 	}
 
 	return (
-		waitingForSubmission && !categories.loading? <Loader/> :
-		    <Card>
-				<CardTitle>Create a new Post</CardTitle>
-				<div className="p-2 row">
+		waitingForSubmission && !post.loading? <Loader/> :
+		<Card>
+			<CardTitle>Reply to '{post.post.title}'</CardTitle>
+                <div className="p-2 row">
                     <div className="col-md-8 mb-2">
                         {validity.error?
                             <div className={`px-5 mb-10`}>
@@ -64,24 +66,18 @@ const CreatePost = (props) => {
                             </div> 
                         : null}
                         <form onSubmit={(e)=>{e.preventDefault();SubmitForm(new FormData(e.target));}} class="fs">
-                        <input type="username" className={`form-control mb-4 ${(validity.inputs.find(input=>input == `title`)? `is-invalid` : ``)}`} placeholder="Title" name="title"/>
                         <textarea type="username" className={`form-control mb-4 ${(validity.inputs.find(input=>input == `body`)? `is-invalid` : ``)}`} placeholder="Body" name="body"></textarea>
-                        <select class="form-select" name={`category`}>
-                            {categories.categories.map(category=>(
-                                <option value={category.id}>{category.title}</option>
-                            ))}
-                        </select>
                         <div className="d-flex mb-3">
                             <ReCAPTCHA
                                 sitekey="6LeyHsUbAAAAAJ9smf-als-hXqrg7a-lHZ950-fL"
                                 className="mx-auto"
                             />
                         </div>
-                        <button className="btn btn-primary px-5" type={`submit`}>POST!</button><br/>
+                        <button className="btn btn-primary px-5" type={`submit`}>REPLY!</button><br/>
                         </form>
                     </div>
                     <div className="col">
-                        <h5><bold>Read the rules before posting!</bold></h5>
+                        <h5><bold>Read the rules before replying!</bold></h5>
                         <p>Before you make a post, be sure to read the <Link to={`/forum/rules`}>rules</Link>.</p>
                     </div>
                 </div>
@@ -89,4 +85,4 @@ const CreatePost = (props) => {
 	);
 };
 
-export default CreatePost;
+export default CreateReply;

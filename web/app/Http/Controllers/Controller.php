@@ -34,14 +34,39 @@ class Controller extends BaseController
 
         $array = $user->toArray();
 
+        if ($user->Staff()) $array['power'] = $user->Staff()->power_level;
+
         return Response()->json(["data"=>$array]);
     }
 
-    public function fetchCategories() {
-        
-        $categories = Category::get();
+    public function fetchCategoriesFP() {
+        if (!isset($_COOKIE['gtok'])) {return Response()->json(["error"=>"No user."]);}
 
-        return Response()->json(["data"=>$categories]);
+        $POST = $_COOKIE['gtok'];
+
+        $user = User::where('token', $POST)->first();
+
+        if (!$user) {return Response()->json(["error"=>"No user."]);}
+
+        if ($user->Staff() && $user->Staff()->power_level >= 2) {$categories = Category::get();}else{$categories = Category::where('staffOnly', '0')->get();}
+
+        return Response()->json(["categories"=>$categories]);
+    }
+
+    public function fetchCategories() {
+
+        if (!isset($_COOKIE['gtok'])) {return Response()->json(["error"=>"No user."]);}
+
+        $POST = $_COOKIE['gtok'];
+
+        $user = User::where('token', $POST)->first();
+
+        if (!$user) {return Response()->json(["error"=>"No user."]);}
+
+        $categories = Category::orderBy('staffOnly', 'desc')->get();
+
+        return Response()->json(["categories"=>$categories]);
+
     }
 
     public function fetchCategory($id) {
@@ -50,7 +75,7 @@ class Controller extends BaseController
 
         if (!$category) {return Response()->json(false);}
 
-        $posts = $category->posts()->paginate(20);
+        $posts = $category->posts()->orderBy('pinned', 'desc')->orderBy('updated_at', 'desc')->paginate(20);
 
         foreach ($posts as &$post) {
             $post['creator'] = User::where('id', $post['creator_id'])->first();
@@ -67,9 +92,19 @@ class Controller extends BaseController
 
         $postA = $post->toArray();
 
-        $postA['creator'] = User::where('id', $postA['creator_id'])->first();;
+        $realDate = explode('T', $postA['created_at'])[0];
 
-        $replies = $post->replies()->paginate(10);
+        $postA['created_at'] = $realDate;
+
+        $postA['creator'] = User::where('id', $postA['creator_id'])->first();
+
+        $replies = $post->replies()->orderBy('pinned', 'desc')->orderBy('created_at', 'asc')->paginate(10);
+
+        foreach ($replies as &$reply) {
+            $creator = User::where('id', $reply['creator_id'])->first();
+            $reply['created_at'] = explode('T', $reply['created_at'])[0];
+            $reply['creator_name'] = $creator->username;
+        }
 
         return Response()->json(["post"=>$postA,"replies"=>$replies]);
     }
@@ -124,7 +159,7 @@ class Controller extends BaseController
 
         Auth::login($user);
 
-        return Response()->json('good');
+        return Response()->json(['message'=>'Success!', 'badInputs'=>[]]);
 
     }
 

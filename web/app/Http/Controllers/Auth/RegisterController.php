@@ -98,7 +98,7 @@ class RegisterController extends Controller
 
         setcookie('gtok', $sc, time()+(345600*30), "/", $_POST['host']);
 
-        return Response()->json('good');
+        return Response()->json(['message'=>'Success!', 'badInputs'=>[]]);
 
     }
 }

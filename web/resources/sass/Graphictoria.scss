@@ -898,6 +898,14 @@ a.list-group-item {
   flex-direction: column;
 }
 
+.w-fit-content {
+  width: fit-content !important;
+}
+
+.h-fit-content {
+  height: fit-content !important;
+}
+
 .mr-15 {
   margin-right: 15px;
 }
@@ -912,6 +920,30 @@ p {
 
 .fs12 {
   font-size: 12px !important;
+}
+
+.padding-none {
+  padding: 0px !important
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.mt-15 {
+  margin-top: 15px !important;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
 }
 
 .graphic-post {

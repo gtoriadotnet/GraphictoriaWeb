@@ -2,6 +2,7 @@
 // Graphictoria 5
 
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import Config from '../config.js';
 
 axios.defaults.withCredentials = true
@@ -23,8 +24,9 @@ export function CreateAccount(form)
                 badInputs=res.badInputs;
                 resolve({message: res.message, inputs: res.badInputs});
                 return;
+            }else{
+                resolve("good")
             }
-            resolve("good");
         }).catch(error=>{console.log(error);});
 
     });
@@ -44,8 +46,9 @@ export function LoginToAccount(form) {
                 badInputs=res.badInputs;
                 resolve({message: res.message, inputs: res.badInputs});
                 return;
+            }else{
+                resolve("good")
             }
-            resolve("good");
         }).catch(error=>{console.log(error);});
 
     });
@@ -59,6 +62,7 @@ export function CreateForum(form) {
 
     return new Promise(async (resolve, reject)=>{
         axios.post(`${protocol}apis.${url}/api/create/forum`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+            const history = useHistory();
             const res = data.data;
             if (res.badInputs.length >= 1) {
                 badInputs=res.badInputs;
@@ -69,7 +73,7 @@ export function CreateForum(form) {
     });
 }
 
-export function LogoutOfAccount() {
+/*export function LogoutOfAccount() {
 
     const body = form;
     var badInputs = [];
@@ -79,4 +83,4 @@ export function LogoutOfAccount() {
         resolve("good");
     }).catch(error=>{console.log(error);});
 
-}
+}*/

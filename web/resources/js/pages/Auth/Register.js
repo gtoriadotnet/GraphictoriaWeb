@@ -2,7 +2,7 @@
 // Graphictoria 5
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import ReCAPTCHA from 'react-google-recaptcha';
 
@@ -34,8 +34,8 @@ const RegisterForm = (props) => {
 	];
 	
 	const [waitingForSubmission, setWaitingForSubmission] = useState(false);
-	
 	const [validity, setValidity] = useState({error: false, message: ``, inputs: []});
+	const history = useHistory();
 	
 	async function SubmitRegistration(form)
 	{
@@ -46,8 +46,9 @@ const RegisterForm = (props) => {
 				setValidity({error: true, message:res.message, inputs: res.inputs});
 				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.inputs});}, 4000);
 				return;
+			}else{
+				window.location.replace(`/home`);
 			}
-			window.location.replace(`/home`);
 		}).catch(error=>console.log(error));
 		setWaitingForSubmission(false);
 	}

@@ -30,7 +30,7 @@ const Forum = (props) => {
 
     const fetchCategories = async () => {
         await axios.get(`${protocol}apis.${url}/fetch/categories`, {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
-            setCategoires(data.data.data);
+            setCategoires(data.data.categories);
         }).catch(error=>{console.log(error);});
     }
 
@@ -61,7 +61,7 @@ const Forum = (props) => {
                         <p>{category.description}</p>
                         {user?
                         <div className={`flex row justify-content-center`}>
-                            <Link className={`btn btn-success w-20`} to={`/forum/post`}>Create a post</Link>    
+                            {category.staffOnly == 1 && !user.power ? null : <Link className={`btn btn-success w-20`} to={`/forum/post`}>Create a post</Link>}    
                         </div>
                         : null}
                     </div>
@@ -87,8 +87,8 @@ const Forum = (props) => {
                                 <div className={`flex row m-0`}>
                                     <h5 className={`m-0`}>{post.title}</h5>
                                     <div className={`row fs12`}>
-                                        <p>Posted by:</p>
-                                        <Link to={`/user/${post.creator.id}`}>{post.creator.username}</Link>
+                                        <p className={`w-fit-content`}>Posted by:</p>
+                                        <Link to={`/user/${post.creator.id}`} className={`w-fit-content padding-none`}>{post.creator.username}</Link>
                                     </div>
                                 </div>
                             </Link>
