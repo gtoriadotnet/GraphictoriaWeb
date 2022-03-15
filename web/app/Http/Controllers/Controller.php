@@ -75,7 +75,7 @@ class Controller extends BaseController
 
         if (!$category) {return Response()->json(false);}
 
-        $posts = $category->posts()->orderBy('pinned', 'desc')->orderBy('updated_at', 'desc')->paginate(20);
+        $posts = $category->posts()->orderBy('pinned', 'desc')->orderBy('updated_at', 'desc')->paginate(15);
 
         foreach ($posts as &$post) {
             $post['creator'] = User::where('id', $post['creator_id'])->first();

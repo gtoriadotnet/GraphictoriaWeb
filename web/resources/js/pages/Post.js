@@ -13,6 +13,7 @@ import Loader from '../Components/Loader.js';
 
 import { GenericErrorModal } from './Errors.js';
 import { Card, CardTitle } from '../Layouts/Card.js';
+import { paginate } from '../helpers/utils.js';
 
 var url = Config.BaseUrl.replace('http://', '');
 var protocol = Config.Protocol;
@@ -21,23 +22,43 @@ const Post = (props) => {
 
     var id = useParams().id;
     const [state, setState] = useState({offline: false, loading: true});
-    const [post, setPost] = useState({post: [], replies: {replies: [], meta: [], currentPage: 0}});
+    const [post, setPost] = useState({post: [], replies: {replies: [], meta: [], currentPage: 1}});
     const user = props.user;
     const history = useHistory();
 
     const fetchPost = async () => {
-        await axios.get(`${protocol}apis.${url}/fetch/post/${id}`, {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+        await axios.get(`${protocol}apis.${url}/fetch/post/${id}?page=${post.replies.currentPage}`, {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
             if (!data.data) {history.push(`/forum`);}
             const res = data.data;
-            setPost({post: res.post, replies: {replies: res.replies.data, meta: res.replies, currentPage: 0}});
+            setPost({post: res.post, replies: {...post.replies, replies: res.replies.data, meta: res.replies}});
         }).catch(error=>{console.log(error);});
+    }
+
+    const paginateReplies = async (decision) => {
+        paginate(decision, post.replies.currentPage, post.replies.meta).then(res=>{
+            switch(res){
+                case "increase":
+                    setPost({...post, replies: {...post.replies, currentPage: post.replies.currentPage+1}});
+                    break;
+                case "decrease":
+                    setPost({...post, replies: {...post.replies, currentPage: post.replies.currentPage-1}});
+                    break;
+                default:
+                    break;
+            }
+        }).catch(error=>console.log(error));
     }
 
     useEffect(async ()=>{
         SetTitle(`Forum`);
-        await fetchPost();
         setState({...state, loading: false});
     }, []);
+
+    useEffect(async()=>{
+        setState({...state, loading: true});
+        await fetchPost();
+        setState({...state, loading: false});
+    }, [post.replies.currentPage]);
 	
 		return (
 			state.loading
@@ -74,6 +95,7 @@ const Post = (props) => {
                             <div className={`flex column jcc alc col-3`}>
                                 <p className={`mb-10`}>[Avatar.]</p>
                                 <Link to={`/user/${post.post.creator.id}`}>{post.post.creator.username}</Link>
+                                
                             </div>
                             <div className={`col text-left`}>
                                 <p className={`m-0`}>{post.post.body}</p>
@@ -108,6 +130,11 @@ const Post = (props) => {
                         </Card>
                         </div>
                     ))}
+                    {post.replies.replies.length >= 10?
+                    <div className={`w-100 jcc alc row mt-15`}>
+                        {post.replies.currentPage >= 2? <button className={`w-fit-content btn btn-primary mr-15`} onClick={(e)=>{paginateReplies(true);}}>Previous Page</button> : null}
+                        {post.replies.currentPage < post.replies.meta.last_page? <button className={`w-fit-content btn btn-primary`} onClick={(e)=>{paginateReplies(false);}}>Next Page</button> : null}
+                    </div> : null}
                 </div>
             </div>
 		);

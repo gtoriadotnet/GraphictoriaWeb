@@ -41,6 +41,25 @@ export function checkCookie() {
 	}
 } 
 
+export const paginate = async (decision, currentPage, meta) => {
+	if (decision && currentPage <= 1) return;
+	if (!decision && currentPage >= meta.last_page) return;
+	switch (decision) {
+		case true:
+			return new Promise(async (resolve, reject)=>{
+				resolve("decrease");
+			});
+			break;
+		case false:
+			return new Promise(async (resolve, reject)=>{
+				resolve("increase");
+			});
+			break;
+		default:
+			break;
+	}
+}
+
 export function useOnClickOutside(refs, handler) {
 	useEffect(
 		() => {
