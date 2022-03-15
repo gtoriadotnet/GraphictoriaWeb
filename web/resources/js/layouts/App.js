@@ -33,6 +33,7 @@ import Forum from '../pages/Forum.js';
 import Post from '../pages/Post.js';
 import CreatePost from '../pages/CreatePost.js';
 import CreateReply from '../pages/CreateReply.js';
+import Settings from '../pages/Settings.js';
 
 axios.defaults.withCredentials = true
 
@@ -150,6 +151,10 @@ const App = () => {
 
 								<GuardedRoute exact path="/forum/post" meta={{auth: true}}>
 									<CreatePost user={user}/>
+								</GuardedRoute>
+
+								<GuardedRoute exact path={`/auth/settings`} meta={{auth: true}}>
+									<Settings user={user}/>
 								</GuardedRoute>
 
 								<GuardedRoute exact path="/forum/reply/:id" meta={{auth: true}}>

@@ -37,6 +37,33 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function settingsAbout() {
+
+        $data = Request::all();
+
+        $valid = Validator::make($data, [
+            'body' => ['required', 'string', 'min:2', 'max:180'],
+        ]);
+
+        if ($valid->stopOnFirstFailure()->fails()) {
+            $error = $valid->errors()->first();
+            $messages = $valid->messages()->get('*');
+            return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
+        }
+
+        if (!isset($_POST['token'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+
+        $user = User::where('token', $_POST['token'])->first();
+        
+        if (!$user) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+
+        $user->about = $_POST['body'];
+        $user->save();
+
+        return Response()->json(['message'=>'Success!', 'badInputs'=>[]]);
+
+    }
+
     public function createPost() {
 
         $data = Request::all();
@@ -52,6 +79,12 @@ class HomeController extends Controller
             $messages = $valid->messages()->get('*');
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
+
+        if (!isset($_POST['token'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+
+        $meta = User::where('token', $_POST['token'])->first();
+        
+        if (!$meta) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 
         if (!isset($_POST['creator_id'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 
@@ -93,11 +126,11 @@ class HomeController extends Controller
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
 
-        if (!isset($_COOKIE['gtok'])) {return Response()->json(["error"=>"No user."]);}
+        if (!isset($_POST['token'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 
-        $POST = $_COOKIE['gtok'];
-
-        $meta = User::where('token', $POST)->first();
+        $meta = User::where('token', $_POST['token'])->first();
+        
+        if (!$meta) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 
         if (!isset($_POST['creator_id'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 

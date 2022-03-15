@@ -49,6 +49,8 @@ Route::post('/api/create/forum', 'HomeController@createPost');
 
 Route::post('/api/create/reply/{id}', 'HomeController@createReply');
 
+Route::post('/api/change/user/about', 'HomeController@settingsAbout');
+
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
 		->header('Cache-Control', 'private')

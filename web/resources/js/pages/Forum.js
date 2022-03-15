@@ -14,6 +14,7 @@ import Loader from '../Components/Loader.js';
 import { GenericErrorModal } from './Errors.js';
 import { Card, CardTitle } from '../Layouts/Card.js';
 import { paginate } from '../helpers/utils.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 var url = Config.BaseUrl.replace('http://', '');
 var protocol = Config.Protocol;
@@ -60,6 +61,7 @@ const Forum = (props) => {
 
     useEffect(async ()=>{
         SetTitle(`Forum`);
+        await fetchCategory();
         await fetchCategories();
         setState({...state, loading: false});
     }, []);
@@ -106,7 +108,7 @@ const Forum = (props) => {
                                     [Avatar.]
                                 </div>
                                 <div className={`flex row m-0`}>
-                                    <h5 className={`m-0`}>{post.title}</h5>
+                                    <div className={`flex row`}><h5 className={`m-0 mr-15`}>{post.locked == 1? <i class="fa-solid fa-lock"></i> : null} {post.title}</h5></div>
                                     <div className={`row fs12`}>
                                         <p className={`w-fit-content`}>Posted by:</p>
                                         <Link to={`/user/${post.creator.id}`} className={`w-fit-content padding-none`}>{post.creator.username}</Link>

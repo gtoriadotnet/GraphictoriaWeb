@@ -38,6 +38,7 @@ const CreatePost = (props) => {
 	async function SubmitForm(form)
 	{
         form.append('creator_id', user.id);
+        form.append('token', encodeURIComponent(getCookie(`gtok`)));
 		setWaitingForSubmission(true);
 		await axios.post(`${protocol}apis.${url}/api/create/forum`, form, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
             const res = data.data;
