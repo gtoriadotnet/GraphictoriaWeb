@@ -177,7 +177,6 @@ class Controller extends BaseController
         $sc = substr(implode($prws), 0, 56);
 
         $user->token = $sc;
-        $user->token_expires = Carbon\Carbon::now()->addDays(2);
         $user->save();
 
         setcookie('gtok', $user->token, time()+(345600*30), "/", $_POST['host']);
