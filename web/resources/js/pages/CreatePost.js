@@ -22,17 +22,21 @@ const CreatePost = (props) => {
 
 	const [waitingForSubmission, setWaitingForSubmission] = useState(false);
 	const [validity, setValidity] = useState({error: false, message: ``, inputs: []});
-    const [categories, setCategoires] = useState({loading: true, categories: []});
+    const [categories, setCategories] = useState({categories: []});
     const user = props.user;
     const history = useHistory();
 
-    useEffect(async()=>{
+    const fetchCategories = async () => {
         const body = new FormData();
 		body.append('token', encodeURIComponent(getCookie(`gtok`)));
-        await axios.post(`${protocol}apis.${url}/fetch/categories/post`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+        await axios.post(`${protocol}apis.${url}/fetch/categories/post`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(async data=>{
             const res = data.data;
-            setCategoires({loading: false, categories: res.categories});
+            await setCategories({categories: res.categories});
         }).catch(error=>{console.log(error);});
+    }
+
+    useEffect(async()=>{
+        await fetchCategories();
     }, []);
 	
 	async function SubmitForm(form)
@@ -54,7 +58,7 @@ const CreatePost = (props) => {
 	}
 
 	return (
-		waitingForSubmission && !categories.loading? <Loader/> :
+		waitingForSubmission || !categories.categories? <Loader/> :
 		    <Card>
 				<CardTitle>Create a new Post</CardTitle>
 				<div className="p-2 row">
