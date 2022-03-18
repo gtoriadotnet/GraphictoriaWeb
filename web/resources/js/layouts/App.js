@@ -34,6 +34,7 @@ import Post from '../pages/Post.js';
 import CreatePost from '../pages/CreatePost.js';
 import CreateReply from '../pages/CreateReply.js';
 import Settings from '../pages/Settings.js';
+import User from '../pages/User.js';
 
 axios.defaults.withCredentials = true
 
@@ -61,6 +62,7 @@ const App = () => {
 	function fetchUser() {
 		const body = new FormData();
 		body.append('token', encodeURIComponent(getCookie(`gtok`)));
+		body.append('decision', `metaUser`);
 		axios.post(`${protocol}apis.${url}/fetch/user`, body).then((res)=>{
 			if (res.data.data == `expired`) {setCookie(`gtok`, null, null);window.location.replace(`/login`);}
 			setUser(res.data.data);
@@ -136,6 +138,10 @@ const App = () => {
 								<Route exact path="/legal/privacy-policy" component={Privacy}/>
 								<Route exact path="/legal/terms-of-service" component={Terms}/>
 								{state.maintenance ? <Route path="*" component={Maintenance}/> : null}
+
+								<Route exact path="/user/:id">
+									<User user={user}/>
+								</Route>
 								
 								<GuardedRoute exact path="/" meta={{guest: true}}>
 									<Home user={user}/>

@@ -28,18 +28,35 @@ class Controller extends BaseController
     public function fetchUser() {
         $POST;
 
-        if (!isset($_POST['token'])) {return Response()->json(false);}
+        if (!isset($_POST['decision'])) {return Response()->json(false);}
 
-        $POST = $_POST['token'];
-        $user = User::where('token', $POST)->first();
+        $decision = $_POST['decision'];
 
-        if (!$user) {return Response()->json(false);}
-
-        $array = $user->toArray();
-
-        $staff = Staff::where('user_id', $user->id)->first();
-
-        if ($staff) {$array['power'] = $staff->power_level;}
+        switch($decision) {
+            case "metaUser":
+                if (!isset($_POST['token'])) {return Response()->json(false);}
+                $POST = $_POST['token'];
+                $user = User::where('token', $POST)->first();
+                if (!$user) {return Response()->json(false);}
+                $array = $user->toArray();
+                $staff = Staff::where('user_id', $user->id)->first();
+                if ($staff) {$array['power'] = $staff->power_level;}
+                return Response()->json(["data"=>$array]);
+                break;
+            case "fetchedUser":
+                if (!isset($_POST['userId'])) {return Response()->json(false);}
+                $POST = $_POST['userId'];
+                $user = User::where('id', $POST)->first();
+                if (!$user) {return Response()->json(false);}
+                $array = $user->toArray();
+                $staff = Staff::where('user_id', $user->id)->first();
+                if ($staff) {$array['power'] = $staff->power_level;}
+                return Response()->json(["data"=>$array]);
+                break;
+            default:
+                return Response()->json(false);
+                break;
+        }
 
         return Response()->json(["data"=>$array]);
     }
