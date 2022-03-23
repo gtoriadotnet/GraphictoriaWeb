@@ -33,7 +33,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'token',
-        'email'
+        'email',
+        'email_verified_at',
+        'bank'
     ];
 
     /**
@@ -48,6 +50,10 @@ class User extends Authenticatable
     public function Staff() {
         $staff = Staff::where('user_id', $this->id)->first();
         return $staff;
+    }
+
+    public function inventory() {
+        return $this->morphMany('App\Models\Inventory', 'owner');
     }
     
 }

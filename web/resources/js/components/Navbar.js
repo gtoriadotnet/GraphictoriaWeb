@@ -51,13 +51,16 @@ const Navbar = (props) => {
 						<>
 							<SearchBar />
 							{props.user?
-							<li className="nav-item dropdown">
-								<button className="btn btn-secondary nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">{props.user.username}</button>
-								<ul className="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">
-									<li><NavLink className="dropdown-item" to="/auth/settings">Settings</NavLink></li>
-									<li><a className="dropdown-item" href={`/account/logout`}>Logout</a></li>
-								</ul>
-							</li> : <Link className="btn btn-success" to="/login">Login / Sign up</Link>}
+							<div className={`flex row`}>
+								<div className={`flex row col flex alc`}>Bank: ${props.user.bank}</div>
+								<li className="nav-item dropdown col flex alc">
+									<button className="btn btn-secondary nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">{props.user.username}</button>
+									<ul className="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">
+										<li><NavLink className="dropdown-item" to="/auth/settings">Settings</NavLink></li>
+										<li><a className="dropdown-item" href={`/account/logout`}>Logout</a></li>
+									</ul>
+								</li>
+							</div> : <Link className="btn btn-success" to="/login">Login / Sign up</Link>}
 						</>
 						:
 						null

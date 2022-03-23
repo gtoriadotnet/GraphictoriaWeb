@@ -31,6 +31,10 @@ Route::get('/fetch/categories', 'Controller@fetchCategories');
 
 Route::post('/fetch/categories/post', 'Controller@fetchCategoriesFP');
 
+Route::get('/fetch/categories/catalog', 'Controller@fetchCategoriesCatalog');
+
+Route::get('/fetch/category/catalog/{id}', 'Controller@fetchCategoryCatalog');
+
 Route::get('/fetch/category/{id}', 'Controller@fetchCategory');
 
 Route::get('/fetch/posts/{id}', 'Controller@fetchPosts');

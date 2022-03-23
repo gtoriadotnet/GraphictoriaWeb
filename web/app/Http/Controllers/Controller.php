@@ -12,6 +12,9 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Staff;
+use App\Models\CatalogCategory;
+use App\Models\Item;
+use App\Models\Inventory;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -41,6 +44,8 @@ class Controller extends BaseController
                 $array = $user->toArray();
                 $staff = Staff::where('user_id', $user->id)->first();
                 if ($staff) {$array['power'] = $staff->power_level;}
+                $array['bank'] = $user->bank;
+                $array['email'] = $user->email;
                 return Response()->json(["data"=>$array]);
                 break;
             case "fetchedUser":
@@ -84,6 +89,29 @@ class Controller extends BaseController
 
         return Response()->json(["categories"=>$categories]);
 
+    }
+
+    public function fetchCategoriesCatalog() {
+
+        $categories = CatalogCategory::get();
+
+        return Response()->json(["categories"=>$categories]);
+
+    }
+
+    public function fetchCategoryCatalog($id) {
+        
+        $category = CatalogCategory::where('id', $id)->first();
+
+        if (!$category) {return Response()->json(false);}
+
+        $items = $category->items()->orderBy('updated_at', 'desc')->paginate(25);
+
+        foreach ($items as &$item) {
+            $item['creator'] = User::where('id', $item['creator_id'])->first();
+        }
+
+        return Response()->json(["data"=>$category, "items"=>$items]);
     }
 
     public function fetchCategory($id) {

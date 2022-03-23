@@ -73,7 +73,7 @@ const Forum = (props) => {
     }, [posts.currentPage]);
 	
 		return (
-			state.loading
+			state.loading || categories.length <= 0
 			?
 			<Loader />
 			:

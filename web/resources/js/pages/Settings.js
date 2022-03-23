@@ -68,8 +68,8 @@ const Settings = (props) => {
                 </div>
                 <div className="graphictoria-nav-splitter"></div>
                 {validity.error?
-                    <div className={`px-5 mb-10 w-60`}>
-                        <div className={`error-dialog w-60`}>
+                    <div className={`px-5 mb-10 w-60 justify-content-center align-items-center`}>
+                        <div className={`error-dialog w-100`}>
                             <p className={`mb-0`}>{validity.message}</p>
                         </div>
                     </div> 

@@ -330,6 +330,7 @@ html {
 
 .graphictoria-nav-splitter {
   margin-top: 16px;
+  margin-bottom: 16px !important;
 }
 
 .graphictoria-search, #graphictoria-search-dropdown {
@@ -928,8 +929,32 @@ p {
   margin: 0px !important;
 }
 
+.fs10 {
+  font-size: 10px !important;
+}
+
+.fs11 {
+  font-size: 11px !important;
+}
+
 .fs12 {
   font-size: 12px !important;
+}
+
+.fs13 {
+  font-size: 13px !important;
+}
+
+.fs14 {
+  font-size: 14px !important;
+}
+
+.fs15 {
+  font-size: 15px !important;
+}
+
+.fs16 {
+  font-size: 16px !important;
 }
 
 .padding-none {
@@ -956,6 +981,26 @@ p {
   margin-bottom: 15px !important;
 }
 
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+
+.mt-5 {
+  margin-bottom: 5px !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mt-10 {
+  margin-bottom: 10px !important;
+}
+
+::marker {
+  display: none !important;
+}
+
 .graphic-post {
   padding: 1rem 1rem;
   text-align: start;
@@ -965,6 +1010,18 @@ p {
   border-radius: 0.25px;
   display: flex;
   flex-direction: row;
+  align-items: center !important;
+}
+
+.graphic-post-column {
+  padding: 1rem 1rem;
+  text-align: start;
+  color: inherit !important;
+  text-decoration: none !important;
+  background-color: #222 !important;
+  border-radius: 0.25px;
+  display: flex;
+  flex-direction: column;
   align-items: center !important;
 }
 
