@@ -4,8 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFastgroupsTable extends Migration
+class CreateFbucketsTable extends Migration
 {
+	/**
+	 * The database connection that should be used by the migration.
+	 *
+	 * @var string
+	 */
+	protected $connection = 'mysql-fflag';
+	
     /**
      * Run the migrations.
      *
@@ -13,7 +20,7 @@ class CreateFastgroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fastgroups', function (Blueprint $table) {
+        Schema::create('fbuckets', function (Blueprint $table) {
             $table->id();
 			$table->string('name');
 			$table->boolean('protected')->default(false);
@@ -29,6 +36,6 @@ class CreateFastgroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fastgroups');
+        Schema::dropIfExists('fbuckets');
     }
 }

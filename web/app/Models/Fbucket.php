@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FFlag extends Model
+/* FFlag bucket */
+class Fbucket extends Model
 {
 	/**
 	 * The database connection that should be used by the migration.
@@ -13,13 +14,6 @@ class FFlag extends Model
 	 * @var string
 	 */
 	protected $connection = 'mysql-fflag';
-	
-	/**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'fflags';
 	
     use HasFactory;
 }
