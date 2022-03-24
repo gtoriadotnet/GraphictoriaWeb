@@ -94,6 +94,8 @@ class AppSettings extends Controller
 				}
 			}
 			
+			ksort($flags);
+			
 			return JSON::EncodeResponse($flags);
 		} else {
 			return $this->error([

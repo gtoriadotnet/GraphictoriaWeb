@@ -27,8 +27,6 @@ TestScript;
 		$test = new SoapService('http://192.168.0.3:64989');
 		$result = $test->OpenJob(SoapService::MakeJobJSON('test', 10, 0, 0, 'test render', $testScript));
 		
-		return response($result);
-
 		return response(base64_decode($result->OpenJobExResult->LuaValue[0]->value))
 				->header('Content-Type', 'image/png');
 	}
