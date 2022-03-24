@@ -6,6 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateFflagsTable extends Migration
 {
+	/**
+	 * The database connection that should be used by the migration.
+	 *
+	 * @var string
+	 */
+	protected $connection = 'mysql-fflag';
+	
     /**
      * Run the migrations.
      *
@@ -19,7 +26,7 @@ class CreateFflagsTable extends Migration
 			$table->string('value');
 			$table->enum('dataType', ['Log', 'Int', 'String', 'Boolean']);
 			$table->enum('type', ['Unscoped', 'Fast', 'Dynamic', 'Synchronised']);
-			$table->bigInteger('groupId');
+			$table->bigInteger('bucketId');
             $table->timestamps();
         });
     }

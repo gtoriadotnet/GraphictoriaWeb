@@ -23,5 +23,15 @@ class WebConfigurationSeeder extends Seeder
 					'password' => '@bs0lut3lyM@55!v3P@55w0rd'
 				])
 		]); // please please please please please please please change the default password
+		
+		WebsiteConfiguration::create([
+			'name' => 'ComputeServiceAccessKey',
+			'value' => '92a6ac6b-7167-49b1-9ccd-079820ac892b'
+		]); // change this as well
+		
+		WebsiteConfiguration::create([
+			'name' => 'WhitelistedIPs',
+			'value' => '127.0.0.1'
+		]);
     }
 }

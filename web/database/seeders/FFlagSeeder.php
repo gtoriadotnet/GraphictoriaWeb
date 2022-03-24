@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use App\Models\FFlag;
-use App\Models\Fastgroup;
+use App\Models\Fbucket;
 
 class FFlagSeeder extends Seeder
 {
@@ -16,41 +16,41 @@ class FFlagSeeder extends Seeder
      */
     public function run()
     {
-		$appSettingsCommon = Fastgroup::create([
+		$appSettingsCommon = Fbucket::create([
 			'name' => 'AppSettingsCommon',
 			'protected' => true
 		]);
 		
-        $clientAppSettings = Fastgroup::create([
+        $clientAppSettings = Fbucket::create([
 			'name' => 'ClientAppSettings',
 			'inheritedGroupIds' => json_encode([ $appSettingsCommon->id ])
 		]);
 		
-		$cloudAppSettings = Fastgroup::create([
+		$cloudAppSettings = Fbucket::create([
 			'name' => 'CloudCompute',
 			'protected' => true,
 			'inheritedGroupIds' => json_encode([ $appSettingsCommon->id ])
 		]);
 		
-		$clientSharedSettings = Fastgroup::create([
+		$clientSharedSettings = Fbucket::create([
 			'name' => 'ClientSharedSettings'
 		]);
 		
-		$arbiterAppSettings = Fastgroup::create([
+		$arbiterAppSettings = Fbucket::create([
 			'name' => 'Arbiter'
 		]);
 		
-		$bootstrapperCommon = Fastgroup::create([
+		$bootstrapperCommon = Fbucket::create([
 			'name' => 'BootstrapperCommon',
 			'protected' => true
 		]);
 		
-		$windowsBootstrapperSettings = Fastgroup::create([
+		$windowsBootstrapperSettings = Fbucket::create([
 			'name' => 'WindowsBootstrapperSettings',
 			'inheritedGroupIds' => json_encode([ $bootstrapperCommon->id ])
 		]);
 		
-		$windowsStudioBootstrapperSettings = Fastgroup::create([
+		$windowsStudioBootstrapperSettings = Fbucket::create([
 			'name' => 'WindowsStudioBootstrapperSettings',
 			'inheritedGroupIds' => json_encode([ $bootstrapperCommon->id ])
 		]);
