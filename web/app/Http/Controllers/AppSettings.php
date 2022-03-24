@@ -84,7 +84,7 @@ class AppSettings extends Controller
 					$dataType = $this->types[$flag->dataType];
 					
 					$name = '';
-					if($prefix != 'Unscoped') {
+					if($flag->type != 'Unscoped') {
 						$name = ($prefix . $dataType);
 					}
 					
