@@ -28,44 +28,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function fetchUser() {
-        $POST;
-
-        if (!isset($_POST['decision'])) {return Response()->json(false);}
-
-        $decision = $_POST['decision'];
-
-        switch($decision) {
-            case "metaUser":
-                if (!isset($_POST['token'])) {return Response()->json(false);}
-                $POST = $_POST['token'];
-                $user = User::where('token', $POST)->first();
-                if (!$user) {return Response()->json(false);}
-                $array = $user->toArray();
-                $staff = Staff::where('user_id', $user->id)->first();
-                if ($staff) {$array['power'] = $staff->power_level;}
-                $array['bank'] = $user->bank;
-                $array['email'] = $user->email;
-                return Response()->json(["data"=>$array]);
-                break;
-            case "fetchedUser":
-                if (!isset($_POST['userId'])) {return Response()->json(false);}
-                $POST = $_POST['userId'];
-                $user = User::where('id', $POST)->first();
-                if (!$user) {return Response()->json(false);}
-                $array = $user->toArray();
-                $staff = Staff::where('user_id', $user->id)->first();
-                if ($staff) {$array['power'] = $staff->power_level;}
-                return Response()->json(["data"=>$array]);
-                break;
-            default:
-                return Response()->json(false);
-                break;
-        }
-
-        return Response()->json(["data"=>$array]);
-    }
-
     public function fetchCategoriesFP() {
 
         if (!isset($_POST['token'])) {return Response()->json(["error"=>"No user."]);}
@@ -153,66 +115,4 @@ class Controller extends BaseController
 
         return Response()->json(["post"=>$postA,"replies"=>$replies]);
     }
-
-
-    public function logout(Request $request) {
-
-        $POST;
-
-        if (!isset($_COOKIE['gtok'])) {return Redirect('/login');}
-
-        $POST = $_COOKIE['gtok'];
-
-        $user = User::where('token', $POST)->first();
-
-        if (!$user) {return Redirect('/login');}
-
-        setcookie('gtok', null, time()+(345600*30), "/", $_SERVER['HTTP_HOST']);
-
-        return Redirect('/');
-
-    }
-
-    public function login(Request $request) {
-
-        $data = Request::all();
-
-        $valid = Validator::make($data, [
-            'username' => ['required', 'string'],
-            'password' => ['required', 'string'],
-        ]);
-
-        if ($valid->stopOnFirstFailure()->fails()) {
-            $error = $valid->errors()->first();
-            $messages = $valid->messages()->get('*');
-            return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
-        }
-
-        if (!User::where('username', Request::input('username'))->first()) {
-            return Response()->json(['message'=>"Sorry, that user wasn't found!", 'badInputs'=>['username']]);
-        }
-
-        $user = User::where('username', Request::input('username'))->first();
-        
-        if (!Auth::attempt(Request::only('username', 'password'))) {
-            return Response()->json(['message'=>'Sorry, thats the wrong password!', 'badInputs'=>['password']]);
-        }
-
-        Request::session()->regenerate();
-
-        $prws = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 8)); 
-        shuffle($prws); 
-        $sc = substr(implode($prws), 0, 56);
-
-        $user->token = $sc;
-        $user->save();
-
-        setcookie('gtok', $user->token, time()+(345600*30), "/", $_POST['host']);
-
-        Auth::login($user);
-
-        return Response()->json(['message'=>'Success!', 'badInputs'=>[]]);
-
-    }
-
 }

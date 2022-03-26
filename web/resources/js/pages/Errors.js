@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import SetTitle from "../Helpers/Title.js";
 
-import { Card, CardTitle } from '../Layouts/Card.js';
+import { Card, CardTitle } from '../Components/Card.js';
 
 function GenericErrorModal(props)
 {

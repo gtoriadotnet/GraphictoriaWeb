@@ -98,34 +98,3 @@ const RegisterForm = (props) => {
 };
 
 export default RegisterForm;
-
-/*
-const [values, setValues] = useState({
-		username: '',
-		email: '',
-		password: '',
-		confirmation: ''
-	});
-const [validity, setValidity] = useState({
-		username: false,
-		email: false,
-		password: false,
-		confirmation: false
-	});
-	
-	const [validityMessages, setValidityMessages] = useState({
-		username: 'test',
-		email: '',
-		password: '',
-		confirmation: ''
-	});
-	
-	const handleChange = (e) => {
-		const {id, value} = e.target;
-		
-		setValues(prevState => ({
-			...prevState,
-			[id] : value
-		}));
-    }
-*/

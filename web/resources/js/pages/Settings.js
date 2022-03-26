@@ -12,7 +12,7 @@ import SetTitle from "../Helpers/Title.js";
 import Loader from '../Components/Loader.js';
 
 import { GenericErrorModal } from './Errors.js';
-import { Card, CardTitle } from '../Layouts/Card.js';
+import { Card, CardTitle } from '../Components/Card.js';
 import { getCookie, paginate } from '../helpers/utils.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

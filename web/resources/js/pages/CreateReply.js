@@ -8,7 +8,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { CreateAccount, LoginToAccount, CreateForum } from '../Helpers/Auth';
 import Loader from '../Components/Loader';
 import { getCookie } from '../helpers/utils';
-import { Card, CardTitle } from '../Layouts/Card';
+import { Card, CardTitle } from '../Components/Card';
 
 import axios from "axios";
 import Config from '../config.js';

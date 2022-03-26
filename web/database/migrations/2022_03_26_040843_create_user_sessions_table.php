@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateUserSessionsTable extends Migration
 {
 	/**
 	 * The database connection that should be used by the migration.
@@ -20,15 +20,13 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('user_sessions', function (Blueprint $table) {
             $table->id();
-			$table->string('username');
-			$table->string('email');
-            $table->timestamp('email_verified_at')->nullable();
-			$table->string('password');
-            $table->integer('bank')->default(15);
-            $table->string('about')->nullable();
-            $table->timestamps();
+			$table->unsignedBigInteger('user');
+			$table->string('token');
+			$table->ipAddress('ip');
+			$table->timestamp('last_seen');
+			$table->timestamps();
         });
     }
 
@@ -39,6 +37,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('user_sessions');
     }
 }

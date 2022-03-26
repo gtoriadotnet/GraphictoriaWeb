@@ -12,7 +12,7 @@ import SetTitle from "../Helpers/Title.js";
 import Loader from '../Components/Loader.js';
 
 import { GenericErrorModal } from './Errors.js';
-import { Card, CardTitle } from '../Layouts/Card.js';
+import { Card, CardTitle } from '../Components/Card.js';
 import { paginate } from '../helpers/utils.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -22,7 +22,7 @@ var protocol = Config.Protocol;
 const Catalog = (props) => {
 
     var id = useParams().id;
-    const [state, setState] = useState({offline: false, loading: true});
+    const [state, setState] = useState({loading: true});
     const [categories, setCategoires] = useState([]);
     const [category, setCategory] = useState([]);
     const [items, setItems] = useState({items: [], currentPage: 1, meta: []});

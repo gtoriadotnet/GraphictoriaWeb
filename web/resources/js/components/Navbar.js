@@ -9,7 +9,7 @@ const Navbar = (props) => {
   return (
     <>
 		<nav className="navbar graphictoria-navbar fixed-top navbar-expand-md shadow-sm">
-			<div className="container-sm">
+			<div className="container-md">
 				<NavLink className="navbar-brand" to={props.user? `/home` : `/`}>
 					<img src="/images/logo.png" alt="Graphictoria" width="43" height="43" draggable="false"/>
 				</NavLink>

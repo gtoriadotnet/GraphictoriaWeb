@@ -193,6 +193,16 @@ html {
 	text-shadow: 0 0 4px $gray-700;
 }
 
+// Character
+.gt-charimg {
+	max-height: 300px;
+	max-width: 300px;
+	@media (max-width: 768px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
 // Navbar
 
 .navbar {

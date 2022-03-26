@@ -2,10 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\GamesController;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Controller; // remove this and clean up the code lol
 use App\Models\User;
 
 /*
@@ -22,6 +24,15 @@ use App\Models\User;
 Route::get('/', function(){
 	return 'API OK';
 });
+
+// Maintenance
+Route::post('/v1/maintenance/bypass', 'MaintenanceController@bypass');
+
+// User
+Route::post('/v1/user/register', 'AuthController@Register');
+Route::post('/v1/user/login', 'AuthController@Login');
+Route::post('/v1/user/logout', 'AuthController@Logout');
+Route::get('/v1/user/settings', 'UserController@GetSettings');
 
 Route::get('/banners/data', 'BannerController@getBanners');
 
@@ -40,14 +51,6 @@ Route::get('/fetch/category/{id}', 'Controller@fetchCategory');
 Route::get('/fetch/posts/{id}', 'Controller@fetchPosts');
 
 Route::get('/fetch/post/{id}', 'Controller@fetchPost');
-
-Route::post('/fetch/user', 'Controller@fetchUser');
-
-Route::post('/maintenance/bypass', 'MaintenanceController@bypass');
-
-Route::post('/account/register', 'Auth\RegisterController@create');
-
-Route::post('/account/login', 'Controller@login');
 
 Route::post('/api/create/forum', 'HomeController@createPost');
 

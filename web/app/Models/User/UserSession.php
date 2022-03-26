@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class UserSession extends Model
 {
-	use HasFactory;
-	
+    use HasFactory;
+
 	/**
 	 * The database connection that should be used by the migration.
 	 *

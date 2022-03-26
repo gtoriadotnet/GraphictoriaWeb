@@ -11,7 +11,7 @@ import { getCookie } from '../helpers/utils';
 
 import axios from "axios";
 import Config from '../config.js';
-import { Card, CardTitle } from '../Layouts/Card';
+import { Card, CardTitle } from '../Components/Card';
 
 axios.defaults.withCredentials = true
 

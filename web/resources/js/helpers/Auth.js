@@ -18,7 +18,7 @@ export function CreateAccount(form)
     var badInputs = [];
 
     return new Promise(async (resolve, reject)=>{
-        await axios.post(`${protocol}apis.${url}/account/register`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest", "accept":"application/json"}}).then(data=>{
+        await axios.post(`${protocol}apis.${url}/v1/user/register`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest", "accept":"application/json"}}).then(data=>{
             const res = data.data;
             if (res.badInputs.length >= 1) {
                 badInputs=res.badInputs;
@@ -39,7 +39,7 @@ export function LoginToAccount(form) {
     var badInputs = [];
     
     return new Promise(async (resolve, reject)=>{
-        await axios.post(`${protocol}apis.${url}/account/login`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+        await axios.post(`${protocol}apis.${url}/v1/user/login`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
             const res = data.data;
             if (res.badInputs.length >= 1) {
                 badInputs=res.badInputs;
@@ -61,25 +61,18 @@ export function CreateForum(form) {
 
     return new Promise(async (resolve, reject)=>{
         axios.post(`${protocol}apis.${url}/api/create/forum`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
-            const history = useHistory();
-            const res = data.data;
-            if (res.badInputs.length >= 1) {
-                badInputs=res.badInputs;
-                resolve({message: res.message, inputs: res.badInputs});
-            }
             resolve("good");
         }).catch(error=>{console.log(error);});
     });
 }
 
-/*export function LogoutOfAccount() {
-
+export function Logout() {
     const body = form;
     var badInputs = [];
 
-     axios.post(`${protocol}apis.${url}/account/logout`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+    axios.post(`${protocol}apis.${url}/v1/user/logout`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
         window.location.replace(`/`);
         resolve("good");
     }).catch(error=>{console.log(error);});
 
-}*/
+}

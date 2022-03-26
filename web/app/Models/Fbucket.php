@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 /* FFlag bucket */
 class Fbucket extends Model
 {
+	use HasFactory;
+	
 	/**
 	 * The database connection that should be used by the migration.
 	 *
 	 * @var string
 	 */
 	protected $connection = 'mysql-fflag';
-	
-    use HasFactory;
 }

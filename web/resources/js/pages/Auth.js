@@ -9,7 +9,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import SetTitle from '../Helpers/Title.js';
 import { CreateAccount } from '../Helpers/Auth.js';
 
-import { Card, CardTitle } from '../Layouts/Card.js';
+import { Card, CardTitle } from '../Components/Card.js';
 
 import LoginForm from './Auth/Login.js';
 import ForgotPasswordForm from './Auth/ForgotPassword.js';
@@ -46,10 +46,6 @@ class Auth extends React.Component {
 			case '/passwordreset':
 				pageLabel = (<><i className="fas fa-question-circle"></i> RESET PASSWORD</>);
 				pageContent = (<ForgotPasswordForm />);
-				break;
-			case `guest`:
-				pageLabel = (<><i className="fas fa-question-circle"></i> YOU NEED TO BE A GUEST!</>);
-				pageContent = (<div><div>Sorry, this page is for guests only!</div></div>);
 				break;
 			default:
 				pageLabel = (<><i className={`"fas fa-question-circle"`}></i> YOU'RE LOGGED IN!</>);

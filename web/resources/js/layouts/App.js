@@ -44,12 +44,10 @@ var protocol = Config.Protocol;
 
 const App = () => {
 
-	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], offlineFetch: false, loading: true});
-	const [user, setUser] = useState([]);
-	const [userLoad, setUserLoad] = useState(true);
+	const [state, setState] = useState({maintenance: false, theme: 0, banners: [], userFetched: false, offlineFetched: false, bannersFetched: false, loading: true});
+	const [user, setUser] = useState(false);
 
-	function updateBanners()
-	{
+	function updateBanners() {
 		axios.get(`${protocol}apis.${url}/banners/data`)
 			.then((response) => {
 				var result = [];
@@ -57,25 +55,32 @@ const App = () => {
 					result.push(<Banner type={banner.type} description={banner.text} dismissible={banner.dismissable} />);
 				});
 				setState({banners: result});
+			})
+			.finally(() => {
+				setState({bannersFetched: true});
+				if(state.offlineFetched && state.userFetched) {
+					setState({loading: false});
+				}
 			});
 	}
 
 	function fetchUser() {
-		const body = new FormData();
-		body.append('token', encodeURIComponent(getCookie(`gtok`)));
-		body.append('decision', `metaUser`);
-		axios.post(`${protocol}apis.${url}/fetch/user`, body).then((res)=>{
-			if (res.data.data == `expired`) {setCookie(`gtok`, null, null);window.location.replace(`/login`);}
-			setUser(res.data.data);
-			setUserLoad(false);
-		});
-		return new Promise(async (resolve, reject)=>{
-			resolve("good");
-		}); 
+		axios.get(`${protocol}apis.${url}/v1/user/settings`)
+			.then((response) => {
+				if(!response.data.error)
+					setUser(response.data.data);
+				else
+					setUser(false);
+			})
+			.finally(() => {
+				setState({userFetched: true});
+				if(state.bannersFetched && state.offlineFetched) {
+					setState({loading: false});
+				}
+			});
 	}
 	
-	function updateOfflineStatus()
-	{
+	function updateOfflineStatus() {
 		axios.get(`${protocol}apis.${url}/`)
 			.then((response) => {
 				if(state.maintenance == true)
@@ -90,36 +95,40 @@ const App = () => {
 			})
 			.finally(() => {
 				setState({offlineFetched: true});
+				if(state.bannersFetched && state.userFetched) {
+					setState({loading: false});
+				}
 			});
 	}
 
 	const authMiddleware = (to, from, next) => {
+		console.log(user);
 		if (to.meta.auth) {
-			if (user) {next();}
+			if (user)
+				next();
+			
 			next.redirect(`/login`);
-		}else if (to.meta.guest) {
-			if (!user) {next();}
+		} else if (to.meta.guest) {
+			if (!user)
+				next();
+			
 			next.redirect(`/home`);
-		}else if (to.meta.staff) {
-			if (user && user.power) {next();}
-			next.redirect(`/`);
 		}
 	}
 
 	useEffect(async ()=>{ 
-		await fetchUser();
+		fetchUser();
 		updateBanners();
 		updateOfflineStatus();
 		setInterval(updateBanners, 2*60*1000 /* 2 mins */);
 		setInterval(updateOfflineStatus, 10*60*1000 /* 10 mins */);
-		setState({loading: true});
 	}, []);
 
 	document.documentElement.classList.add(state.theme == 0 ? 'gtoria-light' : 'gtoria-dark');
 	document.documentElement.classList.remove(!(state.theme == 0) ? 'gtoria-light' : 'gtoria-dark');
 
 		return (
-			!state.loading && !userLoad?
+			!state.loading ?
 			<Router>
 				<GuardProvider guards={[authMiddleware]}>
 				<Navbar maintenanceEnabled={state.maintenance} user={user} />
