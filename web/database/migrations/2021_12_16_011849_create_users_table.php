@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
 			$table->string('password');
             $table->integer('bank')->default(15);
             $table->string('about')->nullable();
+            $table->json('rolesets')->default('[1]');
             $table->timestamps();
         });
     }

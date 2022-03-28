@@ -1011,6 +1011,12 @@ p {
   display: none !important;
 }
 
+.graphic-thumb {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+}
+
 .graphic-post {
   padding: 1rem 1rem;
   text-align: start;

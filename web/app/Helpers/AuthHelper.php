@@ -36,10 +36,25 @@ class AuthHelper
 	public static function GetCurrentUser(Request $request) {
 		if($request->session()->exists('authentication')) {
 			$session = UserSession::where('token', $request->session()->get('authentication'))->first();
-			
+
 			if($session)
 				return User::where('id', $session->user)->first();
 			
+			return;
+		}
+		
+		return;
+	}
+
+	/**
+     * Remove a session.
+     *
+     * @return User?
+     */
+	public static function RemoveSession(Request $request) {
+		if($request->session()->exists('authentication')) {
+			$session = UserSession::where('token', $request->session()->get('authentication'))->first();
+			$session->delete();
 			return;
 		}
 		
@@ -62,4 +77,5 @@ class AuthHelper
 		
 		return $session;
 	}
+
 }

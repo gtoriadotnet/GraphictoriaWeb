@@ -18,7 +18,7 @@ class UserController extends Controller
 		
 		if($currentUser) {
 			return Response()->json([
-				'data' => []
+				'data' => $currentUser
 			]);
 		} else {
 			return Response()->json([

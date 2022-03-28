@@ -13,6 +13,7 @@ import Loader from '../Components/Loader.js';
 
 import { GenericErrorModal } from './Errors.js';
 import { MiniCard, MiniCardTitle } from '../Components/Card.js';
+import { paginate } from '../helpers/utils.js';
 
 var url = Config.BaseUrl.replace('http://', '');
 var protocol = Config.Protocol;
@@ -20,13 +21,58 @@ var protocol = Config.Protocol;
 const Dashboard = (props) => {
 
     const [state, setState] = useState({loading: true});
-    const [feedState, setFeedState] = useState({loading: true});
+	const [validity, setValidity] = useState({error: false, message: ``, inputs: []});
+    const [feedState, setFeedState] = useState({loading: true, posts: {posts: [], meta: [], currentPage: 1}});
     const user = props.user;
+
+	const createFeed = async () => {
+		setFeedState({...feedState.posts, loading: true});
+		await axios.post(`${protocol}apis.${url}/api/create/feed`, new FormData(document.getElementById(`form`)), {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+			const res = data.data;
+			if (res.badInputs.length >= 1) {
+                setValidity({error: true, message:res.message, inputs: res.badInputs});
+				setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
+				setFeedState({...feedState, loading: false});
+            }else{
+				document.getElementById('input').value = "";
+                setFeedState({loading: false, posts: {...feedState.posts, posts: res.data.data, meta: res.data}});
+            }
+        }).catch(error=>{console.log(error);});
+	}
+
+	const fetchFeed = async () => {
+        await axios.get(`${protocol}apis.${url}/fetch/feed?page=${feedState.posts.currentPage}`, {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+			const res = data.data;
+			setFeedState({loading: false, posts: {...feedState.posts,posts: res.data.data, meta: res.data}});
+        }).catch(error=>{console.log(error);});
+    }
+
+    const paginatePosts = async (decision) => {
+        paginate(decision, feedState.posts.currentPage, feedState.posts.meta).then(res=>{
+            switch(res){
+                case "increase":
+                    setFeedState({...feedState, posts: {...feedState.posts, currentPage: feedState.posts.currentPage+1}});
+                    break;
+                case "decrease":
+                    setFeedState({...feedState, posts: {...feedState.posts, currentPage: feedState.posts.currentPage-1}});
+                    break;
+                default:
+                    break;
+            }
+        }).catch(error=>console.log(error));
+    }
 
     useEffect(()=>{
         SetTitle(`Dashboard`);
+		fetchFeed();
         setState({loading: false});
     }, []);
+
+	useEffect(async()=>{
+        setState({loading: true});
+        await fetchFeed();
+        setState({loading: false});
+    }, [feedState.posts.currentPage]);
 	
 		return (
 			state.loading
@@ -63,11 +109,18 @@ const Dashboard = (props) => {
 					{/* Feed */}
 					<div className='col-md-7 mt-3 mt-md-0'>
 						<h4>My Feed</h4>
+						{validity.error?
+                            <div className={`px-5 mb-10`}>
+                                <div className={`error-dialog`}>
+                                    <p className={`mb-0`}>{validity.message}</p>
+                                </div>
+                            </div> 
+                        : null}
 						<div className='card mb-2'>
-							<div className='input-group p-2'>
-								<input type='text' className='form-control' placeholder='What are you up to?' area-label='What are you up to?' />
-								<button className='btn btn-secondary' type='button'>Share</button>
-							</div>
+							<form className='input-group p-2' onSubmit={(e)=>{e.preventDefault();createFeed();}} id={`form`}>
+								<input type='text' className='form-control' placeholder='What are you up to?' area-label='What are you up to?' name={`body`} id={`input`}/>
+								<button className='btn btn-secondary' type='submit'>Share</button>
+							</form>
 						</div>
 						{
 							feedState.loading
@@ -76,9 +129,28 @@ const Dashboard = (props) => {
 								<Loader />
 							</div>
 							:
-							<div className='card'>
-								
-							</div>
+							<>
+							{feedState.posts.posts.map(feed=>(
+								<>
+								<div className='card flex-row pt-3 px-3 align-content-center'>
+									<div className={`flex flex-column justify-content-center text-center w-fit-content`}>
+										<p className='mr-10'>{feed.creatorName}</p>
+										<img src='/images/testing/headshot.png' className='img-fluid graphic-thumb' />
+									</div>
+									<div className={`flex align-items-center col`}>
+										<p className='mr-10'><i>"{feed.body}"</i></p>
+									</div>
+								</div>
+								<div className="graphictoria-nav-splitter"></div>
+								</>
+							))}
+							{feedState.posts.posts.length <= 0? <p>There isn't any posts right now!</p> : null}
+							{feedState.posts.posts.length >= 1?
+							<div className={`w-100 jcc alc row mt-15`}>
+								{feedState.posts.currentPage >= 2? <button className={`w-fit-content btn btn-primary mr-15`} onClick={(e)=>{paginatePosts(true);}}>Previous Page</button> : null}
+								{feedState.posts.currentPage < feedState.posts.meta.last_page? <button className={`w-fit-content btn btn-primary`} onClick={(e)=>{paginatePosts(false);}}>Next Page</button> : null}
+							</div> : null}
+							</>
 						}
 					</div>
 					

@@ -65,7 +65,9 @@ const App = () => {
 	}
 
 	function fetchUser() {
-		axios.get(`${protocol}apis.${url}/v1/user/settings`)
+		const body = new FormData();
+        body.append('token', encodeURIComponent(getCookie(`gtok`)));
+		axios.get(`${protocol}apis.${url}/v1/user/settings`, body)
 			.then((response) => {
 				if(!response.data.error)
 					setUser(response.data.data);
@@ -117,6 +119,7 @@ const App = () => {
 	}
 
 	useEffect(async ()=>{ 
+		if (!getCookie('gtok')) {setCookie('gtok', null);}
 		fetchUser();
 		updateBanners();
 		updateOfflineStatus();

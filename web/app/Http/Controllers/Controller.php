@@ -8,20 +8,24 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\User\UserSession;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Staff;
 use App\Models\CatalogCategory;
+use App\Models\Friend;
+use App\Models\Feed;
 use App\Models\Item;
 use App\Models\Inventory;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\AuthHelper;
 use Illuminate\Routing\Controller as BaseController;
 use Carbon;
 use Auth;
-use Request;
+use Illuminate\Http\Request;
 use DateTime;
 
 class Controller extends BaseController
@@ -30,11 +34,7 @@ class Controller extends BaseController
 
     public function fetchCategoriesFP() {
 
-        if (!isset($_POST['token'])) {return Response()->json(["error"=>"No user."]);}
-
-        $POST = $_POST['token'];
-
-        $user = User::where('token', $POST)->first();
+        $user = AuthHelper::GetCurrentUser($request);
 
         if (!$user) {return Response()->json(["error"=>"No user."]);}
 
@@ -58,6 +58,34 @@ class Controller extends BaseController
         $categories = CatalogCategory::get();
 
         return Response()->json(["categories"=>$categories]);
+
+    }
+
+    public function fetchFeed(Request $request) {
+
+        $user = AuthHelper::GetCurrentUser($request);
+
+        if (!$user) {return Response()->json(["error"=>"No user."]);}
+
+        $friends = Friend::where('status', 1)->where('recieved_id', $user->id)->orWhere('sent_id', $user->id)->get()->toArray();
+        $actualFriends = [];
+
+        foreach ($friends as $friend) {
+            if ($friend['recieved_id'] == $user->id) {
+                array_push($actualFriends, $friend['sent_id']);
+            }else{
+                array_push($actualFriends, $friend['recieved_id']);
+            }
+        }
+
+        $feed = Feed::whereIn('user_id', $actualFriends)->orWhere('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(15);
+
+        foreach ($feed as &$singleFeed)  {
+            $creator = User::where('id', $singleFeed['user_id'])->first();
+            $singleFeed['creatorName'] = $creator->username;
+        }
+
+        return Response()->json(["data"=>$feed]);
 
     }
 

@@ -62,6 +62,6 @@ Route::get('/games', function(){
     return view('main');
 });
 
-Route::get('/account/logout', 'Controller@logout');
+Route::get('/account/logout', 'AuthController@logout');
 
 Route::get('/test123', 'GridTest@generateThumbnail');

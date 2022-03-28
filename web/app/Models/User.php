@@ -15,4 +15,12 @@ class User extends Model
 	 * @var string
 	 */
 	protected $connection = 'mysql-membership';
+
+	protected $hidden = [
+        'password',
+        'remember_token',
+        'email',
+        'email_verified_at',
+    ];
+
 }

@@ -38,6 +38,10 @@ Route::get('/banners/data', 'BannerController@getBanners');
 
 Route::get('/games/metadata', 'GamesController@isAvailable');
 
+Route::get('/fetch/feed', 'Controller@fetchFeed');
+
+Route::post('/api/create/feed', 'HomeController@createFeed');
+
 Route::get('/fetch/categories', 'Controller@fetchCategories');
 
 Route::post('/fetch/categories/post', 'Controller@fetchCategoriesFP');
