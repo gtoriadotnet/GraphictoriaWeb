@@ -155,6 +155,57 @@ class HomeController extends Controller
 
     }
 
+    public function addFriend(Request $request, $id) {
+
+        $user = User::where('id', $id)->first();
+
+        if (!$user) {return Response()->json(['message'=>'No user.', 'badInputs'=>['title']]);}
+
+        $meta = AuthHelper::GetCurrentUser($request);
+
+        if (!$meta) {return Response()->json(['message'=>'System error.', 'badInputs'=>['title']]);}
+
+        if (!isset($_POST['decision'])) {return Response()->json(['message'=>'System error.', 'badInputs'=>['title']]);}
+
+        switch($_POST['decision']) {
+            case 'remove': 
+                if ($meta && !array_intersect($meta->getFriends('id', null, null), [$user->id])) 
+                    return Response()->json(['message'=>'Not Friends.', 'badInputs'=>['title']]);
+                elseif ($meta && array_intersect($meta->getFriends('pending', 'id', null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Pending.', 'badInputs'=>['title']]);
+
+                $friend = $meta->getFriends('remove', null, $user->id);
+
+                return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>false]);
+                break;
+            case 'accept': 
+                if ($meta && array_intersect($meta->getFriends('id', null, null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Friends.', 'badInputs'=>['title']]);
+                    
+                $friend = $meta->getFriends('accept', null, $user->id);
+
+                return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>true]);
+                break;
+            case 'add': 
+                if ($meta && array_intersect($meta->getFriends('id', null, null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Friends.', 'badInputs'=>['title']]);
+                elseif ($meta && array_intersect($meta->getFriends('pending', 'id', null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Pending.', 'badInputs'=>['title']]);
+
+                $friend = new Friend;
+                $friend->sent_id = $meta->id;
+                $friend->recieved_id = $user->id;
+                $friend->status = 0;
+                $friend->save();
+
+                return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>'pending']);
+                break;
+            default:
+                break;
+        }
+
+    }
+
     public function createReply($id) {
 
         $data = $request->all();

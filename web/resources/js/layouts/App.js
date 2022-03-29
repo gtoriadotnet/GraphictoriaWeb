@@ -119,8 +119,7 @@ const App = () => {
 	}
 
 	useEffect(async ()=>{ 
-		if (!getCookie('gtok')) {setCookie('gtok', null);}
-		fetchUser();
+		await fetchUser();
 		updateBanners();
 		updateOfflineStatus();
 		setInterval(updateBanners, 2*60*1000 /* 2 mins */);

@@ -32,7 +32,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function fetchCategoriesFP() {
+    public function fetchCategoriesFP(Request $request) {
 
         $user = AuthHelper::GetCurrentUser($request);
 
@@ -53,7 +53,7 @@ class Controller extends BaseController
 
     }
 
-    public function fetchCategoriesCatalog() {
+    public function fetchCategoriesCatalog(Request $request) {
 
         $categories = CatalogCategory::get();
 
@@ -89,7 +89,7 @@ class Controller extends BaseController
 
     }
 
-    public function fetchCategoryCatalog($id) {
+    public function fetchCategoryCatalog(Request $request, $id) {
         
         $category = CatalogCategory::where('id', $id)->first();
 
@@ -104,7 +104,7 @@ class Controller extends BaseController
         return Response()->json(["data"=>$category, "items"=>$items]);
     }
 
-    public function fetchCategory($id) {
+    public function fetchCategory(Request $request, $id) {
         
         $category = Category::where('id', $id)->first();
 
@@ -119,7 +119,24 @@ class Controller extends BaseController
         return Response()->json(["data"=>$category, "posts"=>$posts]);
     }
 
-    public function fetchPost($id) {
+    public function fetchUser(Request $request, $id) {
+
+        $meta = AuthHelper::GetCurrentUser($request);
+        
+        $user = User::where('id', $id)->first();
+
+        if (!$user) {return Response()->json('Error');}
+
+        $array = $user->toArray();
+
+        if ($meta && $meta->id == $array['id']) $array['isMeta'] = true; else $array['isMeta'] = false;
+        
+        if ($meta && $meta->getFriends('pending', 'checkSent', $array['id'])) $array['isFriend'] = 'needToAccept'; elseif ($meta && array_intersect($meta->getFriends('pending', 'id', null), [$array['id']])) $array['isFriend'] = 'pending'; elseif ($meta && array_intersect($meta->getFriends('id', null, null), [$array['id']])) $array['isFriend'] = true; else $array['isFriend'] = false;
+
+        return Response()->json(["data"=>$array]);
+    }
+
+    public function fetchPost(Request $request, $id) {
         
         $post = Post::where('id', $id)->first();
 

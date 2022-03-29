@@ -58,7 +58,7 @@ const CreatePost = (props) => {
 	}
 
 	return (
-		waitingForSubmission || !categories.categories? <Loader/> :
+		waitingForSubmission || categories.categories.length <= 0 ? <Loader/> :
 		    <Card>
 				<CardTitle>Create a new Post</CardTitle>
 				<div className="p-2 row">

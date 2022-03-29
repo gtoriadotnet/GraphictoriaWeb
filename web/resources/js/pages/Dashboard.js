@@ -130,9 +130,10 @@ const Dashboard = (props) => {
 							</div>
 							:
 							<>
+							<div className='card flex-column pt-3 px-3 align-content-center'>
 							{feedState.posts.posts.map(feed=>(
 								<>
-								<div className='card flex-row pt-3 px-3 align-content-center'>
+								<Link className={`flex flex-row align-items-center a`} to={`/user/${feed.user_id}`}>
 									<div className={`flex flex-column justify-content-center text-center w-fit-content`}>
 										<p className='mr-10'>{feed.creatorName}</p>
 										<img src='/images/testing/headshot.png' className='img-fluid graphic-thumb' />
@@ -140,10 +141,11 @@ const Dashboard = (props) => {
 									<div className={`flex align-items-center col`}>
 										<p className='mr-10'><i>"{feed.body}"</i></p>
 									</div>
-								</div>
-								<div className="graphictoria-nav-splitter"></div>
+								</Link>
+								<hr/>
 								</>
 							))}
+							</div>
 							{feedState.posts.posts.length <= 0? <p>There isn't any posts right now!</p> : null}
 							{feedState.posts.posts.length >= 1?
 							<div className={`w-100 jcc alc row mt-15`}>
