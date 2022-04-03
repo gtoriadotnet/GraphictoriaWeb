@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GamesController;
 use App\Http\Controllers\GridTest;
 
 /*
@@ -14,6 +15,10 @@ use App\Http\Controllers\GridTest;
 |
 */
 
+// client apis
+Route::get('/universes/validate-place-join', 'GamesController@validatePlaceJoin');
+
+// other
 Route::get('/javascript', function(){
     return view('javascript');
 })->middleware('auth');

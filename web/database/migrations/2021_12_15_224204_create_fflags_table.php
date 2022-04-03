@@ -23,7 +23,7 @@ class CreateFflagsTable extends Migration
         Schema::create('fflags', function (Blueprint $table) {
             $table->id();
 			$table->string('name');
-			$table->string('value');
+			$table->longText('value');
 			$table->enum('dataType', ['Log', 'Int', 'String', 'Boolean']);
 			$table->enum('type', ['Unscoped', 'Fast', 'Dynamic', 'Synchronised']);
 			$table->bigInteger('bucketId');

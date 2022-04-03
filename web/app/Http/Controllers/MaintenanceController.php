@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WebsiteConfiguration;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Cookie;
+
+use App\Models\WebsiteConfiguration;
 
 class MaintenanceController extends Controller
 {
