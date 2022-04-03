@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
 use App\Helpers\AuthHelper;
 use App\Models\User;
 
@@ -97,13 +96,14 @@ class AuthController extends Controller
 		if (!$user)
             return Response()->json(['message'=>'That user doesn\'t exist.', 'badInputs'=>['username']]);
 		
-		if (!$user->password != Hash::make($data['password']))
+		if (Hash::check($request->input('password'), $user->password))
             return Response()->json(['message'=>'The password you tried is incorrect.', 'badInputs'=>['password']]);
 			
 		$request->session()->regenerate();
 		
 		$newSession = AuthHelper::GrantSession($request, $user->id);
-		$request->session()->put('authentication', $newSession);
+
+		$request->session()->put('authentication', $newSession->token);
 
         return Response()->json(['message'=>'Success!', 'badInputs'=>[]]);
 	}
@@ -114,6 +114,10 @@ class AuthController extends Controller
      * @return Response
      */
     public function Logout(Request $request) {
+		if(!AuthHelper::Guard($request))
+			return Response(null, 400);
+			
+		AuthHelper::RemoveSession($request);
 		$request->session()->invalidate();
 		$request->session()->regenerateToken();
 		return redirect('/');

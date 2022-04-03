@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\User\UserSession;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Category;
+use App\Models\Friend;
+use App\Models\Feed;
 use App\Models\Staff;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Request;
+use App\Helpers\AuthHelper;
+use Illuminate\Http\Request;
 use Auth;
 
 class HomeController extends Controller
@@ -37,9 +41,9 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function settingsAbout() {
+    public function settingsAbout(Request $request) {
 
-        $data = Request::all();
+        $data = $request->all();
 
         $valid = Validator::make($data, [
             'body' => ['required', 'string', 'min:2', 'max:180'],
@@ -51,11 +55,7 @@ class HomeController extends Controller
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
 
-        if (!isset($_POST['token'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
-
-        $user = User::where('token', $_POST['token'])->first();
-        
-        if (!$user) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+        $user = AuthHelper::GetCurrentUser($request);
 
         $user->about = $_POST['body'];
         $user->save();
@@ -64,9 +64,9 @@ class HomeController extends Controller
 
     }
 
-    public function createPost() {
+    public function createPost(Request $request) {
 
-        $data = Request::all();
+        $data = $request->all();
 
         $valid = Validator::make($data, [
             'title' => ['required', 'string', 'min:3', 'max:38'],
@@ -80,10 +80,8 @@ class HomeController extends Controller
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
 
-        if (!isset($_POST['token'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+        $meta = AuthHelper::GetCurrentUser($request);
 
-        $meta = User::where('token', $_POST['token'])->first();
-        
         if (!$meta) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 
         if (!isset($_POST['creator_id'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
@@ -112,9 +110,105 @@ class HomeController extends Controller
 
     }
 
+    public function createFeed(Request $request) {
+
+        $data = $request->all();
+
+        $valid = Validator::make($data, [
+            'body' => ['required', 'string', 'min:3', 'max:245'],
+        ]);
+
+        if ($valid->stopOnFirstFailure()->fails()) {
+            $error = $valid->errors()->first();
+            $messages = $valid->messages()->get('*');
+            return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
+        }
+
+        $user = AuthHelper::GetCurrentUser($request);
+
+        if (!$user) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+
+        $feed = new Feed;
+        $feed->user_id = $user->id;
+        $feed->body = $request->input('body');
+        $feed->save();
+
+        $friends = Friend::where('status', 1)->where('recieved_id', $user->id)->orWhere('sent_id', $user->id)->get()->toArray();
+        $actualFriends = [];
+
+        foreach ($friends as $friend) {
+            if ($friend['recieved_id'] == $user->id) {
+                array_push($actualFriends, $friend['sent_id']);
+            }else{
+                array_push($actualFriends, $friend['recieved_id']);
+            }
+        }
+
+        $newFeed = Feed::whereIn('user_id', $actualFriends)->orWhere('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(15);
+
+        foreach ($newFeed as &$singleFeed)  {
+            $creator = User::where('id', $singleFeed['user_id'])->first();
+            $singleFeed['creatorName'] = $creator->username;
+        }
+
+        return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>$newFeed]);
+
+    }
+
+    public function addFriend(Request $request, $id) {
+
+        $user = User::where('id', $id)->first();
+
+        if (!$user) {return Response()->json(['message'=>'No user.', 'badInputs'=>['title']]);}
+
+        $meta = AuthHelper::GetCurrentUser($request);
+
+        if (!$meta) {return Response()->json(['message'=>'System error.', 'badInputs'=>['title']]);}
+
+        if (!isset($_POST['decision'])) {return Response()->json(['message'=>'System error.', 'badInputs'=>['title']]);}
+
+        switch($_POST['decision']) {
+            case 'remove': 
+                if ($meta && !array_intersect($meta->getFriends('id', null, null), [$user->id])) 
+                    return Response()->json(['message'=>'Not Friends.', 'badInputs'=>['title']]);
+                elseif ($meta && array_intersect($meta->getFriends('pending', 'id', null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Pending.', 'badInputs'=>['title']]);
+
+                $friend = $meta->getFriends('remove', null, $user->id);
+
+                return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>false]);
+                break;
+            case 'accept': 
+                if ($meta && array_intersect($meta->getFriends('id', null, null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Friends.', 'badInputs'=>['title']]);
+                    
+                $friend = $meta->getFriends('accept', null, $user->id);
+
+                return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>true]);
+                break;
+            case 'add': 
+                if ($meta && array_intersect($meta->getFriends('id', null, null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Friends.', 'badInputs'=>['title']]);
+                elseif ($meta && array_intersect($meta->getFriends('pending', 'id', null), [$user->id])) 
+                    return Response()->json(['message'=>'Already Pending.', 'badInputs'=>['title']]);
+
+                $friend = new Friend;
+                $friend->sent_id = $meta->id;
+                $friend->recieved_id = $user->id;
+                $friend->status = 0;
+                $friend->save();
+
+                return Response()->json(['message'=>'Success!', 'badInputs'=>[], "data"=>'pending']);
+                break;
+            default:
+                break;
+        }
+
+    }
+
     public function createReply($id) {
 
-        $data = Request::all();
+        $data = $request->all();
 
         $valid = Validator::make($data, [
             'body' => ['required', 'string', 'min:3', 'max:380'],
@@ -126,10 +220,8 @@ class HomeController extends Controller
             return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
         }
 
-        if (!isset($_POST['token'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
+        $meta = AuthHelper::GetCurrentUser($request);
 
-        $meta = User::where('token', $_POST['token'])->first();
-        
         if (!$meta) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}
 
         if (!isset($_POST['creator_id'])) {return Response()->json(['message'=>'System error', 'badInputs'=>['title']]);}

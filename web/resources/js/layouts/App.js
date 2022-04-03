@@ -65,7 +65,9 @@ const App = () => {
 	}
 
 	function fetchUser() {
-		axios.get(`${protocol}apis.${url}/v1/user/settings`)
+		const body = new FormData();
+        body.append('token', encodeURIComponent(getCookie(`gtok`)));
+		axios.get(`${protocol}apis.${url}/v1/user/settings`, body)
 			.then((response) => {
 				if(!response.data.error)
 					setUser(response.data.data);
@@ -116,7 +118,7 @@ const App = () => {
 	}
 
 	useEffect(async ()=>{ 
-		fetchUser();
+		await fetchUser();
 		updateBanners();
 		updateOfflineStatus();
 		setInterval(updateBanners, 2*60*1000 /* 2 mins */);

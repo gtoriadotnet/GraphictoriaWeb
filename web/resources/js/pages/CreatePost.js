@@ -29,9 +29,9 @@ const CreatePost = (props) => {
     const fetchCategories = async () => {
         const body = new FormData();
 		body.append('token', encodeURIComponent(getCookie(`gtok`)));
-        await axios.post(`${protocol}apis.${url}/fetch/categories/post`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(async data=>{
+        axios.post(`${protocol}apis.${url}/fetch/categories/post`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(async data=>{
             const res = data.data;
-            await setCategories({categories: res.categories});
+            setCategories({categories: res.categories});
         }).catch(error=>{console.log(error);});
     }
 
@@ -58,7 +58,7 @@ const CreatePost = (props) => {
 	}
 
 	return (
-		waitingForSubmission || !categories.categories? <Loader/> :
+		waitingForSubmission || categories.categories.length <= 0 ? <Loader/> :
 		    <Card>
 				<CardTitle>Create a new Post</CardTitle>
 				<div className="p-2 row">

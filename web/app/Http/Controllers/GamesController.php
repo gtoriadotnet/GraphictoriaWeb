@@ -19,6 +19,9 @@ class GamesController extends Controller
 		$status = WebStatus::where('name', 'GamesArbiter')
 					->first();
 		
+      if (!$status) return response()->json(['error' => false])
+				->header('Content-Type', 'application/json');
+
         return response()->json(['available' => $status->operational])
 				->header('Content-Type', 'application/json');
 	}

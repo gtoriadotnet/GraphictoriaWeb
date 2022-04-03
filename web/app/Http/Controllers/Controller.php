@@ -8,33 +8,33 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\User\UserSession;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Reply;
 use App\Models\Staff;
 use App\Models\CatalogCategory;
+use App\Models\Friend;
+use App\Models\Feed;
 use App\Models\Item;
 use App\Models\Inventory;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\AuthHelper;
 use Illuminate\Routing\Controller as BaseController;
 use Carbon;
 use Auth;
-use Request;
+use Illuminate\Http\Request;
 use DateTime;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function fetchCategoriesFP() {
+    public function fetchCategoriesFP(Request $request) {
 
-        if (!isset($_POST['token'])) {return Response()->json(["error"=>"No user."]);}
-
-        $POST = $_POST['token'];
-
-        $user = User::where('token', $POST)->first();
+        $user = AuthHelper::GetCurrentUser($request);
 
         if (!$user) {return Response()->json(["error"=>"No user."]);}
 
@@ -53,7 +53,7 @@ class Controller extends BaseController
 
     }
 
-    public function fetchCategoriesCatalog() {
+    public function fetchCategoriesCatalog(Request $request) {
 
         $categories = CatalogCategory::get();
 
@@ -61,7 +61,35 @@ class Controller extends BaseController
 
     }
 
-    public function fetchCategoryCatalog($id) {
+    public function fetchFeed(Request $request) {
+
+        $user = AuthHelper::GetCurrentUser($request);
+
+        if (!$user) {return Response()->json(["error"=>"No user."]);}
+
+        $friends = Friend::where('status', 1)->where('recieved_id', $user->id)->orWhere('sent_id', $user->id)->get()->toArray();
+        $actualFriends = [];
+
+        foreach ($friends as $friend) {
+            if ($friend['recieved_id'] == $user->id) {
+                array_push($actualFriends, $friend['sent_id']);
+            }else{
+                array_push($actualFriends, $friend['recieved_id']);
+            }
+        }
+
+        $feed = Feed::whereIn('user_id', $actualFriends)->orWhere('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(15);
+
+        foreach ($feed as &$singleFeed)  {
+            $creator = User::where('id', $singleFeed['user_id'])->first();
+            $singleFeed['creatorName'] = $creator->username;
+        }
+
+        return Response()->json(["data"=>$feed]);
+
+    }
+
+    public function fetchCategoryCatalog(Request $request, $id) {
         
         $category = CatalogCategory::where('id', $id)->first();
 
@@ -76,7 +104,7 @@ class Controller extends BaseController
         return Response()->json(["data"=>$category, "items"=>$items]);
     }
 
-    public function fetchCategory($id) {
+    public function fetchCategory(Request $request, $id) {
         
         $category = Category::where('id', $id)->first();
 
@@ -91,7 +119,24 @@ class Controller extends BaseController
         return Response()->json(["data"=>$category, "posts"=>$posts]);
     }
 
-    public function fetchPost($id) {
+    public function fetchUser(Request $request, $id) {
+
+        $meta = AuthHelper::GetCurrentUser($request);
+        
+        $user = User::where('id', $id)->first();
+
+        if (!$user) {return Response()->json('Error');}
+
+        $array = $user->toArray();
+
+        if ($meta && $meta->id == $array['id']) $array['isMeta'] = true; else $array['isMeta'] = false;
+        
+        if ($meta && $meta->getFriends('pending', 'checkSent', $array['id'])) $array['isFriend'] = 'needToAccept'; elseif ($meta && array_intersect($meta->getFriends('pending', 'id', null), [$array['id']])) $array['isFriend'] = 'pending'; elseif ($meta && array_intersect($meta->getFriends('id', null, null), [$array['id']])) $array['isFriend'] = true; else $array['isFriend'] = false;
+
+        return Response()->json(["data"=>$array]);
+    }
+
+    public function fetchPost(Request $request, $id) {
         
         $post = Post::where('id', $id)->first();
 

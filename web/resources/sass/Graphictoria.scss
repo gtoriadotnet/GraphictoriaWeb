@@ -45,6 +45,16 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   background-repeat: no-repeat;
 }
 
+.a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
 // Loader
 
 .gtoria-loader-center {
@@ -1009,6 +1019,12 @@ p {
 
 ::marker {
   display: none !important;
+}
+
+.graphic-thumb {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
 }
 
 .graphic-post {

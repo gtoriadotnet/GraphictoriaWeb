@@ -23,7 +23,7 @@ class GridTest extends Controller
 		return game:GetService("ThumbnailGenerator"):Click("PNG", 1920, 1080, false, false)
 TestScript;
 		
-		$test = new SoapService('http://192.168.0.3:64989');
+		$test = new SoapService('http://127.0.0.1:64989');
 		$result = $test->OpenJob(SoapService::MakeJobJSON('test', 10, 0, 0, 'test render', $testScript));
 		
 		return response(base64_decode($result->OpenJobExResult->LuaValue[0]->value))

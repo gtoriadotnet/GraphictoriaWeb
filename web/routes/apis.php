@@ -34,9 +34,15 @@ Route::post('/v1/user/login', 'AuthController@Login');
 Route::post('/v1/user/logout', 'AuthController@Logout');
 Route::get('/v1/user/settings', 'UserController@GetSettings');
 
+Route::get('/fetch/user/{id}', 'Controller@fetchUser');
+
 Route::get('/banners/data', 'BannerController@getBanners');
 
 Route::get('/games/metadata', 'GamesController@isAvailable');
+
+Route::get('/fetch/feed', 'Controller@fetchFeed');
+
+Route::post('/api/create/feed', 'HomeController@createFeed');
 
 Route::get('/fetch/categories', 'Controller@fetchCategories');
 
@@ -51,6 +57,8 @@ Route::get('/fetch/category/{id}', 'Controller@fetchCategory');
 Route::get('/fetch/posts/{id}', 'Controller@fetchPosts');
 
 Route::get('/fetch/post/{id}', 'Controller@fetchPost');
+
+Route::post('/api/add/user/{id}', 'HomeController@addFriend');
 
 Route::post('/api/create/forum', 'HomeController@createPost');
 

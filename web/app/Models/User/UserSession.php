@@ -15,4 +15,7 @@ class UserSession extends Model
 	 * @var string
 	 */
 	protected $connection = 'mysql-membership';
+
+	protected $table = 'user_sessions';
+
 }
