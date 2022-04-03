@@ -102,7 +102,6 @@ const App = () => {
 	}
 
 	const authMiddleware = (to, from, next) => {
-		console.log(user);
 		if (to.meta.auth) {
 			if (user)
 				next();

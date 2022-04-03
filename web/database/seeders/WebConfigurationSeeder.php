@@ -33,5 +33,15 @@ class WebConfigurationSeeder extends Seeder
 			'name' => 'WhitelistedIPs',
 			'value' => '127.0.0.1'
 		]);
+		
+		WebsiteConfiguration::create([
+			'name' => 'VersionCompatibilityVersions',
+			'value' => '0.1.0pcplayer' // version1;version2;version3
+		]);
+		
+		WebsiteConfiguration::create([
+			'name' => 'VersionCompatibilityHashes',
+			'value' => 'debughash' // hash1;hash2;hash3
+		]);
     }
 }

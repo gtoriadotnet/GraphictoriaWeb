@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Apis;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 use App\Helpers\JSON;
 use App\Helpers\GridHelper;
+use App\Helpers\ErrorHelper;
 
 use App\Models\FFlag;
 use App\Models\Fbucket;
@@ -38,16 +39,6 @@ class AppSettings extends Controller
 		'Boolean' => 'Flag'
 	];
 	
-	/**
-     * Returns a JSON array with the error code and message.
-     *
-     * @return Response
-     */
-	private function error($data, $code = 400)
-	{
-		return response(['errors' => [$data]], 400);
-	}
-	
     /**
      * Returns a JSON array of settings for the specified bucket.
      *
@@ -66,7 +57,7 @@ class AppSettings extends Controller
 			$bucketIds = array_merge($bucketIds, json_decode($primaryBucket->inheritedGroupIds));
 			
 			if($primaryBucket->protected == 1 && !GridHelper::hasAllAccess($request)) {
-				return $this->error([
+				return ErrorHelper::error([
 					'code' => 2,
 					'message' => 'You do not have access to this bucket.'
 				], 401);
@@ -98,7 +89,7 @@ class AppSettings extends Controller
 			
 			return JSON::EncodeResponse($flags);
 		} else {
-			return $this->error([
+			return ErrorHelper::error([
 				'code' => 1,
 				'message' => 'The requested bucket does not exist.'
 			]);

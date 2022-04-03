@@ -51,8 +51,11 @@ const Navbar = (props) => {
 						<>
 							<SearchBar />
 							{props.user?
-							<div className={`flex row`}>
-								<div className={`flex row col flex alc`}>Bank: ${props.user.bank}</div>
+							<div className='flex'>
+								<p className='my-auto me-3 text-muted'>
+									<img src='/images/symbols/token.svg' height='20' width='20' className='img-fluid me-1' />
+									${props.user.bank}
+								</p>
 								<li className="nav-item dropdown col flex alc">
 									<button className="btn btn-secondary nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">{props.user.username}</button>
 									<ul className="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">

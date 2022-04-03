@@ -17,11 +17,10 @@ class GridTest extends Controller
 		game:GetService("ContentProvider"):SetThreadPool(16)
 		game:GetService("Stats"):SetReportUrl("http://api.gtoria.net/teststat")
 		
-		local p = game:GetService("Players"):CreateLocalPlayer(0)
-		p.CharacterAppearance = "http://api.gtoria.net/user/getCharacter.php?key=D869593BF742A42F79915993EF1DB&mode=ch&sid=1&uid=15"
-		p:LoadCharacter(false)
+		game:GetService("ContentProvider"):SetBaseUrl("http://www.roblox.com/")
+		game:LoadWorld(23173663)
 		
-		return game:GetService("ThumbnailGenerator"):Click("PNG", 2048, 2048, true, false)
+		return game:GetService("ThumbnailGenerator"):Click("PNG", 1920, 1080, false, false)
 TestScript;
 		
 		$test = new SoapService('http://192.168.0.3:64989');

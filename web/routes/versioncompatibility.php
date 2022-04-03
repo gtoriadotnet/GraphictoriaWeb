@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apis\AppSettings;
+use App\Http\Controllers\Apis\VersionCompatibility;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,14 @@ Route::get('/', function(){
 	return 'API OK';
 });
 
-Route::get('/Setting/QuietGet/{Bucket}', 'AppSettings@getBucket');
+// RCC Security Backbone
+Route::get('/GetAllowedSecurityVersions', 'VersionCompatibility@getVersions');
+Route::get('/GetAllowedSecurityKeys', 'VersionCompatibility@getVersions');
+Route::get('/GetAllowedMD5Hashes', 'VersionCompatibility@getMD5Hashes');
+Route::get('/GetAllowedMemHashes', 'VersionCompatibility@getMemHashes');
+
+// Client/Launcher apis
+Route::get('/GetCurrentClientVersionUpload', 'VersionCompatibility@getClientVersion');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)
