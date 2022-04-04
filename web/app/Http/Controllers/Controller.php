@@ -18,6 +18,7 @@ use App\Models\Friend;
 use App\Models\Feed;
 use App\Models\Item;
 use App\Models\Inventory;
+use App\Models\Selling;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -160,4 +161,45 @@ class Controller extends BaseController
 
         return Response()->json(["post"=>$postA,"replies"=>$replies]);
     }
+
+    public function fetchItem(Request $request, $id) {
+
+        $user = AuthHelper::GetCurrentUser($request);
+        
+        $item = Item::where('id', $id)->first();
+
+        if (!$item) return Response()->json(false);
+
+        $itemA = $item->toArray();
+
+        $realDate = explode('T', $itemA['created_at'])[0];
+
+        $itemA['created_at'] = $realDate;
+
+        $itemA['creator'] = User::where('id', $item->creator_id)->first();
+
+        if ($user) {
+            $sellingItem = Selling::where('seller_id', $user->id)->first(); 
+            if ($sellingItem) {
+                $itemA['isSelling'] = true;
+            } else {
+                $itemA['isSelling'] = false;
+            }
+        } else {
+            $itemA['isSelling'] = false;
+        }
+
+        if ($user && $user->ownsItem($id)) {$itemA['ownsItem'] = true;}else{$itemA['ownsItem'] = false;}
+
+        $replies = $item->sellingPrices()->orderBy('price', 'asc')->paginate(10);
+
+        foreach ($replies as &$reply) {
+            $creator = User::where('id', $reply['seller_id'])->first();
+            $reply['created_at'] = explode('T', $reply['created_at'])[0];
+            $reply['seller_name'] = $creator->username;
+        }
+
+        return Response()->json(["item"=>$itemA,"sellingPrices"=>$replies]);
+    }
+
 }

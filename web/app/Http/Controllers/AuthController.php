@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Helpers\AuthHelper;
+use Auth;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -74,7 +75,7 @@ class AuthController extends Controller
 		/* */
 		
 		$data = $request->all();
-		
+
 		$valid = Validator::make(
 			$data,
 			[
@@ -96,7 +97,7 @@ class AuthController extends Controller
 		if (!$user)
             return Response()->json(['message'=>'That user doesn\'t exist.', 'badInputs'=>['username']]);
 		
-		if (Hash::check($request->input('password'), $user->password))
+		if (!Hash::check($request->input('password'), $user->password))
             return Response()->json(['message'=>'The password you tried is incorrect.', 'badInputs'=>['password']]);
 			
 		$request->session()->regenerate();

@@ -55,6 +55,24 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   text-decoration: none !important;
 }
 
+.graphic-thumb-big {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+}
+
+.modal-content {
+  background-color: #222 !important;
+}
+
+.float-right {
+  margin-left: auto !important;
+}
+
+.float-left {
+  margin-right: auto !important;
+}
+
 // Loader
 
 .gtoria-loader-center {

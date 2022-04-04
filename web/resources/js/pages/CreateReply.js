@@ -40,7 +40,7 @@ const CreateReply = (props) => {
         form.append('creator_id', user.id);
         form.append('token', encodeURIComponent(getCookie(`gtok`)));
 		setWaitingForSubmission(true);
-		await axios.post(`${protocol}apis.${url}/api/create/reply/${post.post.id}`, form, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+		await axios.post(`${protocol}apis.${url}/api/create/reply/${postId}`, form, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
             const res = data.data;
             console.log(res);
             if (res.badInputs.length >= 1) {
@@ -54,7 +54,7 @@ const CreateReply = (props) => {
 	}
 
 	return (
-		waitingForSubmission && !post.loading? <Loader/> :
+		waitingForSubmission || post.loading? <Loader/> :
 		<Card>
 			<CardTitle>Reply to '{post.post.title}'</CardTitle>
                 <div className="p-2 row">

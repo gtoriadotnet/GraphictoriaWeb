@@ -58,13 +58,23 @@ Route::get('/fetch/posts/{id}', 'Controller@fetchPosts');
 
 Route::get('/fetch/post/{id}', 'Controller@fetchPost');
 
+Route::get('/fetch/item/{id}', 'Controller@fetchItem');
+
 Route::post('/api/add/user/{id}', 'HomeController@addFriend');
 
 Route::post('/api/create/forum', 'HomeController@createPost');
 
 Route::post('/api/create/reply/{id}', 'HomeController@createReply');
 
-Route::post('/api/change/user/about', 'HomeController@settingsAbout');
+Route::post('/api/catalog/buy/{id}', 'CatalogController@buy');
+
+Route::post('/api/catalog/sell/{id}', 'CatalogController@sell');
+
+Route::post('/api/change/user/about', 'SettingsController@settingsAbout');
+
+Route::post('/api/change/user/password', 'SettingsController@settingsPassword');
+
+Route::post('/api/change/user/email', 'SettingsController@settingsEmail');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

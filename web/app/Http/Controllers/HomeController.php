@@ -41,29 +41,6 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function settingsAbout(Request $request) {
-
-        $data = $request->all();
-
-        $valid = Validator::make($data, [
-            'body' => ['required', 'string', 'min:2', 'max:180'],
-        ]);
-
-        if ($valid->stopOnFirstFailure()->fails()) {
-            $error = $valid->errors()->first();
-            $messages = $valid->messages()->get('*');
-            return Response()->json(['message'=>$error, 'badInputs'=>[array_keys($messages)]]);
-        }
-
-        $user = AuthHelper::GetCurrentUser($request);
-
-        $user->about = $_POST['body'];
-        $user->save();
-
-        return Response()->json(['message'=>'Success!', 'badInputs'=>[]]);
-
-    }
-
     public function createPost(Request $request) {
 
         $data = $request->all();
@@ -206,7 +183,7 @@ class HomeController extends Controller
 
     }
 
-    public function createReply($id) {
+    public function createReply(Request $request, $id) {
 
         $data = $request->all();
 

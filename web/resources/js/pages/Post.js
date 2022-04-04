@@ -93,7 +93,7 @@ const Post = (props) => {
                         <hr/>
                         <div className={`flex row`}>
                             <div className={`flex column jcc alc col-3`}>
-                                <p className={`mb-10`}>[Avatar.]</p>
+                                <img src='/images/testing/headshot.png' className='img-fluid graphic-thumb' />
                                 <Link to={`/user/${post.post.creator.id}`}>{post.post.creator.username}</Link>
                                 
                             </div>
@@ -119,7 +119,7 @@ const Post = (props) => {
                                 <hr/>
                                 <div className={`flex row`}>
                                     <div className={`flex column jcc alc col-3`}>
-                                        <p className={`mb-10`}>[Avatar.]</p>
+                                        <img src='/images/testing/headshot.png' className='img-fluid graphic-thumb' />
                                         <Link to={`/user/${reply.creator_id}`}>{reply.creator_name}</Link>
                                     </div>
                                     <div className={`col text-left`}>

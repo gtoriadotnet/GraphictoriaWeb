@@ -16,6 +16,18 @@ export const Card = (props) => {
 	);
 };
 
+export const BigCard = (props) => {
+	return (
+		<div className="container graphictoria-center-vh">
+			<div className={`card shadow-sm ${props.className}`}>
+				<div className={`card-body ${props.padding? `p5r` : null} text-center`}>
+					{ props.children }
+				</div>
+			</div>
+		</div>
+	);
+};
+
 export const CardTitle = (props) => {
 	return (
 		<>

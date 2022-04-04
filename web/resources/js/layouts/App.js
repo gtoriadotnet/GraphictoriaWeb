@@ -36,6 +36,7 @@ import CreateReply from '../pages/CreateReply.js';
 import Settings from '../pages/Settings.js';
 import User from '../pages/User.js';
 import Catalog from '../pages/Catalog.js';
+import Item from '../pages/Item.js';
 
 axios.defaults.withCredentials = true
 
@@ -169,6 +170,10 @@ const App = () => {
 								<Route exact path="/catalog">
 									<Catalog user={user}/>
 								</Route>
+
+								<GuardedRoute exact path="/item/:id" meta={{auth: true}}>
+									<Item user={user}/>
+								</GuardedRoute>
 
 								<Route exact path="/catalog/category/:id">
 									<Catalog user={user}/>

@@ -12,4 +12,14 @@ class Item extends Model
 
     protected $table = 'items';
 
+    function sellingPrices()
+    {
+        return $this->morphMany('App\Models\Selling', 'item');
+    }
+
+    function prices()
+    {
+        return $this->morphMany('App\Models\Price', 'item');
+    }
+
 }

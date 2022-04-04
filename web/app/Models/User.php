@@ -23,6 +23,17 @@ class User extends Model
         'email_verified_at'
     ];
 
+	function inventory()
+    {
+        return $this->morphMany('App\Models\Inventory', 'owner');
+    }
+
+	public function ownsItem($id)
+    {
+		$ownedItem = Inventory::where('item_id', $id)->where('owner_id', $this->id)->first();
+		if ($ownedItem) {return true;}else{return false;}
+    }
+	
 	public function getFriends($decision, $pending, $id) {
 		
 		switch($decision) {

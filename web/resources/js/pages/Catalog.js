@@ -105,12 +105,12 @@ const Catalog = (props) => {
                                 <>
                                 <Link to={`/item/${item.id}`} className={`flex graphic-post-column col-3`}>
                                     <div className={`flex column mb-10 alc`}>
-                                        [Thumbnail.]
+                                        <img src='/images/testing/hat.png' className='img-fluid graphic-thumb' />
                                     </div>
-                                    <div className={`flex flex-column m-0`}>
+                                    <div className={`flex flex-column m-0 jcc alc`}>
                                         <div className={`flex row w-fit-content`}><h6 className={`m-0 mr-15 fs13`}>{item.title}</h6></div>
                                         <div className={`row fs15 w-fit-content`}>
-                                            <p className={`w-fit-content`}>${item.current_price}</p>
+                                            <p className={`w-fit-content`}>{item.current_price? `$${item.current_price}` : `N/A`}</p>
                                         </div>
                                     </div>
                                 </Link>

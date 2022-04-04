@@ -12,7 +12,7 @@ import SetTitle from "../Helpers/Title.js";
 import Loader from '../Components/Loader.js';
 
 import { GenericErrorModal } from './Errors.js';
-import { Card, CardTitle } from '../Components/Card.js';
+import { BigCard, Card, CardTitle } from '../Components/Card.js';
 import { getCookie, paginate } from '../helpers/utils.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -31,7 +31,7 @@ const Settings = (props) => {
         switch(setting){
             case "aboutMe":
                 setState({...state, loading: true});
-                const body = form;
+                var body = form;
                 body.append('token', encodeURIComponent(getCookie(`gtok`)));
                 axios.post(`${protocol}apis.${url}/api/change/user/about`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
                     const res = data.data;
@@ -39,7 +39,37 @@ const Settings = (props) => {
                         setValidity({error: true, message:res.message, inputs: res.badInputs});
                         setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
                     }else{
-                        history.push(`/user/${user.id}`);
+                        window.location.replace(`/user/${user.id}`); //updates entire user
+                    }
+                    setState({...state, loading: false});
+                }).catch(error=>{console.log(error);});
+                break;
+            case "changePassword":
+                setState({...state, loading: true});
+                var body = form;
+                body.append('token', encodeURIComponent(getCookie(`gtok`)));
+                axios.post(`${protocol}apis.${url}/api/change/user/password`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+                    const res = data.data;
+                    if (res.badInputs.length >= 1) {
+                        setValidity({error: true, message:res.message, inputs: res.badInputs});
+                        setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
+                    }else{
+                        window.location.replace(`/home`); //updates entire user
+                    }
+                    setState({...state, loading: false});
+                }).catch(error=>{console.log(error);});
+                break;
+            case "changeEmail":
+                setState({...state, loading: true});
+                var body = form;
+                body.append('token', encodeURIComponent(getCookie(`gtok`)));
+                axios.post(`${protocol}apis.${url}/api/change/user/email`, body, {headers: {'X-CSRF-TOKEN': document.querySelector(`meta[name="csrf-token"]`).content, "X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+                    const res = data.data;
+                    if (res.badInputs.length >= 1) {
+                        setValidity({error: true, message:res.message, inputs: res.badInputs});
+                        setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
+                    }else{
+                        window.location.replace(`/home`); //updates entire user
                     }
                     setState({...state, loading: false});
                 }).catch(error=>{console.log(error);});
@@ -88,11 +118,51 @@ const Settings = (props) => {
                     </div>
                     <div className="graphictoria-nav-splitter"></div>
                     <div className={`col flex row`}>
-                        <div className={`col flex row jcc alc`}>
-                            <p>Another Settings.</p>
+                        <div className={`col flex jcc alc`}>
+                            <BigCard className={`w-100`}>
+                                <CardTitle>Change your Password</CardTitle>
+                                <div>
+                                    <form method={`OPTIONS`} onSubmit={(e)=>{e.preventDefault();changeSettings(`changePassword`, new FormData(e.target));}} className={`flex column jcc alc`}>
+                                        <div className={`flex flex-column w-100 mb-15`}>
+                                            <p>Current Password</p>
+                                            <input placeholder={`Your Current Password`} className={`w-100 ${(validity.inputs.find(input=>input == `body`)? `is-invalid` : null)}`} name={`currentPassword`}/>
+                                        </div>
+                                        <div className={`flex flex-row w-100`}>
+                                            <div className={`flex flex-column w-100 mr-15`}>
+                                                <p>New Password</p>
+                                                <input placeholder={`New Password`} className={`w-100 ${(validity.inputs.find(input=>input == `body`)? `is-invalid` : null)}`} name={`newPassword`}/>
+                                            </div>
+                                            <div className={`flex flex-column w-100`}>
+                                                <p>Re-enter New Password</p>
+                                                <input placeholder={`Re-enter new Password`} className={`w-100 ${(validity.inputs.find(input=>input == `body`)? `is-invalid` : null)}`} name={`checkNewPassword`}/>
+                                            </div>
+                                        </div>
+                                        <button className={`btn btn-success mt-15`}>Submit</button>
+                                    </form>
+                                </div>
+                            </BigCard>
                         </div>
                         <div className={`col flex row jcc alc`}>
-                            <p>Another Settings.</p>
+                            <div className={`col flex jcc alc`}>
+                                <BigCard className={`w-100`}>
+                                    <CardTitle>Change your Email</CardTitle>
+                                    <div>
+                                        <form method={`OPTIONS`} onSubmit={(e)=>{e.preventDefault();changeSettings(`changeEmail`, new FormData(e.target));}} className={`flex column jcc alc`}>
+                                            <div className={`flex flex-row w-100`}>
+                                                <div className={`flex flex-column w-100 mr-15`}>
+                                                    <p>New Email</p>
+                                                    <input placeholder={`New Email`} className={`w-100 ${(validity.inputs.find(input=>input == `body`)? `is-invalid` : null)}`} name={`newEmail`}/>
+                                                </div>
+                                                <div className={`flex flex-column w-100`}>
+                                                    <p>Current Password</p>
+                                                    <input placeholder={`Current Password`} className={`w-100 ${(validity.inputs.find(input=>input == `body`)? `is-invalid` : null)}`} name={`currentPassword`}/>
+                                                </div>
+                                            </div>
+                                            <button className={`btn btn-success mt-15`}>Submit</button>
+                                        </form>
+                                    </div>
+                                </BigCard>
+                            </div>
                         </div>
                     </div>
                 </div>

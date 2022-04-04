@@ -105,7 +105,7 @@ const Forum = (props) => {
                             <>
                             <Link to={`/forum/post/${post.id}`} className={`flex graphic-post`}>
                                 <div className={`flex column mr-15 alc`}>
-                                    [Avatar.]
+                                    <img src='/images/testing/headshot.png' className='img-fluid graphic-thumb' />
                                 </div>
                                 <div className={`flex row m-0`}>
                                     <div className={`flex row`}><h5 className={`m-0 mr-15`}>{post.locked == 1? <i class="fa-solid fa-lock"></i> : null} {post.title}</h5></div>

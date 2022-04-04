@@ -86,7 +86,7 @@ const User = (props) => {
                         <div className={`flex flex-column justify-content-center align-items-center`}>
                             {
                             !metaUser? null : 
-                            userId == metaUser.id? <p>This is you!</p> :
+                            userId == metaUser.id? <Link className={`btn btn-primary w-fit-content`} to={`/auth/settings`}>Settings</Link> :
                             isFriend && isFriend == `pending`?
                                 <button className={`btn btn-dark disabled w-fit-content`}>Pending...</button>
                             : isFriend && isFriend == `needToAccept`?
