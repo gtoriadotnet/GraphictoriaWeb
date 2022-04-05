@@ -39,6 +39,21 @@ const Item = (props) => {
         }).catch(error=>{console.log(error);});
     }
 
+    const removeSale = async (saleId) => {
+        setState({...state, loading: true});
+        const body = new FormData();
+        await axios.post(`${protocol}apis.${url}/api/catalog/remove/sale/${saleId}`, body, {headers: {"X-Requested-With":"XMLHttpRequest"}}).then(data=>{
+            setState({...state, loading: false});
+            const res = data.data;
+            if (res.badInputs.length >= 1) {
+                setValidity({error: true, message:res.message, inputs: res.badInputs});
+                setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
+            }else{
+                setPost({item: res.item, sellingPrices: {...item.sellingPrices, sellingPrices: res.sellingPrices.data, meta: res.sellingPrices}});
+            }
+        }).catch(error=>{console.log(error);});
+    }
+
     const buyItem = async (decision, isSelling, sellingId) => {
         setState({...state, loading: true});
         const body = new FormData();
@@ -177,7 +192,7 @@ const Item = (props) => {
                                     <div className={`flex flex-column flex alc jcc`}>
                                         <p>Price: ${reply.price}</p>
                                         <p>Item UID: {reply.uid}</p>
-                                        <button className={`btn btn-success w-fit-content`} onClick={(e)=>{buyItem(`selling`, true, reply.id);}}>Buy</button>
+                                        {!reply.isMeta? <button className={`btn btn-success w-fit-content`} onClick={(e)=>{buyItem(`selling`, true, reply.id);}}>Buy</button> : <button className={`btn btn-danger w-fit-content`} onClick={(e)=>{removeSale(reply.id);}}>Take off Sale</button>}
                                     </div>
                                 </div>
                             </div>

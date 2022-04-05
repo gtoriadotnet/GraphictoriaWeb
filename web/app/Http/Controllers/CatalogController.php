@@ -84,6 +84,7 @@ class CatalogController extends Controller
 
                 foreach ($replies as &$reply) {
                     $creator = User::where('id', $reply['seller_id'])->first();
+                    if ($creator->id == $user->id) {$reply['isMeta'] = true;}else{$reply['isMeta'] = false;}
                     $reply['created_at'] = explode('T', $reply['created_at'])[0];
                     $reply['seller_name'] = $creator->username;
                 }
@@ -118,6 +119,7 @@ class CatalogController extends Controller
 
                 foreach ($replies as &$reply) {
                     $creator = User::where('id', $reply['seller_id'])->first();
+                    if ($creator->id == $user->id) {$reply['isMeta'] = true;}else{$reply['isMeta'] = false;}
                     $reply['created_at'] = explode('T', $reply['created_at'])[0];
                     $reply['seller_name'] = $creator->username;
                 }
@@ -178,6 +180,7 @@ class CatalogController extends Controller
 
                 foreach ($replies as &$reply) {
                     $creator = User::where('id', $reply['seller_id'])->first();
+                    if ($creator->id == $user->id) {$reply['isMeta'] = true;}else{$reply['isMeta'] = false;}
                     $reply['created_at'] = explode('T', $reply['created_at'])[0];
                     $reply['seller_name'] = $creator->username;
                 }
@@ -235,6 +238,42 @@ class CatalogController extends Controller
 
         foreach ($replies as &$reply) {
             $creator = User::where('id', $reply['seller_id'])->first();
+            if ($creator->id == $user->id) {$reply['isMeta'] = true;}else{$reply['isMeta'] = false;}
+            $reply['created_at'] = explode('T', $reply['created_at'])[0];
+            $reply['seller_name'] = $creator->username;
+        }
+
+        return Response()->json(['message'=>"Success!", 'badInputs'=>[], "item"=>$itemA, "sellingPrices"=>$replies]);
+
+    }
+
+    public function removeSale(Request $request, $id) {
+
+        $user = AuthHelper::GetCurrentUser($request);
+
+        if (!$user) return Response()->json(['message'=>'System Error', 'badInputs'=>['title']]);
+
+        $sellingId = $id;
+
+        $sellingItem = Selling::whereId($sellingId)->first();
+
+        if (!$sellingItem) return Response()->json(['message'=>"That selling item doesn't exist!", 'badInputs'=>['title']]);
+
+        if ($sellingItem->seller_id != $user->id) return Response()->json(['message'=>"Thats not you!", 'badInputs'=>['title']]);
+
+        $sellingItem->delete();
+
+        if (count($item->sellingPrices) <= 0) {$item->current_price = null;$item->save();}else{$item->current_price = $sellingItemNew->price;$item->save();}
+
+        $replies = $item->sellingPrices()->orderBy('price', 'asc')->paginate(10);
+
+        $itemA = $item->toArray();
+
+        $itemA['creator'] = User::where('id', $item->creator_id)->first();
+
+        foreach ($replies as &$reply) {
+            $creator = User::where('id', $reply['seller_id'])->first();
+            if ($creator->id == $user->id) {$reply['isMeta'] = true;}else{$reply['isMeta'] = false;}
             $reply['created_at'] = explode('T', $reply['created_at'])[0];
             $reply['seller_name'] = $creator->username;
         }

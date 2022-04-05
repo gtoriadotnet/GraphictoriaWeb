@@ -70,6 +70,8 @@ Route::post('/api/catalog/buy/{id}', 'CatalogController@buy');
 
 Route::post('/api/catalog/sell/{id}', 'CatalogController@sell');
 
+Route::post('/api/catalog/remove/sale/{id}', 'CatalogController@removeSale');
+
 Route::post('/api/change/user/about', 'SettingsController@settingsAbout');
 
 Route::post('/api/change/user/password', 'SettingsController@settingsPassword');
