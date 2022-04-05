@@ -195,6 +195,7 @@ class Controller extends BaseController
 
         foreach ($replies as &$reply) {
             $creator = User::where('id', $reply['seller_id'])->first();
+            if ($creator->id == $user->id) {$reply['isMeta'] = true;}else{$reply['isMeta'] = false;}
             $reply['created_at'] = explode('T', $reply['created_at'])[0];
             $reply['seller_name'] = $creator->username;
         }

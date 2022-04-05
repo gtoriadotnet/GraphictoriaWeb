@@ -84,6 +84,7 @@ const Item = (props) => {
                 setTimeout(()=>{setValidity({...validity, error: false, inputs: res.badInputs});}, 4000);
             }else{
                 setPost({item: res.item, sellingPrices: {...item.sellingPrices, sellingPrices: res.sellingPrices.data, meta: res.sellingPrices}});
+                setShow(false);
             }
         }).catch(error=>{console.log(error);});
     }

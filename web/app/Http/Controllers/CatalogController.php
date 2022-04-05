@@ -261,6 +261,10 @@ class CatalogController extends Controller
 
         if ($sellingItem->seller_id != $user->id) return Response()->json(['message'=>"Thats not you!", 'badInputs'=>['title']]);
 
+        $item = Item::whereId($sellingItem->item_id)->first();
+
+        if (!$sellingItem) return Response()->json(['message'=>"That item doesn't exist!", 'badInputs'=>['title']]);
+
         $sellingItem->delete();
 
         if (count($item->sellingPrices) <= 0) {$item->current_price = null;$item->save();}else{$item->current_price = $sellingItemNew->price;$item->save();}
