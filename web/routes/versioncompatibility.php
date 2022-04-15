@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Apis\VersionCompatibility;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +19,10 @@ Route::get('/', function(){
 });
 
 // RCC Security Backbone
-Route::get('/GetAllowedSecurityVersions', 'VersionCompatibility@getVersions');
-Route::get('/GetAllowedSecurityKeys', 'VersionCompatibility@getVersions');
-Route::get('/GetAllowedMD5Hashes', 'VersionCompatibility@getMD5Hashes');
-Route::get('/GetAllowedMemHashes', 'VersionCompatibility@getMemHashes');
+Route::get('/GetAllowedSecurityVersions', 'Apis\VersionCompatibility@getVersions');
+Route::get('/GetAllowedSecurityKeys', 'Apis\VersionCompatibility@getVersions');
+Route::get('/GetAllowedMD5Hashes', 'Apis\VersionCompatibility@getMD5Hashes');
+Route::get('/GetAllowedMemHashes', 'Apis\VersionCompatibility@getMemHashes');
 
 // Client/Launcher apis
 Route::get('/GetCurrentClientVersionUpload', 'VersionCompatibility@getClientVersion');

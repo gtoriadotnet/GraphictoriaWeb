@@ -45,6 +45,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/apis.php'));
 				
+			Route::domain('api.' . env('APP_URL'))
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/clientapis.php'));
+				
+			Route::domain('assetgame.' . env('APP_URL'))
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/assetgame.php'));
+				
 			Route::domain('clientsettings.api.' . env('APP_URL'))
                 ->middleware('api')
                 ->namespace($this->namespace)

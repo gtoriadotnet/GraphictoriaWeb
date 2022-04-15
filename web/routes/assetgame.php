@@ -18,7 +18,9 @@ Route::get('/', function(){
 	return 'API OK';
 });
 
-Route::get('/Setting/QuietGet/{Bucket}', 'Apis\AppSettings@getBucket');
+// client apis
+Route::get('/Game/MachineConfiguration', 'Apis\AssetGame@machineConfiguration');
+Route::get('/game/validate-machine', 'Apis\AssetGame@validateMachine');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

@@ -24,8 +24,20 @@ class AuthHelper
      * @return boolean
      */
 	public static function Guard(Request $request) {
+		if(AuthHelper::IsAuthenticated($request))
+			return true;
+	}
+	
+	/**
+     * Checks if the user is authenticated(logged in).
+     *
+     * @return Boolean
+     */
+	public static function IsAuthenticated(Request $request) {
 		if(AuthHelper::GetCurrentUser($request))
 			return true;
+		
+		return false;
 	}
 	
 	/**

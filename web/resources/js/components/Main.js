@@ -1,16 +1,9 @@
-import 'bootstrap';
+import $ from 'jquery';
+import * as Bootstrap from 'bootstrap';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { useState, useEffect } from "react";
-import App from '../layouts/App.js';
-
-function Main() {
-    return (
-        <App />
-    );
-}
-
-export default Main;
-
-ReactDOM.render(<Main />, document.getElementById('gtoria-root'));
+$(document).ready(function() {
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+	  return new Bootstrap.Tooltip(tooltipTriggerEl)
+	});
+});

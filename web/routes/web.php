@@ -15,58 +15,8 @@ use App\Http\Controllers\GridTest;
 |
 */
 
-// client apis
-Route::get('/universes/validate-place-join', 'GamesController@validatePlaceJoin');
+// web
+Route::view('/', 'home');
 
-// other
-Route::get('/javascript', function(){
-    return view('javascript');
-})->middleware('auth');
-
-Route::get('/', function(){
-    return view('main');
-});
-
-Route::get('/home', function(){
-    return view('main');
-});
-
-Route::get('/forum', function(){
-    return view('main');
-});
-
-Route::get('/login', function(){
-    return view('main');
-});
-
-Route::get('/register', function(){
-    return view('main');
-});
-
-Route::get('/passwordreset', function(){
-    return view('main');
-});
-
-Route::get('/legal/about-us', function(){
-    return view('main');
-});
-
-Route::get('/legal/terms-of-service', function(){
-    return view('main');
-});
-
-Route::get('/legal/privacy-policy', function(){
-    return view('main');
-});
-
-Route::get('/legal/dmca', function(){
-    return view('main');
-});
-
-Route::get('/games', function(){
-    return view('main');
-});
-
-Route::get('/account/logout', 'AuthController@logout');
-
-Route::get('/test123', 'GridTest@generateThumbnail');
+// misc
+Route::view('/javascript', 'javascript');

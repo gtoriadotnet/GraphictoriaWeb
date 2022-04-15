@@ -231,6 +231,23 @@ html {
 	}
 }
 
+.graphictora-user-circle {
+	border-radius: 50%;
+	background: url("/Images/User-Image-Vignette.png");
+	background-size: cover;
+}
+
+// Border
+
+.border {
+	html.gtoria-dark & {
+		border-color: $gray-700!important;
+	}
+	html.gtoria-light & {
+		border-color: $border-color!important;
+	}
+}
+
 // Navbar
 
 .navbar {
@@ -369,6 +386,12 @@ html {
 .graphictoria-nav-splitter {
   margin-top: 16px;
   margin-bottom: 16px !important;
+}
+
+.graphictoria-user-dropdown::after {
+	position: absolute;
+	top: 50%;
+    right: 0;
 }
 
 .graphictoria-search, #graphictoria-search-dropdown {

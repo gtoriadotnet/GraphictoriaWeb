@@ -25,13 +25,4 @@ class GamesController extends Controller
         return response()->json(['available' => $status->operational])
 				->header('Content-Type', 'application/json');
 	}
-	
-	public function validatePlaceJoin()
-	{
-		// todo: move to backend and make this actually return if the player is validated
-		//       this is only here for testing
-		
-		return response('true', null)
-				->header('Content-Type', 'text/plain');
-	}
 }

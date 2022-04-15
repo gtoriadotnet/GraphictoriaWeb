@@ -18,7 +18,8 @@ Route::get('/', function(){
 	return 'API OK';
 });
 
-Route::get('/Setting/QuietGet/{Bucket}', 'Apis\AppSettings@getBucket');
+// client apis
+Route::get('/universes/validate-place-join', 'Apis\ClientApi@validatePlaceJoin');
 
 Route::fallback(function(){
 	return response('{"errors":[{"code":404,"message":"NotFound"}]}', 404)

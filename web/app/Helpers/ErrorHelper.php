@@ -14,7 +14,7 @@ class ErrorHelper
      *
      * @return Response
      */
-	private static function error($data, $code = 400)
+	public static function error($data, $code = 400)
 	{
 		return response(['errors' => [$data]], 400);
 	}
