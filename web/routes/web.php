@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GamesController;
-use App\Http\Controllers\GridTest;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +18,9 @@ Route::view('/', 'home');
 
 // misc
 Route::view('/javascript', 'javascript');
+
+// fallback
+Route::fallback(function(){
+	return response()
+			->view('errors.404', [], 404);
+});
