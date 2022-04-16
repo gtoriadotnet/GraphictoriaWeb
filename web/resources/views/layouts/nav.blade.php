@@ -3,15 +3,15 @@
     $routes = [
 		[
 			"label" => "Games",
-			"location" => "/games"
+			"location" => "games"
 		],
 		[
 			"label" => "Shop",
-			"location" => "/shop"
+			"location" => "shop"
 		],
 		[
 			"label" => "Forum",
-			"location" => "/forum"
+			"location" => "forum"
 		]
 	]
 @endphp
@@ -32,13 +32,13 @@
 						$route = (object)$route;
 					@endphp
 					<li class="nav-item">
-						<a class="nav-link" href="{{ $route->location }}">{{ $route->label }}</a>
+						<a class="nav-link{{ str_starts_with(Request::path(), $route->location) ? ' active' : '' }}" href="{{ url('/' . $route->location) }}">{{ $route->label }}</a>
 					</li>
 				@endforeach
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">More</a>
 					<ul class="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">
-						<li><a class="dropdown-item" href="/users">Users</a></li>
+						<li><a class="dropdown-item{{ str_starts_with(Request::path(), 'users') ? ' active' : '' }}" href="{{ url('/users') }}">Users</a></li>
 						<li><a class="dropdown-item" href="https://discord.gg/q666a2sF6d" target="_blank" rel="noreferrer">Discord</a></li>
 					</ul>
 				</li>
