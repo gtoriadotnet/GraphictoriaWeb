@@ -11,11 +11,15 @@
 		<a href="{{ url('/register') }}" class="btn btn-success">Create your account<i class="ps-2 graphictoria-small-aligned-text fas fa-chevron-right"></i></a>
 	</div>
 </div>
-<div class="container text-center my-5">
-	<h1 class="fw-bold">So what is Graphictoria?</h1>
-	<h4>Ever wanted to experience or revisit classic Roblox? Graphictoria provides the platform for everyone to relive the classic Roblox experience.</h4>
+<div class="graphictoria-home-about my-1">
+	<div class="col-10 d-flex h-100">
+		<div class="graphictoria-home-about-card text-center m-auto">
+			<h1 class="fw-bold">So what is Graphictoria?</h1>
+			<h4>Ever wanted to experience or revisit classic Roblox? Graphictoria provides the platform for anyone and everyone looking to relive the classic Roblox experience. Play with friends in an immersive 3D environment, or create your own game. Your imagination is the only limit.</h4>
+		</div>
+	</div>
 </div>
-<div class="container text-center">
+<div class="container text-center my-5">
 	<h1 class="mb-5 fw-bold">Social Links</h1>
 	<div class="row mb-5">
 		<x-socialcard title="YouTube" description="Subscribe to our YouTube channel, where we upload trailers for future events and Graphictoria gameplay videos." link="https://www.youtube.com/graphictoria?sub_confirmation=1" />

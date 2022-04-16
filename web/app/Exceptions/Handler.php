@@ -36,7 +36,11 @@ class Handler extends ExceptionHandler
 	public function register()
 	{
 		$this->renderable(function (NotFoundHttpException $e, $request) {
-			return response()->view('main', [], 404);
+			return response()->view('errors.404', [], 404);
+		});
+		
+		$this->renderable(function (\ErrorException $e, $request) {
+			return response()->view('errors.500', ['stack' => $e->getTraceAsString()], 500);
 		});
 	}
 }

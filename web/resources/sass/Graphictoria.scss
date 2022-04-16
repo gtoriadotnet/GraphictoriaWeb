@@ -185,6 +185,24 @@ html {
   display: flex;
 }
 
+.graphictoria-home-about {
+  background-image: url("/Images/Backgrounds/About.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 500px;
+}
+
+.graphictoria-home-about-card {
+  color: #fff;
+  background: #000000ad;
+  border-radius: 5px;
+  padding: 20px;
+  max-width: 600px;
+  border: solid tint-color(#000000ad, 10%);
+  border-width: 0 0 2px;
+}
+
 .graphictoria-nojs {
   background-image: url("/Images/Backgrounds/NoJs.png");
   background-size: cover;

@@ -18,9 +18,3 @@ Route::view('/', 'home');
 
 // misc
 Route::view('/javascript', 'javascript');
-
-// fallback
-Route::fallback(function(){
-	return response()
-			->view('errors.404', [], 404);
-});
