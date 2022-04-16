@@ -32,13 +32,13 @@
 						$route = (object)$route;
 					@endphp
 					<li class="nav-item">
-						<a class="nav-link{{ str_starts_with(Request::path(), $route->location) ? ' active' : '' }}" href="{{ url('/' . $route->location) }}">{{ $route->label }}</a>
+						<a @class(['nav-link', 'active'=>str_starts_with(Request::path(), $route->location)]) href="{{ url('/' . $route->location) }}">{{ $route->label }}</a>
 					</li>
 				@endforeach
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">More</a>
 					<ul class="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">
-						<li><a class="dropdown-item{{ str_starts_with(Request::path(), 'users') ? ' active' : '' }}" href="{{ url('/users') }}">Users</a></li>
+						<li><a @class(['dropdown-item', 'active'=>str_starts_with(Request::path(), 'users')]) href="{{ url('/users') }}">Users</a></li>
 						<li><a class="dropdown-item" href="https://discord.gg/q666a2sF6d" target="_blank" rel="noreferrer">Discord</a></li>
 					</ul>
 				</li>
@@ -71,3 +71,11 @@
 	</div>
 </div>
 <div class="graphictoria-nav-margin"></div>
+@foreach(App\Models\Banner::all() as $banner)
+	<div @class(['alert', 'alert-' . $banner->type, 'graphictoria-alert', 'alert-dismissible' => $banner->dismissable])>
+		<p class="mb-0">{{ $banner->message }}</p>
+		@if($banner->dismissable)
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		@endif
+	</div>
+@endforeach
