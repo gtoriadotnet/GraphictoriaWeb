@@ -37,7 +37,7 @@
 					// HACK
 					$route = (object)$route;
 				@endphp
-				<a class="text-decoration-none fw-normal" href="{{ url($route->location) }}">{{ $route->label }}</a>
+				<a class="text-decoration-none fw-normal" href="{{ url($route->location) }}"{{ $route->label == 'Blog' ? ' target="_blank"' : '' }}>{{ $route->label }}</a>
 				@if($index != array_key_last($routes))
 					{{ ' | ' }}
 				@endif
