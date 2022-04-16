@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Forbidden')
+
 @section('content')
 <div class="container graphictoria-center-vh">
-	<x-card title="UNAUTHORIZED">
+	<x-card title="FORBIDDEN">
 		<x-slot name="body">
 			You don't have permission to view this page. If you believe this is an error, contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a>!
 		</x-slot>

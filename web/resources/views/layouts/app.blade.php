@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html class="gtoria-light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-		<title>Graphictoria{{ isset($title) ? ' | ' . $title : '' }}</title>
+		<title>Graphictoria{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<meta name="theme-color" content="#348AFF"/>

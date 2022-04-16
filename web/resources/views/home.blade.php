@@ -12,7 +12,7 @@
 	</div>
 </div>
 <div class="graphictoria-home-about my-1">
-	<div class="col-10 d-flex h-100">
+	<div class="col-md-10 d-flex h-100">
 		<div class="graphictoria-home-about-card text-center m-auto">
 			<h1 class="fw-bold">So what is Graphictoria?</h1>
 			<h4>Ever wanted to experience or revisit classic Roblox? Graphictoria provides the platform for anyone and everyone looking to relive the classic Roblox experience. Play with friends in an immersive 3D environment, or create your own game. Your imagination is the only limit.</h4>

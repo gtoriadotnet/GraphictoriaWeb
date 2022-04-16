@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Unauthorized')
+
 @section('content')
 <div class="container graphictoria-center-vh">
 	<x-card title="UNAUTHORIZED">

@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Bad Request')
+
 @section('content')
 <div class="container graphictoria-center-vh">
-	<x-card title="UNAUTHORIZED">
+	<x-card title="BAD REQUEST">
 		<x-slot name="body">
 			There was a problem with your request. If you believe this is an error on our part, contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a>!
 		</x-slot>

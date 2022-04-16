@@ -4,6 +4,8 @@ $errorTitles = ['OH NOES!!!', 'BZZT', 'ERROR', 'UH OH.'];
 
 @extends('layouts.app')
 
+@section('title', 'Not Found')
+
 @section('content')
 <div class="container graphictoria-center-vh">
 	<x-card title="{{ $errorTitles[array_rand($errorTitles)] }}">

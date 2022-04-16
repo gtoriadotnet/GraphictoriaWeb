@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Internal Server Error')
+
 @section('content')
 <div class="container graphictoria-center-vh">
 	<x-card title="INTERNAL SERVER ERROR">
