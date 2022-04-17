@@ -21,7 +21,7 @@ class PreventRequestsDuringMaintenance
      *
      * @var array
      */
-    protected $except = ['banners/data', 'maintenance/bypass'];
+    protected $except = ['maintenance', 'maintenance/bypass'];
 
     /**
      * Create a new middleware instance.

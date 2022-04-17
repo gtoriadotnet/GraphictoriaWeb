@@ -6,6 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateAssetVersionsTable extends Migration
 {
+	/**
+	 * The database connection that should be used by the migration.
+	 *
+	 * @var string
+	 */
+	protected $connection = 'mysql-asset';
+	
     /**
      * Run the migrations.
      *
@@ -15,6 +22,8 @@ class CreateAssetVersionsTable extends Migration
     {
         Schema::create('asset_versions', function (Blueprint $table) {
             $table->id();
+			$table->unsignedBigInteger('assetId');
+			$table->longText('cdnHash');
             $table->timestamps();
         });
     }

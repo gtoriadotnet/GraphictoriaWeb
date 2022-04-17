@@ -2,12 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\GamesController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Controller; // remove this and clean up the code lol
 use App\Models\User;
 
 /*

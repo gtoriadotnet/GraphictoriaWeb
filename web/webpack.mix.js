@@ -14,6 +14,7 @@ require('laravel-mix-banner');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+	.js('resources/js/pages/maintenance.js', 'public/js/pages')
     .react()
     .sass('resources/sass/graphictoria.scss', 'public/css')
 	.banner({

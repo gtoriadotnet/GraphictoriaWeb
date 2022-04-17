@@ -4,15 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssetTypesTable extends Migration
+class CreateAssetGenresTable extends Migration
 {
-	/**
-	 * The database connection that should be used by the migration.
-	 *
-	 * @var string
-	 */
-	protected $connection = 'mysql-asset';
-	
     /**
      * Run the migrations.
      *
@@ -20,10 +13,10 @@ class CreateAssetTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset_types', function (Blueprint $table) {
+        Schema::create('asset_genres', function (Blueprint $table) {
             $table->id();
-			$table->longText('name');
-			$table->boolean('binaryFormat')->default(false);
+            $table->longText('name');
+            $table->longText('iconUrl');
             $table->timestamps();
         });
     }
@@ -35,6 +28,6 @@ class CreateAssetTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset_types');
+        Schema::dropIfExists('asset_genres');
     }
 }

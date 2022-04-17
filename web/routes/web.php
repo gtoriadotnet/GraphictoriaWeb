@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'home');
 
 // misc
+Route::any('/maintenance', 'MaintenanceController@showPage');
 Route::view('/javascript', 'javascript');
+
+// client
+Route::get('/asset', 'ContentController@fetchAsset');
