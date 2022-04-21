@@ -13,9 +13,9 @@
 		<meta name="author" content="Graphictoria"/>
 		<meta name="description" content="{{ $slogan }}"/>
 		<meta name="keywords" content="graphictoria, xdiscuss, nostalgia, roblox, gtoria, private server, classic, old roblox, classic roblox, forum, game engine, mmo, classic mmo, old internet"/>
-		<meta property="og:title" content="Graphictoria{{ isset($title) ? ' | ' . $title : '' }}"/>
+		<meta property="og:title" content="Graphictoria{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}"/>
 		<meta property="og:site_name" content="Graphictoria"/>
-		<meta property="og:description" content="{{ isset($description) ? $description . ' ' : '' }}{{ $slogan }}"/>
+		<meta property="og:description" content="{{ View::hasSection('description') ? View::getSection('description') . ' ' : '' }}{{ $slogan }}"/>
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content="{{ asset('images/banner.png') }}">
 		<meta name="twitter:image" content="{{ asset('images/banner.png') }}">
@@ -25,9 +25,9 @@
 			<link href="{{ asset('favicon.ico') }}" rel="icon" integrity="{{ Sri::hash('favicon.ico') }}" crossorigin="anonymous" />
 			<link href="{{ asset('images/logo.png') }}" rel="apple-touch-icon" integrity="{{ Sri::hash('images/logo.png') }}" crossorigin="anonymous" />
 			<link href="{{ asset('manifest.json') }}" rel="manifest" integrity="{{ Sri::hash('manifest.json') }}" crossorigin="anonymous" />
-			<link href="{{ asset('css/graphictoria.css') }}" rel="stylesheet" integrity="{{ Sri::hash('css/graphictoria.css') }}" crossorigin="anonymous" />
+			<link href="{{ mix('css/graphictoria.css') }}" rel="stylesheet" />
 		@endonce
-		<script src="{{ asset('js/app.js') }}"></script>
+		<script src="{{ mix('js/app.js') }}"></script>
 		@yield('extra-headers')
 		@yield('page-specific')
 	</head>

@@ -6,8 +6,10 @@ $buttons = str_split('Graphictoria')
 
 @extends('layouts.app')
 
+@section('title', 'Maintenance')
+
 @section('page-specific')
-<script src="{{ asset('js/pages/maintenance.js') }}"></script>
+<script src="{{ mix('js/pages/maintenance.js') }}"></script>
 @endsection
 
 @section('content')
