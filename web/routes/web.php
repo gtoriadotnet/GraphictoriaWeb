@@ -22,3 +22,8 @@ Route::view('/javascript', 'javascript');
 
 // client
 Route::get('/asset', 'ContentController@fetchAsset');
+
+// fallback
+Route::fallback(function(){
+	return response()->view('errors.404', [], 404);
+});

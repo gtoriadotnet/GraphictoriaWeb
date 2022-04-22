@@ -50,12 +50,15 @@ class Handler extends ExceptionHandler
 			return response()->view('errors.403', [], 403);
 		});
 		
+		/*
+		// Moved to route fallback
 		$this->renderable(function (NotFoundHttpException $e, $request) {
 			return response()->view('errors.404', [], 404);
 		});
 		
+		// Moved to middleware
 		$this->renderable(function (\ErrorException $e, $request) {
 			return response()->view('errors.500', ['stack' => $e->getTraceAsString()], 500);
-		});
+		});*/
 	}
 }

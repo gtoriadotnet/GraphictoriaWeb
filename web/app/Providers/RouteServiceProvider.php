@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureRateLimiting();
+        //$this->configureRateLimiting();
 
         $this->routes(function () {
             Route::domain('apis.' . env('APP_URL'))
@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/versioncompatibility.php'));
 				
 			Route::domain('impulse.' . env('APP_URL'))
-                ->middleware('admin')
+                ->middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
 			
@@ -82,15 +82,15 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting()
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
-        });
-    }
+//    /**
+//     * Configure the rate limiters for the application.
+//     *
+//     * @return void
+//     */
+//    protected function configureRateLimiting()
+//    {
+//        RateLimiter::for('api', function (Request $request) {
+//            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+//        });
+//    }
 }
