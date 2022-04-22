@@ -8,6 +8,8 @@ $buttons = str_split('Graphictoria')
 
 @section('title', 'Maintenance')
 
+@section('theme', 'dark')
+
 @section('page-specific')
 <script src="{{ mix('js/pages/maintenance.js') }}"></script>
 @endsection

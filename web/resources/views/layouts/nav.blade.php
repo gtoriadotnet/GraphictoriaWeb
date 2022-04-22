@@ -27,10 +27,14 @@
 				<img src="{{ asset('/images/logo.png') }}" alt="Graphictoria" width="43" height="43" draggable="false"/>
 			</i>
 		@endlive
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#graphictoria-nav" aria-controls="graphictoria-nav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="graphictoria-nav">
+		@live
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#graphictoria-nav" aria-controls="graphictoria-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		@endlive
+		@live
+			<div class="collapse navbar-collapse" id="graphictoria-nav">
+		@endlive
 			<ul class="navbar-nav me-auto">
 				@live
 					@foreach($routes as $route)
@@ -81,7 +85,10 @@
 					<a class="btn btn-success" href="/login">Login / Sign up</a>
 				@endif
 			@endlive
-		</div>
+		@live
+			{{-- graphictoria-nav --}}
+			</div>
+		@endlive
 	</div>
 </div>
 <div class="graphictoria-nav-margin"></div>

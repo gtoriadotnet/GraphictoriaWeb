@@ -4,7 +4,7 @@
 	$authenticated = \App\Helpers\AuthHelper::IsAuthenticated(request());
 @endphp
 <!DOCTYPE html>
-<html class="gtoria-light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="gtoria-{{ View::hasSection('theme') ? View::getSection('theme') : 'light' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
 		<title>Graphictoria{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}</title>
 		<meta charset="utf-8" />
