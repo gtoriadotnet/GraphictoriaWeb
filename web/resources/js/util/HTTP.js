@@ -4,7 +4,7 @@
 const urlObject = new URL(document.location.href);
 
 export function getCurrentDomain() {
-	return urlObject.hostname.replace(/^[^.]+\./g, '');
+	return urlObject.hostname.split('.').slice(-2).join('.');
 };
 
 export function getProtocol() {

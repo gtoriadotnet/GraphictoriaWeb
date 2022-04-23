@@ -10,8 +10,11 @@ use App\Models\WebsiteConfiguration;
 
 class MaintenanceController extends Controller
 {
-	public function showPage() {
-		return view('maintenance');
+	public function showPage()
+	{
+		$data = json_decode(file_get_contents(storage_path('framework/down')), true);
+		
+		return view('maintenance', ['hideLogin' => !isset($data['secret'])]);
 	}
 	
 	/**
@@ -25,8 +28,7 @@ class MaintenanceController extends Controller
 		$buttons = $request->input('buttons');
 		
 		if(!$password || !$buttons) {
-			return response('{"errors":[{"code":400,"message":"BadRequest"}]}')
-					->setStatusCode(400)
+			return response('{"errors":[{"code":400,"message":"BadRequest"}]}', 400)
 					->header('Cache-Control', 'private')
 					->header('Content-Type', 'application/json; charset=utf-8');
 		}
@@ -43,7 +45,7 @@ class MaintenanceController extends Controller
 			if(isset($data['secret']) && $btns === $mtconf->combination)
 			{
 				$trustedHosts = explode(',', env('TRUSTED_HOSTS'));
-				$origin = parse_url($request->headers->get('origin'),  PHP_URL_HOST);
+				$origin = join('.', array_slice(explode('.', $request->headers->get('origin')), -2));
 				$passCheck = false;
 				
 				foreach($trustedHosts as &$host)
@@ -52,11 +54,14 @@ class MaintenanceController extends Controller
 						$passCheck = true;
 				}
 				
+				
 				$expiresAt = Carbon::now()->addHours(24);
 				$bypassCookie = new Cookie('gt_constraint', base64_encode(json_encode([
 					'expires_at' => $expiresAt->getTimestamp(),
 					'mac' => hash_hmac('SHA256', $expiresAt->getTimestamp(), $data['secret']),
 				])), $expiresAt);
+				$bypassCookie = $bypassCookie->withSecure(false);
+				//$bypassCookie = $bypassCookie->withSameSite('none');
 				
 				if($passCheck)
 					$bypassCookie = $bypassCookie->withDomain('.' . $origin);
@@ -66,7 +71,6 @@ class MaintenanceController extends Controller
 			}
 		}
 		
-		return response('')
-				->setStatusCode(403);
+		return response('', 403);
 	}
 }

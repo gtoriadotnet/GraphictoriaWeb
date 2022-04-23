@@ -32,7 +32,7 @@ class MaintenanceServiceProvider extends ServiceProvider
     public function boot()
     {
 		Blade::directive('live', function() {
-            return '<?php if(!app()->isDownForMaintenance()): ?>';
+            return '<?php if(!\App\Helpers\MaintenanceHelper::isDown(request())): ?>';
         });
 		
 		Blade::directive('endlive', function() {

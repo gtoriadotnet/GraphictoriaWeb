@@ -2,14 +2,17 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\MaintenanceHelper;
+
 use Closure;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 class PreventRequestsDuringMaintenance
 {
-	public function handle($request, Closure $next)
+	public function handle(Request $request, Closure $next)
 	{
-		if(app()->isDownForMaintenance()) {
+		if(MaintenanceHelper::isDown($request)) {
 			if(in_array('web', $request->route()->middleware()))
 			{
 				if($request->route()->uri() != 'maintenance')
@@ -17,6 +20,9 @@ class PreventRequestsDuringMaintenance
 			}
 			else
 			{
+				if(in_array('api', $request->route()->middleware()) && str_starts_with($request->route()->uri(), 'v1/maintenance'))
+					return $next($request);
+				
 				return response(['errors' => [['code' => 503, 'message' => 'ServiceUnavailable']]], 503)
 						->header('Cache-Control', 'private')
 						->header('Content-Type', 'application/json; charset=utf-8');
