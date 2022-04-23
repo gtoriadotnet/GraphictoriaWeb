@@ -45,7 +45,7 @@ class MaintenanceController extends Controller
 			if(isset($data['secret']) && $btns === $mtconf->combination)
 			{
 				$trustedHosts = explode(',', env('TRUSTED_HOSTS'));
-				$origin = join('.', array_slice(explode('.', $request->headers->get('origin')), -2));
+				$origin = join('.', array_slice(explode('.', explode('//', $request->headers->get('origin'))[1]), -2));
 				$passCheck = false;
 				
 				foreach($trustedHosts as &$host)
@@ -60,8 +60,7 @@ class MaintenanceController extends Controller
 					'expires_at' => $expiresAt->getTimestamp(),
 					'mac' => hash_hmac('SHA256', $expiresAt->getTimestamp(), $data['secret']),
 				])), $expiresAt);
-				$bypassCookie = $bypassCookie->withSecure(false);
-				//$bypassCookie = $bypassCookie->withSameSite('none');
+				$bypassCookie = $bypassCookie->withSameSite('none');
 				
 				if($passCheck)
 					$bypassCookie = $bypassCookie->withDomain('.' . $origin);

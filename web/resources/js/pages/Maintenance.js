@@ -13,6 +13,8 @@ import { buildGenericApiUrl } from '../util/HTTP.js';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Instances, Instance, PerspectiveCamera, useGLTF } from '@react-three/drei';
 
+axios.defaults.withCredentials = true;
+
 const randomVector = (r) => [r / 2 - Math.random() * r, r / 2 - Math.random() * r, r / 2 - Math.random() * r];
 const randomEuler = () => [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI];
 const randomData = Array.from({ length: 2000 }, (r = 200) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
