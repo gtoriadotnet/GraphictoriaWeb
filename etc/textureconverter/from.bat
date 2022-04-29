@@ -1,0 +1,1 @@
+magick convert plastic.png -channel rgba -alpha on -separate -swap 3,0 -combine -channel Alpha -evaluate set 255 +channel -channel Blue -evaluate set 255 +channel output.png
