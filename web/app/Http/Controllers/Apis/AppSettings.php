@@ -58,7 +58,7 @@ class AppSettings extends Controller
 			$bucketIds = [ $primaryBucket->id ];
 			$bucketIds = array_merge($bucketIds, json_decode($primaryBucket->inheritedGroupIds));
 			
-			if($primaryBucket->protected == 1 && !GridHelper::hasAllAccess($request)) {
+			if($primaryBucket->protected == 1 && !GridHelper::hasAllAccess()) {
 				return ErrorHelper::error([
 					'code' => 2,
 					'message' => 'You do not have access to this bucket.'

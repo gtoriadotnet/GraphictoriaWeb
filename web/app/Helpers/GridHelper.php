@@ -14,22 +14,22 @@ use App\Models\WebsiteConfiguration;
 
 class GridHelper
 {
-	public static function isIpWhitelisted(Request $request) {
-		$ip = $request->ip();
+	public static function isIpWhitelisted() {
+		$ip = request()->ip();
 		$whitelistedIps = explode(';', WebsiteConfiguration::where('name', 'WhitelistedIPs')->first()->value);
 		
 		return in_array($ip, $whitelistedIps);
 	}
 	
-	public static function isAccessKeyValid(Request $request) {
+	public static function isAccessKeyValid() {
 		$accessKey = WebsiteConfiguration::where('name', 'ComputeServiceAccessKey')->first()->value;
 		
-		return ($request->header('AccessKey') == $accessKey);
+		return (request()->header('AccessKey') == $accessKey);
 	}
 	
-	public static function hasAllAccess(Request $request) {
+	public static function hasAllAccess() {
 		if(COMHelper::isCOM()) return true;
-		if(GridHelper::isIpWhitelisted($request) && GridHelper::isAccessKeyValid($request)) return true;
+		if(GridHelper::isIpWhitelisted() && GridHelper::isAccessKeyValid()) return true;
 		
 		return false;
 	}

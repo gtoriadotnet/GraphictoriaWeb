@@ -14,6 +14,12 @@ class MaintenanceHelper
 {
 	public static function isDown(Request $request)
 	{
+		if(GridHelper::hasAllAccess())
+			return true;
+		
+		if(!file_exists(storage_path('framework/down')))
+			return false;
+		
 		$data = json_decode(file_get_contents(storage_path('framework/down')), true);
 		
 		return (app()->isDownForMaintenance() && !MaintenanceHelper::hasValidBypassCookie($request, $data));

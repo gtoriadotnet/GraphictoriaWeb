@@ -16,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 // web
 Route::view('/', 'home');
 
-// misc
+Route::any('/login', 'Auth\\AuthController@login');
+Route::any('/register', 'Auth\\AuthController@register');
 Route::any('/maintenance', 'MaintenanceController@showPage');
+
+// misc
 Route::view('/javascript', 'javascript');
+Route::view('/testing/blank', 'blank');
 
 // client
 Route::get('/asset', 'ContentController@fetchAsset');

@@ -1,5 +1,5 @@
 @php
-    $slogan = 'Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 8k+ other users in reliving the good ol\' days! Graphictoria is not affiliated with or sponsored by Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation.';
+    $slogan = (View::hasSection('description') ? View::getSection('description') . ' ' : '') . 'Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 8k+ other users in reliving the good ol\' days! Graphictoria is not affiliated with or sponsored by Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation.';
 
 	$authenticated = \App\Helpers\AuthHelper::IsAuthenticated(request());
 @endphp
@@ -15,7 +15,7 @@
 		<meta name="keywords" content="graphictoria, xdiscuss, nostalgia, roblox, gtoria, private server, classic, old roblox, classic roblox, forum, game engine, mmo, classic mmo, old internet"/>
 		<meta property="og:title" content="Graphictoria{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}"/>
 		<meta property="og:site_name" content="Graphictoria"/>
-		<meta property="og:description" content="{{ View::hasSection('description') ? View::getSection('description') . ' ' : '' }}{{ $slogan }}"/>
+		<meta property="og:description" content="{{ $slogan }}"/>
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content="{{ asset('images/banner.png') }}">
 		<meta name="twitter:image" content="{{ asset('images/banner.png') }}">

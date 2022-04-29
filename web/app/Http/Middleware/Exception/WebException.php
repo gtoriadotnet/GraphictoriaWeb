@@ -11,7 +11,7 @@ class WebException
 		$response = $next($request);
 		
 		if ($response->exception) {
-			return response()->view('errors.500', ['stack' => $response->exception->getTraceAsString()], 500);
+			return response()->view('errors.500', ['stack' => $response->exception], 500);
 		}
 		
         return $response;

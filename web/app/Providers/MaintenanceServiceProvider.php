@@ -2,18 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class MaintenanceServiceProvider extends ServiceProvider
 {
-	protected $app;
-	public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-	
     /**
      * Register any application services.
      *

@@ -904,10 +904,6 @@ a.list-group-item {
 
 // Dialog
 
-.error-dialog.show {
-  display: block;
-}
-
 .nav-item {
   color: transparent !important;
 }
@@ -1109,12 +1105,9 @@ p {
   align-items: center !important;
 }
 
-.error-dialog {
-  padding: 5px;
+.graphictoria-error-popup {
   margin-bottom: 10px;
   border-radius: 10px;
-  text-align: center;
-  background-color: var(--bs-red);
   
   animation-duration: 0.2s;
   animation-fill-mode: both;

@@ -1,12 +1,12 @@
 @php
-$noFooter = true;
-
-$buttons = str_split('Graphictoria')
+	$buttons = str_split('Graphictoria')
 @endphp
 
 @extends('layouts.app')
+@nofooter
 
 @section('title', 'Maintenance')
+@section('description', 'Graphictoria is currently under maintenance, check back later!')
 
 @section('theme', 'dark')
 
