@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35cf349942c6b5a88b3132acd0b27885",
+    "content-hash": "01ebc87de69ddff55214f2b48dae78c1",
     "packages": [
         {
             "name": "brick/math",
@@ -436,6 +436,66 @@
                 }
             ],
             "time": "2021-10-11T09:18:27+00:00"
+        },
+        {
+            "name": "elhebert/laravel-sri",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Elhebert/laravel-sri.git",
+                "reference": "53cea931d95e88bf9281367b81a03d1799a66700"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Elhebert/laravel-sri/zipball/53cea931d95e88bf9281367b81a03d1799a66700",
+                "reference": "53cea931d95e88bf9281367b81a03d1799a66700",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.71 | ^9.0",
+                "php": "^7.3 | ^7.4 | ^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4.4",
+                "orchestra/testbench": "^6.23 | ^7.0",
+                "phpunit/phpunit": "^9.5.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Elhebert\\SubresourceIntegrity\\SriServiceProvider"
+                    ],
+                    "aliases": {
+                        "Sri": "Elhebert\\SubresourceIntegrity\\SriFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Elhebert\\SubresourceIntegrity\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dieter Stinglhamber"
+                }
+            ],
+            "description": "Subresource Integrity hash generator for laravel",
+            "keywords": [
+                "laravel-sri",
+                "sri",
+                "subresource integrity"
+            ],
+            "support": {
+                "issues": "https://github.com/Elhebert/laravel-sri/issues",
+                "source": "https://github.com/Elhebert/laravel-sri/tree/3.1.0"
+            },
+            "time": "2022-02-09T08:21:17+00:00"
         },
         {
             "name": "fruitcake/php-cors",

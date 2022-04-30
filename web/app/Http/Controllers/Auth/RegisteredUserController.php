@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
         ], [
 			'username.min' => 'Username can only be 3 to 20 characters long.',
 			'username.max' => 'Username can only be 3 to 20 characters long.',
-			'username.regex' => 'Username must be alphanumeric and cannot begin or end with a special character. (a-z, 0-9, dot, hyphen, space, underscores are allowed)'
+			'username.regex' => 'Username must be alphanumeric and cannot begin or end with a special character. (a-z, 0-9, dots, hyphens, spaces, and underscores are allowed)'
 		]);
 
 		if ($validator->fails()) {

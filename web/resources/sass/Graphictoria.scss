@@ -1,0 +1,1119 @@
+// © XlXi 2021
+// Graphictoria 5
+
+// Lumen 5.0.1
+// Bootswatch
+
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+@import "./scss/fontawesome.scss";
+@import "./scss/solid.scss";
+@import "./scss/brands.scss";
+
+// Variables
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" !default;
+@if $web-font-path {
+  @import url($web-font-path);
+}
+
+// Mixins
+
+@mixin shadow($width: 4px){
+  border-style: solid;
+  border-width: 0 1px $width 1px;
+}
+
+// Maintenance
+
+.gtoria-maintenance-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -9999;
+}
+  
+.gtoria-maintenance-form {
+  html.gtoria-light & {
+  	background: radial-gradient($gray-100 5%, transparent 65%);
+  }
+  
+  html.gtoria-dark & {
+  	background: radial-gradient(shade-color($gray-900, 30%) 5%, transparent 65%);
+  }
+  
+  background-repeat: no-repeat;
+}
+
+.a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.graphic-thumb-big {
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+}
+
+.modal-content {
+  background-color: #222 !important;
+}
+
+.float-right {
+  margin-left: auto !important;
+}
+
+.float-left {
+  margin-right: auto !important;
+}
+
+// Loader
+
+.gtoria-loader-center {
+	margin: auto;
+}
+
+.gtoria-loader {
+  display: inline-block;
+  position: relative;
+  margin: auto auto 0 auto;
+  width: 80px;
+  height: 80px;
+}
+
+.gtoria-loader div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  
+  html.gtoria-light & {
+  	background-color: $dark;
+  }
+  
+  html.gtoria-dark & {
+  	background-color: $light;
+  }
+}
+
+.gtoria-loader div:nth-child(1) {
+  left: 8px;
+  animation: gtoria-ld-p1 0.5s infinite;
+}
+
+.gtoria-loader div:nth-child(2) {
+  left: 8px;
+  animation: gtoria-ld-p2 0.5s infinite;
+}
+
+.gtoria-loader div:nth-child(3) {
+  left: 32px;
+  animation: gtoria-ld-p2 0.5s infinite;
+}
+
+.gtoria-loader div:nth-child(4) {
+  left: 56px;
+  animation: gtoria-ld-p3 0.5s infinite;
+}
+
+@keyframes gtoria-ld-p1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes gtoria-ld-p3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes gtoria-ld-p2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+// Background
+
+html, body, #gtoria-root {
+  height: 100%;
+  background: transparent;
+  color: inherit;
+}
+
+html {
+  &.gtoria-light {
+	background-color: $gray-100;
+	color: $gray-900;
+  }
+  
+  &.gtoria-dark {
+	background-color: shade-color($gray-900, 30%);
+	color: $gray-100;
+  }
+}
+
+#gtoria-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.graphictoria-home {
+  background-image: url("/Images/Backgrounds/Home.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: calc(100vh - 63px);
+  display: flex;
+}
+
+.graphictoria-home-about {
+  background-image: url("/Images/Backgrounds/About.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 500px;
+}
+
+.graphictoria-home-about-card {
+  color: #fff;
+  background: #000000ad;
+  border-radius: 5px;
+  padding: 20px;
+  max-width: 600px;
+  border: solid tint-color(#000000ad, 10%);
+  border-width: 0 0 2px;
+}
+
+.graphictoria-nojs {
+  background-image: url("/Images/Backgrounds/NoJs.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.graphictoria-admin {
+  background-image: url("/Images/Backgrounds/stars.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+// Home Page
+
+.graphictoria-homepage-header {
+	font-size: 4rem;
+	font-weight: bold;
+}
+
+.graphictoria-homepage-fine-print {
+	font-size: .6rem;
+	opacity: 70%;
+}
+
+.graphictoria-small-aligned-text {
+	font-size: .6rem;
+    vertical-align: middle;
+}
+
+.graphictoria-home-shadow {
+	text-shadow: 0 0 4px $gray-700;
+}
+
+// Character
+.gt-charimg {
+	max-height: 300px;
+	max-width: 300px;
+	@media (max-width: 768px) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.graphictora-user-circle {
+	border-radius: 50%;
+	background: url("/Images/User-Image-Vignette.png");
+	background-size: cover;
+}
+
+// Border
+
+.border {
+	html.gtoria-dark & {
+		border-color: $gray-700!important;
+	}
+	html.gtoria-light & {
+		border-color: $border-color!important;
+	}
+}
+
+// Navbar
+
+.navbar {
+  @include shadow();
+
+  @each $color, $value in $theme-colors {
+    &.bg-#{$color} {
+      border-color: shade-color($value, 10%);
+    }
+  }
+}
+
+.bg-graphictoria {
+  background-color: $graphictoria;
+}
+
+.graphictoria-navbar {
+  background-color: $white;
+  border-color: shade-color($white, 10%);
+  border-style: solid;
+  border-width: 0 0 2px 0;
+  
+  padding-top: 4px;
+  padding-bottom: 4px;
+  
+  html.gtoria-light & {
+    background-color: $white;
+    border-color: shade-color($white, 10%);
+	
+	.navbar-brand {
+      color: $navbar-light-brand-color;
+    
+      &:hover,
+      &:focus {
+        color: $navbar-light-brand-hover-color;
+      }
+    }
+    
+    .navbar-nav {
+      .nav-link {
+        color: $navbar-light-color;
+    
+        &:hover,
+        &:focus {
+          color: $navbar-light-hover-color;
+        }
+    
+        &.disabled {
+          color: $navbar-light-disabled-color;
+        }
+      }
+    
+      .show > .nav-link,
+      .nav-link.active {
+        color: $navbar-light-active-color;
+      }
+    }
+    
+    .navbar-toggler {
+      color: $navbar-light-color;
+      border-color: $navbar-light-toggler-border-color;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: escape-svg($navbar-light-toggler-icon-bg);
+    }
+    
+    .navbar-text {
+      color: $navbar-light-color;
+    
+      a,
+      a:hover,
+      a:focus  {
+        color: $navbar-light-active-color;
+      }
+    }
+  }
+  
+  html.gtoria-dark & {
+    background-color: $gray-900;
+    border-color: tint-color($gray-900, 10%);
+	
+	.navbar-brand {
+      color: $navbar-dark-brand-color;
+    
+      &:hover,
+      &:focus {
+        color: $navbar-dark-brand-hover-color;
+      }
+    }
+    
+    .navbar-nav {
+      .nav-link {
+        color: $navbar-dark-color;
+    
+        &:hover,
+        &:focus {
+          color: $navbar-dark-hover-color;
+        }
+    
+        &.disabled {
+          color: $navbar-dark-disabled-color;
+        }
+      }
+    
+      .show > .nav-link,
+      .nav-link.active {
+        color: $navbar-dark-active-color;
+      }
+    }
+    
+    .navbar-toggler {
+      color: $navbar-dark-color;
+      border-color: $navbar-dark-toggler-border-color;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: escape-svg($navbar-dark-toggler-icon-bg);
+    }
+    
+    .navbar-text {
+      color: $navbar-dark-color;
+      a,
+      a:hover,
+      a:focus {
+        color: $navbar-dark-active-color;
+      }
+    }
+  }
+}
+
+.graphictoria-nav-margin {
+  margin-top: 63px;
+}
+
+.graphictoria-nav-splitter {
+  margin-top: 16px;
+  margin-bottom: 16px !important;
+}
+
+.graphictoria-user-dropdown::after {
+	position: absolute;
+	top: 50%;
+    right: 0;
+}
+
+.graphictoria-search, #graphictoria-search-dropdown {
+  position: absolute;
+  @media (max-width: 992px) {
+    display: none;
+  }
+  @media (min-width: 992px) {
+    width: 15rem;
+    left: calc(50% - 15rem/2);
+  }
+  @media (min-width: 1200px) {
+    width: 20rem;
+    left: calc(50% - 20rem/2);
+  }
+} 
+
+.graphictoria-search {
+  font-family: "FontAwesome", $font-family-sans-serif;
+}
+
+.graphictoria-search-dropdown-truncate {
+  @media (min-width: 992px) {
+    max-width: 5.375rem;
+  }
+  @media (min-width: 1200px) {
+    max-width: 10.438rem;
+  }
+  display: inline-block;
+  margin-bottom: -0.35rem;
+}
+
+#graphictoria-search-dropdown > .dropdown-menu {
+  width: 100%;
+  left: 0;
+  top: 1.5rem;
+}
+
+// Cards
+
+.graphictoria-small-card {
+  @media (min-width: 992px) {
+    max-width: 50%;
+	margin: auto;
+  }
+}
+
+.card {
+  @include shadow();
+  html.gtoria-dark & {
+    background-color: #222;
+  }
+}
+
+.sc-gsTEea {
+   display: flex;
+   flex-direction: column;
+   overflow-x: hidden !important;
+   overflow-y: auto !important;
+}
+
+.graphictoria-center-vh {
+   margin-top: auto;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+// Offcanvas
+
+.offcanvas-header {
+  @include shadow();
+  
+  border-color: shade-color($white, 10%);
+}
+
+.offcanvas-body {
+  background-color: $gray-100;
+}
+
+.offcanvas {
+  max-width: 18rem;
+}
+
+// Buttons
+
+.btn {
+  @include shadow();
+  text-transform: uppercase;
+
+  &:not(.disabled):hover {
+    margin-top: 1px;
+    border-bottom-width: 3px;
+  }
+
+  &:not(.disabled):active {
+    margin-top: 2px;
+    border-bottom-width: 2px;
+    @include box-shadow(none);
+  }
+
+  &-primary {
+    border-color: shade-color($primary, 10%);
+  }
+
+  &-secondary {
+    border-color: shade-color($secondary, 10%);
+	html.gtoria-dark & {
+	  color: $white;
+	  background-color: $dark;
+	  border-color: shade-color($dark, 10%);
+	}
+  }
+
+  &-success {
+    border-color: shade-color($success, 10%);
+  }
+
+  &-info {
+    border-color: shade-color($info, 10%);
+  }
+
+  &-danger {
+    border-color: shade-color($danger, 10%);
+  }
+
+  &-warning {
+    border-color: shade-color($warning, 10%);
+  }
+
+  &-light {
+    border-color: shade-color($light, 10%);
+  }
+
+  &-dark {
+    border-color: shade-color($dark, 10%);
+  }
+}
+
+[class*="btn-outline"] {
+  border-top-width: 1px;
+}
+
+.btn-group-vertical {
+  .btn + .btn {
+    &:hover {
+      margin-top: -1px;
+      border-top-width: 1px;
+    }
+
+    &:active {
+      margin-top: -1px;
+      border-top-width: 2px;
+    }
+  }
+}
+
+// Typography
+
+.text-secondary {
+  color: $gray-700 !important;
+}
+
+.blockquote-footer {
+  color: $gray-600;
+}
+
+// Forms
+
+.form-control {
+  box-shadow: inset 0 2px 0 rgba(0, 0, 0, .075);
+}
+
+.input-group-sm {
+  > .input-group-prepend,
+  > .input-group-append {
+    .btn {
+      font-size: $btn-font-size-sm;
+    }
+  }
+}
+
+input {
+  html.gtoria-dark & {
+    background-color: $gray-800;
+	color: $gray-100;
+	border-color: $gray-700;
+    &:not(.disabled):focus {
+	  color: $gray-100;
+	  background-color: $gray-800;
+	}
+  }
+}
+
+// Navs
+
+.nav {
+  .open > a,
+  .open > a:hover,
+  .open > a:focus {
+    border-color: transparent;
+  }
+}
+
+.nav-tabs {
+  .nav-link {
+    color: $body-color;
+
+    &,
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      margin-top: 6px;
+      border-color: $nav-tabs-border-color;
+      transition: padding-bottom .2s ease-in-out, margin-top .2s ease-in-out, border-bottom .2s ease-in-out;
+    }
+
+    &:not(.disabled):hover,
+    &:not(.disabled):focus,
+    &.active {
+      padding-bottom: add(.5rem, 6px);
+      border-bottom-color: transparent;
+      margin-top: 0;
+    }
+  }
+
+  &.nav-justified > li {
+    vertical-align: bottom;
+  }
+}
+
+@keyframes dropdownEase {
+	0% {
+		transform: translateY(-50%) scale(1,0);
+	}
+	100% {
+		transform: translateY(0) scale(1,1);
+	}
+}
+
+@-webkit-keyframes dropdownEase {
+	0% {
+		-webkit-transform: translateY(-50%) scale(1,0);
+	}
+	100% {
+		-webkit-transform: translateY(0) scale(1,1);
+	}
+}
+
+.dropdown-menu {
+  margin-top: 0;
+  @include shadow();
+  border-top-width: 1px;
+  @include box-shadow(none);
+  
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-name: dropdownEase;
+  
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-name: dropdownEase;
+  
+  html.gtoria-dark & {
+    color: $gray-100;
+    background-color: $gray-800;
+    border-color: $gray-700;
+  }
+  
+  html.gtoria-light & {
+    color: $gray-500;
+    background-color: $white;
+    border-color: $gray-400;
+  }
+}
+
+.dropdown-item {
+  html.gtoria-dark & {
+    color: $gray-100;
+	
+	&:not(.disabled):hover {
+	  background-color: $gray-700;
+	}
+  }
+}
+
+.graphictoria-nav-dropdown {
+  margin-top: 11px !important;
+  border-top: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.breadcrumb {
+  border-color: shade-color($breadcrumb-bg, 10%);
+  @include shadow();
+}
+
+.pagination {
+  > li > a,
+  > li > span {
+    position: relative;
+    top: 0;
+    @include shadow();
+    color: $pagination-color;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      top: 1px;
+      border-bottom-width: 3px;
+      text-decoration: none;
+    }
+
+    &:active {
+      top: 2px;
+      border-bottom-width: 2px;
+    }
+  }
+
+  > .disabled > a,
+  > .disabled > span {
+    &:hover {
+      top: 0;
+      @include shadow();
+    }
+
+    &:active {
+      top: 0;
+      @include shadow();
+    }
+  }
+}
+
+.pager {
+  > li > a,
+  > li > span,
+  > .disabled > a,
+  > .disabled > span {
+    &,
+    &:hover,
+    &:active {
+      border-left-width: 2px;
+      border-right-width: 2px;
+    }
+  }
+}
+
+// Indicators
+
+.btn-close {
+  text-decoration: none;
+  opacity: .4;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+}
+
+.alert {
+  color: $white;
+  @include shadow();
+
+  &-primary {
+    background-color: $primary;
+    border-color: shade-color($primary, 10%);
+  }
+
+  &-secondary {
+    background-color: $secondary;
+    border-color: shade-color($secondary, 10%);
+  }
+
+  &-success {
+    background-color: $success;
+    border-color: shade-color($success, 10%);
+  }
+
+  &-info {
+    background-color: $info;
+    border-color: shade-color($info, 10%);
+  }
+
+  &-danger {
+    background-color: $danger;
+    border-color: shade-color($danger, 10%);
+  }
+
+  &-warning {
+    background-color: $warning;
+    border-color: shade-color($warning, 10%);
+  }
+
+  &-dark {
+    background-color: $dark;
+    border-color: shade-color($dark, 10%);
+  }
+
+  &-light {
+    background-color: $light;
+    border-color: shade-color($light, 10%);
+  }
+
+  .alert-link {
+    font-weight: 400;
+    color: $white;
+    text-decoration: underline;
+  }
+
+  &-secondary,
+  &-light {
+    &,
+    a,
+    .alert-link {
+      color: $body-color;
+    }
+  }
+}
+
+.graphictoria-alert {
+	border-radius: 0;
+	text-align: center;
+	margin-bottom: 0;
+	padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.graphictoria-alert > .btn-close {
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+}
+
+.badge {
+  &.bg-secondary,
+  &.bg-light {
+    color: $dark;
+  }
+}
+
+// Containers
+
+a.list-group-item {
+  &-success {
+    &.active {
+      background-color: $success;
+    }
+
+    &.active:hover,
+    &.active:focus {
+      background-color: shade-color($success, 10%);
+    }
+  }
+
+  &-warning {
+    &.active {
+      background-color: $warning;
+    }
+
+    &.active:hover,
+    &.active:focus {
+      background-color: shade-color($warning, 10%);
+    }
+  }
+
+  &-danger {
+    &.active {
+      background-color: $danger;
+    }
+
+    &.active:hover,
+    &.active:focus {
+      background-color: shade-color($danger, 10%);
+    }
+  }
+}
+
+.modal,
+.toast {
+  .btn-close {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>");
+  }
+}
+
+// Footer
+.footer {
+	html.gtoria-dark & {
+		background-color: $gray-900 !important;
+	}
+	html.gtoria-light & {
+		background-color: $white !important;
+	}
+}
+
+// Dialog
+
+.nav-item {
+  color: transparent !important;
+}
+
+.p5r {
+  padding: .5rem .5rem !important;
+}
+
+.flex {
+  display: flex;
+}
+
+.jcc {
+  justify-content: center;
+}
+
+.alc {
+  align-items: center;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.jumbo {
+  background-color: #222;
+  padding: 1.3rem 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 60%;
+  border-radius: 0.25rem;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.w-fit-content {
+  width: fit-content !important;
+}
+
+.h-fit-content {
+  height: fit-content !important;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.m-0 {
+  margin: 0px !important;
+}
+
+p {
+  margin: 0px !important;
+}
+
+.fs10 {
+  font-size: 10px !important;
+}
+
+.fs11 {
+  font-size: 11px !important;
+}
+
+.fs12 {
+  font-size: 12px !important;
+}
+
+.fs13 {
+  font-size: 13px !important;
+}
+
+.fs14 {
+  font-size: 14px !important;
+}
+
+.fs15 {
+  font-size: 15px !important;
+}
+
+.fs16 {
+  font-size: 16px !important;
+}
+
+.padding-none {
+  padding: 0px !important
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.mt-15 {
+  margin-top: 15px !important;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+
+.mt-5 {
+  margin-bottom: 5px !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
+.mt-10 {
+  margin-bottom: 10px !important;
+}
+
+::marker {
+  display: none !important;
+}
+
+.graphic-thumb {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+}
+
+.graphic-post {
+  padding: 1rem 1rem;
+  text-align: start;
+  color: inherit !important;
+  text-decoration: none !important;
+  background-color: #222 !important;
+  border-radius: 0.25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center !important;
+}
+
+.graphic-post-column {
+  padding: 1rem 1rem;
+  text-align: start;
+  color: inherit !important;
+  text-decoration: none !important;
+  background-color: #222 !important;
+  border-radius: 0.25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+}
+
+.graphictoria-error-popup {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+  animation-name: dropdownEase;
+
+  -webkit-animation-duration: 0.2s;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-name: dropdownEase;
+}

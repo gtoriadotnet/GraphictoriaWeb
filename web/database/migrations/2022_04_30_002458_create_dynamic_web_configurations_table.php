@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('dynamic_web_configurations', function (Blueprint $table) {
             $table->id();
+			$table->string('name');
+			$table->string('value');
             $table->timestamps();
         });
     }

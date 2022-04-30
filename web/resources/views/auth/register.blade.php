@@ -1,59 +1,48 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@php
+	$fields = [
+		'username' => 'Username',
+		'email' => 'Email',
+		'password' => 'Password',
+		'password_confirmation' => 'Confirm Password'
+	];
+@endphp
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@extends('layouts.app')
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+@section('title', 'Register')
 
-            <!-- Username -->
-            <div>
-                <x-label for="username" :value="__('Username')" />
-
-                <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
-            </div>
-
-            <!-- Email Address -->
-            <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+@section('content')
+<div class="container graphictoria-center-vh">
+	<x-card>
+		<x-slot name="title">
+			<i class="fas fa-user-circle"></i> REGISTER
+		</x-slot>
+		<x-slot name="body">
+			<div class="p-sm-2 d-flex flex-column justify-content-center">
+				<div class="px-3 mb-10">
+					<div class="alert alert-warning graphictoria-alert graphictoria-error-popup">
+						<p class="mb-0">Make sure your password is unique!</p>
+					</div>
+				</div>
+				@if ($errors->any())
+					<div class="px-3 mb-10">
+						<div class="alert alert-danger graphictoria-alert graphictoria-error-popup">{{ $errors->first() }}</div>
+					</div>
+				@endif
+				
+				<form method="POST" action="{{ route('register') }}">
+					@csrf
+					@foreach($fields as $field => $label)
+						<input type="{{ $field == 'password_confirmation' ? 'password' : $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" :value="old($field)" />
+					@endforeach
+					<button class="btn btn-success px-5 mt-3" type="submit">Sign Up</button>
+				</form>
+				<a href="{{ route('login') }}" class="text-decoration-none fw-normal center" target="_blank">Already have an account?</a>
+				
+				<p class="text-muted mt-3">By creating an account, you agree to our <a href="/legal/terms-of-service" class="text-decoration-none fw-normal" target="_blank">Terms of Service</a> and our <a href="/legal/privacy-policy" class="text-decoration-none fw-normal" target="_blank">Privacy Policy</a>.</p>
+			</div>
+		</x-slot>
+		<x-slot name="footer"></x-slot>
+	</x-card>
+</div>
+@endsection

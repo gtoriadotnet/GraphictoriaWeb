@@ -1,36 +1,44 @@
+@php
+    $slogan = (View::hasSection('description') ? View::getSection('description') . ' ' : '') . 'Graphictoria is an online social platform for those looking to relive the classic Roblox experience. So what are you waiting for? Join 8k+ other users in reliving the good ol\' days! Graphictoria is not affiliated with or sponsored by Roblox Corporation, all Roblox related indica and slogans belong to Roblox Corporation.';
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="gtoria-{{ View::hasSection('theme') ? View::getSection('theme') : 'light' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+		<title>Graphictoria{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<meta name="theme-color" content="#348AFF"/>
+		<meta name="author" content="Graphictoria"/>
+		<meta name="description" content="{{ $slogan }}"/>
+		<meta name="keywords" content="graphictoria, xdiscuss, nostalgia, roblox, gtoria, private server, classic, old roblox, classic roblox, forum, game engine, mmo, classic mmo, old internet"/>
+		<meta property="og:title" content="Graphictoria{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}"/>
+		<meta property="og:site_name" content="Graphictoria"/>
+		<meta property="og:description" content="{{ $slogan }}"/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:image" content="{{ asset('images/banner.png') }}">
+		<meta name="twitter:image" content="{{ asset('images/banner.png') }}">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
+		<meta name="twitter:card" content="summary_large_image">
+		@once
+			<link href="{{ asset('favicon.ico') }}" rel="icon" integrity="{{ Sri::hash('favicon.ico') }}" crossorigin="anonymous" />
+			<link href="{{ asset('images/logo.png') }}" rel="apple-touch-icon" integrity="{{ Sri::hash('images/logo.png') }}" crossorigin="anonymous" />
+			<link href="{{ mix('css/graphictoria.css') }}" rel="stylesheet" integrity="{{ Sri::hash('css/graphictoria.css') }}" crossorigin="anonymous" />
+			<script src="{{ mix('js/app.js') }}" integrity="{{ Sri::hash('js/app.js') }}" crossorigin="anonymous"></script>
+		@endonce
+		@yield('extra-headers')
+		@yield('page-specific')
+	</head>
+	<body>
+		<div id="gtoria-root">
+			@if(!isset($noNav))
+				@include('layouts.nav')
+			@endif
+			
+			@yield('content')
+			
+			@if(!isset($noFooter))
+				@include('layouts.footer')
+			@endif
+		</div>
     </body>
 </html>
