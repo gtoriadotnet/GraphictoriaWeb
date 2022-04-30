@@ -9,10 +9,11 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
-{
+{	
     /**
      * Display the registration view.
      *
@@ -33,14 +34,22 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        $validator = Validator::make($request->all(), [
+            'username' => ['required', 'string', 'min:3', 'max:20', 'regex:/^[a-zA-Z0-9]+[ _.-]?[a-zA-Z0-9]+$/i', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ], [
+			'username.min' => 'Username can only be 3 to 20 characters long.',
+			'username.max' => 'Username can only be 3 to 20 characters long.',
+			'username.regex' => 'Username must be alphanumeric and cannot begin or end with a special character. (a-z, 0-9, dot, hyphen, space, underscores are allowed)'
+		]);
+
+		if ($validator->fails()) {
+			return back()->withErrors($validator)->withInput();
+		}
 
         $user = User::create([
-            'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
