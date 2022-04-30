@@ -93,7 +93,7 @@
 </div>
 <div class="graphictoria-nav-margin"></div>
 @foreach(App\Models\Banner::all() as $banner)
-	<div @class(['alert', 'alert-' . $banner->type, 'graphictoria-alert', 'alert-dismissible' => $banner->dismissable])>
+	<div @class(['alert', 'alert-' . $banner->style, 'graphictoria-alert', 'alert-dismissible' => $banner->dismissable])>
 		<p class="mb-0">{{ $banner->message }}</p>
 		@if($banner->dismissable)
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware(['guest'])->name('welcome');
 
-Route::get('/dashboard', function () {
+Route::get('/my/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
