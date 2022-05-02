@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
+use App\Helpers\DomainHelper;
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -29,12 +31,26 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
-
-            Route::middleware('web')
+			//
+			// Domain: gtoria.net
+			//
+			Route::domain(DomainHelper::TopLevelDomain())
+                ->middleware('web')
                 ->group(base_path('routes/web.php'));
+			
+			//
+			// Domain: www.gtoria.net
+			//
+            Route::domain('www.' . DomainHelper::TopLevelDomain())
+                ->middleware('web')
+                ->group(base_path('routes/web.php'));
+			
+			//
+			// Domain: api.gtoria.net
+			//
+            Route::domain('api.' . DomainHelper::TopLevelDomain())
+                ->middleware('api')
+                ->group(base_path('routes/api.php'));
         });
     }
 

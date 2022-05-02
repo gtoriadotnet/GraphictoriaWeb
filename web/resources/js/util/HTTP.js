@@ -4,7 +4,10 @@
 const urlObject = new URL(document.location.href);
 
 export function getCurrentDomain() {
-	return urlObject.hostname.split('.').slice(-2).join('.');
+	let url = process.env.MIX_APP_URL;
+	url = url.replace(/https?:\/\//i, '');
+	
+	return url;
 };
 
 export function getProtocol() {

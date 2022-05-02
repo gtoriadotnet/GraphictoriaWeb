@@ -30,6 +30,9 @@
         "tailwindcss": "^3.0.18"
     },
     "dependencies": {
-        "laravel-mix-banner": "^0.1.4"
+        "install": "^0.13.0",
+        "laravel-mix-banner": "^0.1.4",
+        "npm": "^8.8.0",
+        "react-router-dom": "^6.3.0"
     }
 }

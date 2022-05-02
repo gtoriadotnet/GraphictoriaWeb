@@ -61,6 +61,7 @@
 			</ul>
 			@live
 				@auth
+					<div id="graphictoria-nav-searchbar" class="graphictoria-search"></div>
 					<div class="flex">
 						<p class="my-auto me-2 text-muted" style="color:#e59800!important;font-weight:bold">
 							<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tokens are Graphictoria's currency.">
