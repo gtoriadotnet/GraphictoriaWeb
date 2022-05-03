@@ -101,3 +101,8 @@
 		@endif
 	</div>
 @endforeach
+<noscript>
+<div class="container my-2">
+<div class="alert alert-danger graphictoria-alert graphictoria-error-popup mx-5">A large majority of this website requires Javascript to work properly. Please enable Javascript or download a Javascript compatible browser.</div>
+</div>
+</noscript>
