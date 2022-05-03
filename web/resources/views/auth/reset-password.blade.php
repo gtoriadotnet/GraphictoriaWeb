@@ -1,48 +1,39 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@php
+	$fields = [
+		'password' => 'New Password',
+		'password_confirmation' => 'Confirm New Password'
+	];
+@endphp
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@extends('layouts.app')
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+@section('title', 'Reset Password')
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Reset Password') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+@section('content')
+<div class="container graphictoria-center-vh">
+	<x-card>
+		<x-slot name="title">
+			<i class="fa-solid fa-magnifying-glass"></i> RESET PASSWORD
+		</x-slot>
+		<x-slot name="body">
+			<div class="p-2 mb-2 d-flex flex-column justify-content-center">
+				@if ($errors->any())
+					<div class="px-3 mb-10">
+						<div class="alert alert-danger graphictoria-alert graphictoria-error-popup">{{ $errors->first() }}</div>
+					</div>
+				@endif
+				
+				<form method="POST" action="{{ route('password.update') }}">
+					@csrf
+					<input type="hidden" name="token" value="{{ $request->route('token') }}" />
+					@foreach($fields as $field => $label)
+						<input type="{{ $field == 'password_confirmation' ? 'password' : $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" :value="old($field)" />
+					@endforeach
+					<button class="btn btn-primary px-5" type="submit">Change Password</button>
+				</form>
+			</div>
+		</x-slot>
+		<x-slot name="footer"></x-slot>
+	</x-card>
+</div>
+@endsection
