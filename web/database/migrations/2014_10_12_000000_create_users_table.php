@@ -17,9 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->dateTime('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+			$table->unsignedBigInteger('banId')->nullable();
+			
+			$table->unsignedBigInteger('tokens')->default(0);
+			$table->dateTime('next_reward')->useCurrent();
+			
             $table->timestamps();
         });
     }
