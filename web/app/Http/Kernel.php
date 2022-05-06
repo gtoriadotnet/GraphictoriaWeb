@@ -14,6 +14,8 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
+		// \App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
+		
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
@@ -37,6 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 			
+			\App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
 			\App\Http\Middleware\DailyReward::class
         ],
 
