@@ -26,14 +26,8 @@ class DoubleSessionProtector
      */
     public function handle(Request $request, Closure $next)
     {
-		$record = Session::where('id', session()->getId())->where('bypass_block_screen', true)->first();
-		if($record) {
-			if($request->route()->getName() == 'ddos.bypass') {
-				return redirect('/', 302);
-			}
-			
+		if($request->session()->get('bypass-block-screen', false))
 			return $next($request);
-		}
 		
 		/* */
 		

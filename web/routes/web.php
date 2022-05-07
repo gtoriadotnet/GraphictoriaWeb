@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\UserModerationController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
@@ -27,13 +28,17 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware(['guest'])->name('welcome');
 
-Route::get('/my/dashboard', function () {
+Route::get('my/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('request-blocked', [DoubleSessionBlockController::class, 'create'])
 				->name('ddos.bypass');
 Route::post('request-blocked', [DoubleSessionBlockController::class, 'store']);
+
+Route::get('moderation-notice', [UserModerationController::class, 'create'])
+				->middleware(['banned'])
+				->name('moderation.notice');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])

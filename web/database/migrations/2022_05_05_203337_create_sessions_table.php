@@ -20,7 +20,6 @@ return new class extends Migration
             $table->text('user_agent')->nullable();
             $table->text('payload');
             $table->integer('last_activity')->index();
-			$table->boolean('bypass_block_screen')->default(false);
 			$table->timestamps();
         });
     }

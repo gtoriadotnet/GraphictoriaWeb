@@ -20,19 +20,13 @@ class DoubleSessionBlockController extends Controller
 				'g-recaptcha-response' => [new \App\Rules\GoogleRecaptcha]
 			]);
 		
-		$record = Session::where('id', session()->getId())->first();
-		if($record) {
-			$record->bypass_block_screen = true;
-			$record->save();
-			
-			$returnUrl = request()->input('ReturnUrl');
-			
-			if(!$returnUrl)
-				$returnUrl = '/';
-			
-			return redirect(urldecode($returnUrl), 302);
-		} else {
-			return redirect()->back()->withErrors('Could not unblock. Try again.');
-		}
+		request()->session()->put('bypass-block-screen', true);
+		
+		$returnUrl = request()->input('ReturnUrl');
+		
+		if(!$returnUrl)
+			$returnUrl = '/';
+		
+		return redirect(urldecode($returnUrl), 302);
 	}
 }

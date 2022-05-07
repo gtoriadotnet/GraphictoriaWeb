@@ -455,6 +455,13 @@ html {
   }
 }
 
+.graphictoria-moderation-card {
+  @media (min-width: 992px) {
+    max-width: 70%;
+	margin: auto;
+  }
+}
+
 .card {
   @include shadow();
   html.gtoria-dark & {
