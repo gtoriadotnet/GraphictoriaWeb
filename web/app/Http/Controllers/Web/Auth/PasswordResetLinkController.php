@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\Controller;
 
 class PasswordResetLinkController extends Controller
 {
@@ -13,9 +13,9 @@ class PasswordResetLinkController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function index()
     {
-        return view('auth.forgot-password');
+        return view('web.auth.forgot-password');
     }
 
     /**

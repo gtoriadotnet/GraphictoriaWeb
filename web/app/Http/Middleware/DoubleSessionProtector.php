@@ -9,9 +9,9 @@ use App\Models\Session;
 class DoubleSessionProtector
 {
 	protected function handlePage(Request $request, Closure $next) {
-		if($request->route()->getName() != 'ddos.bypass' && !$request->isMethod('post')) {
+		if(!str_starts_with($request->route()->getName(), 'auth.protection')) {
 			return redirect()
-					->to(route('ddos.bypass', ['ReturnUrl' => urlencode('/'.$request->path())]), 302); 
+					->to(route('auth.protection.index', ['ReturnUrl' => url()->full()]), 302); 
 		}
 		
 		return $next($request);
@@ -39,13 +39,13 @@ class DoubleSessionProtector
 			}
 		}
 		
-		if($request->route()->getName() == 'ddos.bypass') {
+		if(str_starts_with($request->route()->getName(), 'auth.protection')) {
 			$returnUrl = $request->input('ReturnUrl');
 			
 			if(!$returnUrl)
-				$returnUrl = '/';
+				$returnUrl = route('home.landing');
 			
-			return redirect('/', 302);
+			return redirect(route('home.landing'), 302);
 		}
 		
         return $next($request);

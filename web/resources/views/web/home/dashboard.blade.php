@@ -2,6 +2,10 @@
 
 @section('title', 'Dashboard')
 
+@section('page-specific')
+<script src="{{ mix('js/dashboard.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="container-lg my-2">
 	<h4>Hello, {{ Auth::user()->username }}!</h4>
@@ -9,7 +13,6 @@
 		<div class="col-md-3">
 			<div class="card text-center">
 				<img src="{{ asset('/images/testing/avatar.png') }}" class="img-fluid gt-charimg" />
-				<p class="mb-3 px-3">"abcd"</p>
 			</div>
 			
 			<x-MiniCard class="mt-3 d-none d-md-flex">
@@ -39,16 +42,7 @@
 				</x-slot>
 			</x-MiniCard>
 			
-			<h4>My Feed</h4>
-			<div class="card mb-2">
-				<div class="input-group p-2">
-					<input type="text" class="form-control" placeholder="What are you up to?" area-label="What are you up to?"/>
-					<button class="btn btn-secondary" type="submit">Share</button>
-				</div>
-			</div>
-			<div class="d-flex">
-				<x-loader />
-			</div>
+			<div id="gt-dash-feed"></div>
 		</div>
 	</div>
 </div>

@@ -23,7 +23,7 @@
 					</div>
 				@endif
 				
-				<form method="POST" action="{{ route('password.update') }}">
+				<form method="POST" action="{{ route('auth.password.reset-submit', $request->route('token')) }}">
 					@csrf
 					<input type="hidden" name="token" value="{{ $request->route('token') }}" />
 					@foreach($fields as $field => $label)

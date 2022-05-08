@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\Session;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DoubleSessionBlockController extends Controller
 {
-    public function create()
+    public function index()
     {
         return response()
-					->view('auth.ddos_blocked', [], 403);
+					->view('web.auth.ddos_blocked', [], 403);
     }
 	
 	public function store()

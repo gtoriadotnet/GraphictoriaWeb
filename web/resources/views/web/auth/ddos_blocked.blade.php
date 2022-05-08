@@ -29,7 +29,7 @@
 						</div>
 					@endif
 					
-					<form method="POST" action="{{ route('ddos.bypass') }}">
+					<form method="POST" action="{{ route('auth.protection.bypass') }}">
 						@csrf
 						
 						<input type="hidden" name="ReturnUrl" value="{{ request()->input('ReturnUrl') }}" />

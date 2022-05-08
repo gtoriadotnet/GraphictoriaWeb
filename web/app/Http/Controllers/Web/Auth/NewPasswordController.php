@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 
 class NewPasswordController extends Controller
 {
@@ -18,9 +18,9 @@ class NewPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function create(Request $request)
+    public function index(Request $request)
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('web.auth.reset-password', ['request' => $request]);
     }
 
     /**
@@ -57,7 +57,7 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
+                    ? redirect()->route('auth.login.index')->with('status', __($status))
                     : back()->withErrors(['status' => __($status)]);
     }
 }

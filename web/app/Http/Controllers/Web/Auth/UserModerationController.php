@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserModerationController extends Controller
 {
     public function create()
 	{
-		return view('auth.moderated');
+		return view('web.auth.moderated');
 	}
 }

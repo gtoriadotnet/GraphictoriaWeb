@@ -9,7 +9,7 @@
 			<h5 class="mb-0">Graphictoria aims to revive the classic Roblox experience. Join <b>9k+</b> other users and relive your childhood!</h5>
 			<p class="graphictoria-homepage-fine-print fst-italic">* Graphictoria is not affiliated with, endorsed by, or sponsored by Roblox Corporation.</p>
 		</div>
-		<a href="{{ url('/register') }}" class="btn btn-success">Create your account<i class="ps-2 graphictoria-small-aligned-text fas fa-chevron-right"></i></a>
+		<a href="{{ route('auth.register.index') }}" class="btn btn-success">Create your account<i class="ps-2 graphictoria-small-aligned-text fas fa-chevron-right"></i></a>
 	</div>
 </div>
 <div class="graphictoria-home-about my-1">
