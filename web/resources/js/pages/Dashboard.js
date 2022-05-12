@@ -2,7 +2,6 @@
 // Graphictoria 5
 
 import $ from 'jquery';
-import * as Bootstrap from 'bootstrap';
 
 import React from 'react';
 import { render } from 'react-dom';

@@ -6,7 +6,7 @@
 		<div class="mb-4 graphictoria-home-shadow">
 			<h1 class="graphictoria-homepage-header">Graphictoria</h1>
 			{{-- TODO: make the user count automatic via a model --}}
-			<h5 class="mb-0">Graphictoria aims to revive the classic Roblox experience. Join <b>9k+</b> other users and relive your childhood!</h5>
+			<h5 class="mb-0">Graphictoria aims to revive the classic Roblox experience. Join <b>10k+</b> other users and relive your childhood!</h5>
 			<p class="graphictoria-homepage-fine-print fst-italic">* Graphictoria is not affiliated with, endorsed by, or sponsored by Roblox Corporation.</p>
 		</div>
 		<a href="{{ route('auth.register.index') }}" class="btn btn-success">Create your account<i class="ps-2 graphictoria-small-aligned-text fas fa-chevron-right"></i></a>
