@@ -3,6 +3,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 
+import Twemoji from 'react-twemoji';
+
 import { buildGenericApiUrl } from '../util/HTTP.js';
 import Loader from './Loader';
 
@@ -12,19 +14,21 @@ let posts = [
 		poster: {
 			type: "User",
 			name: "XlXi",
+			icon: "fa-solid fa-gavel",
 			thumbnail: "https://www.gtoria.local/images/testing/headshot.png"
 		},
-		content: "test",
+		content: "gah 🥚in dammmmmm",
 		time: "Now"
 	},
 	{
 		postId: 1,
 		poster: {
-			type: "User",
-			name: "XlXi",
-			thumbnail: "https://www.gtoria.local/images/testing/headshot.png"
+			id: 1,
+			type: "Group",
+			name: "Graphictoria",
+			thumbnail: "https://www.gtoria.local/images/logo.png"
 		},
-		content: "test 2",
+		content: "test 2 😊",
 		time: "Now"
 	}
 ];
@@ -59,17 +63,22 @@ const Feed = () => {
 							<>
 								<div className="row p-2" onMouseEnter={ () => setMouseHover(index) } onMouseLeave={ () => setMouseHover(-1) }>
 									<div className="col-3 col-sm-2 col-md-1">
-										<a href="#">
-											<img src={ poster.thumbnail } className="img-fluid border graphictora-user-circle" />
+										<a href={ buildGenericApiUrl('www', (poster.type == 'User' ? `users/${poster.name}/profile` : `groups/${poster.id}`)) }>
+											{ poster.type == 'User' ?
+												<img src={ poster.thumbnail } width="90" height="90" className="img-fluid border graphictora-user-circle" /> :
+												<img src={ poster.thumbnail } width="90" height="90" className="img-fluid" />
+											}
 										</a>
 									</div>
 									<div className="col-9 col-sm-10 col-md-11">
 										<div className="d-flex">
-											<a href="#" className="text-decoration-none fw-bold me-auto">{ poster.name } <i className="fa-solid fa-gavel"></i></a>
+											<a href={ buildGenericApiUrl('www', (poster.type == 'User' ? `users/${poster.name}/profile` : `groups/${poster.id}`)) } className="text-decoration-none fw-bold me-auto">{ poster.name }{ poster.icon ? <>&nbsp;<i className={ poster.icon }></i></> : null }</a>
 											{ mouseHover == index ? <a href={ buildGenericApiUrl('www', `report/user-wall/${postId}`) } target="_blank" className="text-decoration-none link-danger me-2">Report <i className="fa-solid fa-circle-exclamation"></i></a> : null }
 											<p className="text-muted">{ time }</p>
 										</div>
-										<p>{ content }</p>
+										<Twemoji options={{ className: 'twemoji', base: '/images/twemoji/', folder: 'svg', ext: '.svg' }}>
+											<p>{ content }</p>
+										</Twemoji>
 									</div>
 								</div>
 								{ posts.length != (index+1) ? <hr className="m-0" /> : null }

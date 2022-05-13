@@ -24,6 +24,14 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
   border-width: 0 1px $width 1px;
 }
 
+// Twemoji
+img.twemoji {
+	height: 1.2em;
+	width: 1.2em;
+	//margin: 0 .05em 0 .1em;
+	//vertical-align: -0.1em;
+}
+
 // Maintenance
 
 .gtoria-maintenance-background {
