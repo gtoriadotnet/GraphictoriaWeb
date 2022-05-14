@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => env('SESSION_LIFETIME', 35791394), // Session will expire in 68 years.
 
     'expire_on_close' => false,
 
