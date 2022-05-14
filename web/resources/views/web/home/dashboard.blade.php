@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('page-specific')
-<script src="{{ mix('js/dashboard.js') }}"></script>
+<script src="{{ mix('js/Dashboard.js') }}"></script>
 @endsection
 
 @section('content')

@@ -22,7 +22,7 @@
 		@once
 			<link href="{{ asset('favicon.ico') }}" rel="icon" integrity="{{ Sri::hash('favicon.ico') }}" crossorigin="anonymous" />
 			<link href="{{ asset('images/logo.png') }}" rel="apple-touch-icon" integrity="{{ Sri::hash('images/logo.png') }}" crossorigin="anonymous" />
-			<link href="{{ mix('css/graphictoria.css') }}" rel="stylesheet" integrity="{{ Sri::hash('css/graphictoria.css') }}" crossorigin="anonymous" />
+			<link href="{{ mix('css/Graphictoria.css') }}" rel="stylesheet" integrity="{{ Sri::hash('css/graphictoria.css') }}" crossorigin="anonymous" />
 			<script src="{{ mix('js/app.js') }}" integrity="{{ Sri::hash('js/app.js') }}" crossorigin="anonymous"></script>
 		@endonce
 		@yield('extra-headers')

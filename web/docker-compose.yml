@@ -1,0 +1,16 @@
+version: '3'
+services:
+  website:
+    build: .
+    ports:
+      - '1234:1234'
+  
+  database:
+    image: 'mariadb'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'test'
+    volumes:
+      - database-data:/graphictoria
+
+volumes:
+  database-data:

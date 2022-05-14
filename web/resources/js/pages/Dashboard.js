@@ -6,7 +6,7 @@ import $ from 'jquery';
 import React from 'react';
 import { render } from 'react-dom';
 
-import Feed from '../Components/Feed';
+import Feed from '../components/Feed';
 
 const feedId = 'gt-dash-feed';
 
