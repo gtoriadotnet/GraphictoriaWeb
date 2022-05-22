@@ -39,7 +39,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 			
-			\App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
+			// Yeah no, the double session protector was stupid.
+			//\App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
 			\App\Http\Middleware\DailyReward::class
         ],
 
