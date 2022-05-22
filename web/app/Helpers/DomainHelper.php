@@ -18,4 +18,9 @@ class DomainHelper
 		
 		return $baseurl;
 	}
+	
+	public static function DotLeadTopLevelDomain()
+	{
+		return '.' . DomainHelper::TopLevelDomain();
+	}
 }

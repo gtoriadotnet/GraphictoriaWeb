@@ -1,19 +1,17 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+Route::get('/', 'ApiController@index')->name('index');
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::middleware('auth')->group(function () {
+	Route::group(['as' => 'feed.', 'prefix' => 'feed'], function() {
+		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+			Route::get('/list-json', 'FeedController@listjson')->name('list');
+			Route::post('/handle ', 'FeedController@handle')->name('handle');
+		});
+	});
+});
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::fallback(function () {
+    return response('404 not found.', 404)
+				->header('Content-Type', 'text/plain');
 });

@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => \App\Helpers\DomainHelper::DotLeadTopLevelDomain(),
 
     /*
     |--------------------------------------------------------------------------
