@@ -1,7 +1,7 @@
 // © XlXi 2021
 // Graphictoria 5
 
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 
 import axios from 'axios';
 
@@ -17,12 +17,19 @@ class Feed extends Component {
 		super(props);
 		this.state = {
 			feedLoaded: false,
+			feedDisabled: false,
 			loadingCursor: false,
+			error: '',
 			feedPosts: [],
 			mouseHover: -1
 		};
 		
+		this.inputBox = createRef();
+		
+		// XlXi: Thanks, React.
+		this.loadPosts = this.loadPosts.bind(this);
 		this.loadMore = this.loadMore.bind(this);
+		this.sharePost = this.sharePost.bind(this);
 	}
 	
 	componentWillMount() {
@@ -34,6 +41,10 @@ class Feed extends Component {
 	}
 	
 	componentDidMount() {
+		this.loadPosts();
+	}
+	
+	loadPosts() {
 		axios.get(buildGenericApiUrl('api', 'feed/v1/list-json'))
 			.then(res => {
 				const posts = res.data;
@@ -61,14 +72,45 @@ class Feed extends Component {
 		}
 	}
 	
+	sharePost() {
+		this.setState({ feedDisabled: true });
+		
+		const postText = this.inputBox.current.value;
+		if (postText == '') {
+			this.setState({ feedDisabled: false, error: 'Your shout cannot be blank.' });
+			this.inputBox.current.focus();
+			return;
+		}
+		
+		axios.post(buildGenericApiUrl('api', `feed/v1/share`), { content: postText })
+			.then(res => {
+				this.inputBox.current.value = '';
+				this.setState({ feedLoaded: false, loadingCursor: false, feedDisabled: false });
+				this.loadPosts();
+			})
+			.catch(err => {
+				const data = err.response.data;
+				
+				this.setState({ feedDisabled: false, error: data.message });
+				this.inputBox.current.focus();
+			});
+	}
+	
 	render() {
 		return (
 			<>
 				<h4>My Feed</h4>
 				<div className="card mb-2">
+					{
+						this.state.error != ''
+						?
+						<div className="alert alert-danger graphictoria-alert graphictoria-error-popup m-2 mb-0">{ this.state.error }</div>
+						:
+						null
+					}
 					<div className="input-group p-2">
-						<input disabled={ !this.state.feedLoaded } type="text" className="form-control" placeholder="What are you up to?" />
-						<button disabled={ !this.state.feedLoaded } type="submit" className="btn btn-secondary">Share</button>
+						<input disabled={ (!this.state.feedLoaded || this.state.feedDisabled) } type="text" className={ `form-control${this.state.error != '' ? ' is-invalid' : ''}` } placeholder="What are you up to?" onChange={ () => this.setState({ error: '' }) } ref={ this.inputBox } />
+						<button disabled={ (!this.state.feedLoaded || this.state.feedDisabled) } type="submit" className="btn btn-secondary" onClick={ this.sharePost }>Share</button>
 					</div>
 				</div>
 				{

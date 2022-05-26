@@ -79,8 +79,18 @@ class FeedController extends Controller
 		return response($posts);
 	}
 	
-	protected function handle()
+	protected function share(Request $request)
 	{
-		//
+		$validated = $request->validate([
+			'content' => ['required', 'max:200']
+		]);
+		
+		$shout = new Shout();
+		$shout->poster_id = Auth::id();
+		$shout->poster_type = 'user';
+		$shout->content = $validated['content'];
+		$shout->save();
+		
+		return response(['success' => true]);
 	}
 }

@@ -6,7 +6,7 @@ Route::middleware('auth')->group(function () {
 	Route::group(['as' => 'feed.', 'prefix' => 'feed'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 			Route::get('/list-json', 'FeedController@listjson')->name('list');
-			Route::post('/handle ', 'FeedController@handle')->name('handle');
+			Route::post('/share ', 'FeedController@share')->name('share')->middleware('throttle:3,2');
 		});
 	});
 });
