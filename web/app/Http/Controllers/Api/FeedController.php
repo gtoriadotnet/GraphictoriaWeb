@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Friend;
 use App\Models\Shout;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,11 +60,19 @@ class FeedController extends Controller
 			
 			/* */
 			
+			$postDate = $post['updated_at'];
+			if(Carbon::now()->greaterThan($postDate->copy()->addDays(2)))
+				$postDate = $postDate->isoFormat('LLLL');
+			else
+				$postDate = $postDate->calendar();
+			
+			/* */
+			
 			array_push($posts['data'], [
 				'postId' => $post['id'],
 				'poster' => $poster,
 				'content' => $post['content'],
-				'time' => $post['updated_at']
+				'time' => $postDate
 			]);
 		}
 		
