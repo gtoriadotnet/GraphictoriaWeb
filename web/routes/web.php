@@ -5,6 +5,10 @@ Route::group(['as' => 'home.'], function() {
 	Route::get('/my/dashboard', 'HomeController@dashboard')->name('dashboard')->middleware('auth');
 });
 
+Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
+	Route::get('/', 'ShopController@index')->name('index');
+});
+
 Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 	Route::group(['as' => 'protection.', 'prefix' => 'request-blocked'], function() {
 		Route::get('/', 'DoubleSessionBlockController@index')->name('index');
