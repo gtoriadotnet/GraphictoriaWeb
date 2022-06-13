@@ -2,6 +2,10 @@ Options -MultiViews -Indexes
 
 ErrorDocument 403 /index.php
 
+<Files "mix-manifest.json">  
+	Require all denied
+</Files>
+
 RewriteEngine On
 
 # Handle Authorization Header

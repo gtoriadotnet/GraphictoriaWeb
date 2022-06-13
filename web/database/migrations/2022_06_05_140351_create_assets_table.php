@@ -28,8 +28,10 @@ return new class extends Migration
 			$table->boolean('onSale')->default(false);
 			
 			$table->unsignedSmallInteger('assetTypeId');
+			$table->unsignedBigInteger('assetVersionId')->comment('The most recent version id for the asset. This is used internally as asset version 0 when using the /asset api.');
 			
-			// Calculating the thumbnail subdomain on runtime is too expensive.
+			// Calculating the subdomain on runtime is too expensive.
+			// So full URLs are used instead of just the hashes.
 			$table->string('thumbnailURL')->nullable();
 			$table->string('3dThumbnailURL')->nullable();
 			
