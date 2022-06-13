@@ -37,7 +37,7 @@
 					@endforeach
 					<button class="btn btn-success px-5 mt-3" type="submit">Sign Up</button>
 				</form>
-				<a href="{{ route('auth.login.index') }}" class="text-decoration-none fw-normal center" target="_blank">Already have an account?</a>
+				<a href="{{ route('auth.login.index') }}" class="text-decoration-none fw-normal center">Already have an account?</a>
 				
 				<p class="text-muted mt-3">By creating an account, you agree to our <a href="/legal/terms-of-service" class="text-decoration-none fw-normal" target="_blank">Terms of Service</a> and our <a href="/legal/privacy-policy" class="text-decoration-none fw-normal" target="_blank">Privacy Policy</a>.</p>
 			</div>

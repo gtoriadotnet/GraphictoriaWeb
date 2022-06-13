@@ -44,11 +44,11 @@
 						<button class="btn btn-primary px-5" type="submit">Sign In</button>
 					</form>
 					
-					<a href="{{ route('auth.password.forgot') }}" class="text-decoration-none fw-normal center" target="_blank">Forgot your password?</a>
+					<a href="{{ route('auth.password.forgot') }}" class="text-decoration-none fw-normal center">Forgot your password?</a>
 				</div>
 				<div class="col">
 					<h5>New to Graphictoria?</h5>
-					<p>Creating an account takes less than a minute, and you can join a community of 10k+ users for <b>completely free</b>.<br/><a href="{{ route('auth.register.index') }}" class="btn btn-sm btn-success mt-2" target="_blank">Sign Up</a></p>
+					<p>Creating an account takes less than a minute, and you can join a community of 10k+ users for <b>completely free</b>.<br/><a href="{{ route('auth.register.index') }}" class="btn btn-sm btn-success mt-2">Sign Up</a></p>
 				</div>
 			</div>
 		</x-slot>
