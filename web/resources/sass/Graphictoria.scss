@@ -91,6 +91,8 @@ img.twemoji {
 }
 
 .graphictoria-shop-categories {
+	border: 0;
+	
 	@media (min-width: 768px) {
 		html.gtoria-light & {
 			border-right: 2px solid #dee2e6!important;
