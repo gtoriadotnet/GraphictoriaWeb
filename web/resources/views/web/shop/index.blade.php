@@ -18,7 +18,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-2">
-			<div class="graphictoria-shop-categories border-2 border-end py-1">
+			<div class="graphictoria-shop-categories">
 				<h5>Category</h5>
 				<ul class="list-unstyled ps-0">
 					<li class="mb-1">
