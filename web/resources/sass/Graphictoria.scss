@@ -1,6 +1,8 @@
 // © XlXi 2021
 // Graphictoria 5
 
+@use "sass:math";
+
 // Lumen 5.0.1
 // Bootswatch
 
@@ -34,6 +36,15 @@ img.twemoji {
 
 // Shop
 
+.graphictoria-list-dropdown::after {
+	@include caret-down();
+
+	content: "";
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+}
+
 .graphictoria-item-card {
 	text-decoration: none!important;
 	font-weight: 400!important;
@@ -41,21 +52,21 @@ img.twemoji {
 	padding: 0;
 	
 	flex: 0 0 auto;
-    width: 33.33333333%;
+    width: math.div(100%, 3);
 	
 	@media (min-width: 768px) {
 		flex: 0 0 auto;
-		width: 25%;
+		width: math.div(100%, 5);
 	}
 	
 	@media (min-width: 992px) {
 		flex: 0 0 auto;
-		width: 16.66666667%;
+		width: math.div(100%, 7);
 	}
 	
 	@media (min-width: 1400px) {
 		flex: 0 0 auto;
-		width: 11.1111111%;
+		width: math.div(100%, 8);
 	}
 }
 
@@ -64,7 +75,7 @@ img.twemoji {
 	background-size: cover;
 }
 
-.graphictoria-catalog-overlay {
+.graphictoria-shop-overlay {
 	position: absolute;
     width: 100%;
     height: 100%;
@@ -75,8 +86,24 @@ img.twemoji {
 	z-index: 10;
 }
 
-.graphictoria-catalog-overlay > .gtoria-loader {
+.graphictoria-shop-overlay > .gtoria-loader {
 	margin: auto;
+}
+
+.graphictoria-shop-categories {
+	@media (min-width: 768px) {
+		html.gtoria-light & {
+			border-right: 2px solid #dee2e6!important;
+		}
+		
+		html.gtoria-dark & {
+			border-right: 2px solid #333!important;
+		}
+		
+		// py-1
+		padding-bottom: 0.25rem!important;
+		padding-top: 0.25rem!important;
+	}
 }
 
 // Maintenance
