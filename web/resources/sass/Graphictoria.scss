@@ -846,6 +846,18 @@ input {
   }
 }
 
+.graphictoria-paginator * {
+	display: inline-block;
+}
+
+.graphictoria-paginator > input {
+	width: 35px;
+	text-align: center;
+	padding: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 // Indicators
 
 .btn-close {

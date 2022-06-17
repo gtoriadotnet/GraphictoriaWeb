@@ -20,31 +20,53 @@
 		<div class="col-md-2">
 			<div class="graphictoria-shop-categories">
 				<h5>Category</h5>
+				<a href="#" class="text-decoration-none">All Items</a>
 				<ul class="list-unstyled ps-0">
 					<li class="mb-1">
-						<a class="text-decoration-none fw-normal align-items-center graphictoria-list-dropdown" data-bs-toggle="collapse" data-bs-target="#shop-test-collapse" aria-expanded="true" href="#">Test</a>
-						<div class="collapse show" id="shop-test-collapse">
+						<a class="text-decoration-none fw-normal align-items-center graphictoria-list-dropdown" data-bs-toggle="collapse" data-bs-target="#shop-clothing-collapse" aria-expanded="true" href="#">Clothing</a>
+						<div class="collapse show" id="shop-clothing-collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal small">
-								<li><a href="#" class="text-decoration-none ms-2">Test</a></li>
-								<li><a href="#" class="text-decoration-none ms-2">Test</a></li>
-								<li><a href="#" class="text-decoration-none ms-2">Test</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">All Clothing</a></li>
+								<li><a href="#" class="fw-bold text-decoration-none ms-2">Hats</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Shirts</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">T-Shirts</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Pants</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Packages</a></li>
 							</ul>
 						</div>
 					</li>
 					<li class="mb-1">
-						<a class="text-decoration-none fw-normal align-items-center graphictoria-list-dropdown" data-bs-toggle="collapse" data-bs-target="#shop-test2-collapse" aria-expanded="false" href="#">Test 2</a>
-						<div class="collapse" id="shop-test2-collapse">
+						<a class="text-decoration-none fw-normal align-items-center graphictoria-list-dropdown" data-bs-toggle="collapse" data-bs-target="#shop-bodyparts-collapse" aria-expanded="false" href="#">Body Parts</a>
+						<div class="collapse" id="shop-bodyparts-collapse">
 							<ul class="btn-toggle-nav list-unstyled fw-normal small">
-								<li><a href="#" class="text-decoration-none ms-2">Test</a></li>
-								<li><a href="#" class="text-decoration-none ms-2">Test</a></li>
-								<li><a href="#" class="text-decoration-none ms-2">Test</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">All Body Parts</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Heads</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Faces</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Packages</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="mb-1">
+						<a class="text-decoration-none fw-normal align-items-center graphictoria-list-dropdown" data-bs-toggle="collapse" data-bs-target="#shop-gear-collapse" aria-expanded="false" href="#">Gear</a>
+						<div class="collapse" id="shop-gear-collapse">
+							<ul class="btn-toggle-nav list-unstyled fw-normal small">
+								<li><a href="#" class="text-decoration-none ms-2">All Gear</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Building</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Explosive</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Melee</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Musical</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Navigation</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Power Up</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Ranged</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Social</a></li>
+								<li><a href="#" class="text-decoration-none ms-2">Transport</a></li>
 							</ul>
 						</div>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-10 d-flex flex-column">
 			<div class="card p-3">
 				<div class="graphictoria-shop-overlay">
 					<x-loader />
@@ -61,6 +83,19 @@
 					</a>
 				</div>
 			</div>
+			<ul class="list-inline mx-auto mt-3">
+				<li class="list-inline-item">
+					<button class="btn btn-secondary disabled"><i class="fa-solid fa-angle-left"></i></button>
+				</li>
+				<li class="list-inline-item graphictoria-paginator">
+					<span>Page</span>
+					<input type="text" value="1" class="form-control">
+					<span>of 20</span>
+				</li>
+				<li class="list-inline-item">
+					<button class="btn btn-secondary"><i class="fa-solid fa-angle-right"></i></button>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
