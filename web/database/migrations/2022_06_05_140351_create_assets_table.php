@@ -28,6 +28,7 @@ return new class extends Migration
 			$table->boolean('onSale')->default(false);
 			
 			$table->unsignedSmallInteger('assetTypeId');
+			$table->unsignedSmallInteger('assetAttributeId')->nullable();
 			$table->unsignedBigInteger('assetVersionId')->comment('The most recent version id for the asset. This is used internally as asset version 0 when using the /asset api.');
 			
 			// Calculating the subdomain on runtime is too expensive.

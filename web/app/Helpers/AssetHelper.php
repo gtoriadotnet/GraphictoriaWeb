@@ -10,6 +10,7 @@ namespace App\Helpers;
 class AssetHelper
 {
 	public static $assetTypes = [
+		[0]  = 'Product',
 		[1]  = 'Image',
 		[2]  = 'T-Shirt',
 		[3]  = 'Audio',
@@ -81,6 +82,40 @@ class AssetHelper
 		[69] = 'Shorts Accessory',
 		[70] = 'Left Shoe Accessory',
 		[71] = 'Right Shoe Accessory',
-		[72] = 'Dress Skirt Accessory'
+		[72] = 'Dress Skirt Accessory',
+		[73] = 'Font Family',
+		[74] = 'Font Face',
+		[75] = 'MeshHiddenSurfaceRemoval'
+	];
+	
+	public static $assetGenres = [
+		[0]  = 'All',
+		[1]  = 'Town And City',
+		[2]  = 'Medieval',
+		[3]  = 'Sci-Fi',
+		[4]  = 'Fighting',
+		[5]  = 'Horror',
+		[6]  = 'Naval',
+		[7]  = 'Adventure',
+		[8]  = 'Sports',
+		[9]  = 'Comedy',
+		[10] = 'Western',
+		[11] = 'Military',
+		[12] = 'Skate Park',
+		[13] = 'Building',
+		[14] = 'FPS',
+		[15] = 'RPG'
+	];
+	
+	public static $gearAssetGenres = [
+		[0]  = 'Melee Weapon',
+		[1]  = 'Ranged Weapon',
+		[2]  = 'Explosive',
+		[3]  = 'Power Up',
+		[4]  = 'Navigation Enhancer',
+		[5]  = 'Musical Instrument',
+		[6]  = 'Social Item',
+		[7]  = 'Building Tool',
+		[8]  = 'Personal Transport'
 	];
 }
