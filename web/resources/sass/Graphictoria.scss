@@ -52,21 +52,20 @@ img.twemoji {
 	padding: 0;
 	
 	flex: 0 0 auto;
-    width: math.div(100%, 3);
+	
+	@media (max-width: 576px) {
+		flex: 0 0 auto;
+		width: math.div(100%, 2);
+	}
+	
+	@media (min-width: 576px) {
+		flex: 0 0 auto;
+		width: math.div(100%, 4);
+	}
 	
 	@media (min-width: 768px) {
 		flex: 0 0 auto;
-		width: math.div(100%, 5);
-	}
-	
-	@media (min-width: 992px) {
-		flex: 0 0 auto;
-		width: math.div(100%, 7);
-	}
-	
-	@media (min-width: 1400px) {
-		flex: 0 0 auto;
-		width: math.div(100%, 8);
+		width: 144px;
 	}
 }
 

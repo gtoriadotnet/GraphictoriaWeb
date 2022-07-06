@@ -199,7 +199,9 @@ class Shop extends Component {
 		super(props);
 		this.state = {
 			selectedCategoryId: -1,
-			pageLoading: true
+			pageItems: [],
+			pageLoaded: true,
+			error: false
 		};
 		
 		this.navigateCategory = this.navigateCategory.bind(this);
@@ -233,9 +235,34 @@ class Shop extends Component {
 	}
 	
 	navigateCategory(categoryId, data) {
-		this.setState({selectedCategoryId: categoryId});
+		this.setState({selectedCategoryId: categoryId, pageLoaded: false});
 		
-		console.log(data);
+		let url = buildGenericApiUrl('api', 'catalog/v1/list-json');
+		let paramIterator = 0;
+		Object.keys(data).filter(key => {
+			if (key == 'label')
+				return false;
+			return true;
+		}).map(key => {
+			url += ((paramIterator++ == 0 ? '?' : '&') + `${key}=${data[key]}`);
+		});
+		
+		axios.get(url)
+			.then(res => {
+				const items = res.data;
+				
+				this.nextCursor = items.next_cursor;
+				this.setState({ pageItems: items.data, pageLoaded: true, error: false });
+			}).catch(err => {
+				const data = err.response;
+				
+				let errorMessage = 'An error occurred while processing your request.';
+				if(data.errors)
+					errorMessage = data.errors[0].message;
+				
+				this.setState({ pageItems: [], pageLoaded: true, error: errorMessage });
+				this.inputBox.current.focus();
+			});
 	}
 	
 	render() {
@@ -260,36 +287,51 @@ class Shop extends Component {
 					<div className="col-md-10 d-flex flex-column">
 						<div className="card p-3">
 							{
-								this.state.pageLoading ?
+								this.state.error ?
+								<div className="alert alert-danger p-2 mb-0 text-center">{this.state.error}</div>
+								:
+								null
+							}
+							{
+								!this.state.pageLoaded ?
 								<div className="graphictoria-shop-overlay">
 									<Loader />
 								</div>
 								:
 								null
 							}
-							<div>
-								<a className="graphictoria-item-card" href="#">
-									<span className="card m-2">
-										<img className="img-fluid" src="https://gtoria.local/images/testing/hat.png" />
-										<div className="p-2">
-											<p>Test hat</p>
-											<p className="text-muted">Free</p>
-										</div>
-									</span>
-								</a>
-							</div>
+							{
+								(this.state.pageItems.length == 0 && !this.state.error) ?
+								<p className="text-muted text-center">Nothing found.</p>
+								:
+								<div>
+									{
+										this.state.pageItems.map(({}, index) => {
+											<a className="graphictoria-item-card" href="#" key={index}>
+												<span className="card m-2">
+													<img className="img-fluid" src="https://gtoria.local/images/testing/hat.png" />
+													<div className="p-2">
+														<p>Test hat</p>
+														<p className="text-muted">Free</p>
+													</div>
+												</span>
+											</a>
+										})
+									}
+								</div>
+							}
 						</div>
 						<ul className="list-inline mx-auto mt-3">
 							<li className="list-inline-item">
-								<button className="btn btn-secondary" disabled={this.state.pageLoading ? "" : null}><i className="fa-solid fa-angle-left"></i></button>
+								<button className="btn btn-secondary" disabled={this.state.pageLoaded ? null : true}><i className="fa-solid fa-angle-left"></i></button>
 							</li>
 							<li className="list-inline-item graphictoria-paginator">
 								<span>Page&nbsp;</span>
-								<input type="text" value="1" className="form-control" disabled={this.state.pageLoading ? "" : null} />
+								<input type="text" value="1" className="form-control" disabled={this.state.pageLoaded ? null : true} />
 								<span>&nbsp;of 20</span>
 							</li>
 							<li className="list-inline-item">
-								<button className="btn btn-secondary" disabled={this.state.pageLoading ? "" : null}><i className="fa-solid fa-angle-right"></i></button>
+								<button className="btn btn-secondary" disabled={this.state.pageLoaded ? null : true}><i className="fa-solid fa-angle-right"></i></button>
 							</li>
 						</ul>
 					</div>
