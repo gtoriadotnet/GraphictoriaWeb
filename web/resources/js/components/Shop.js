@@ -201,6 +201,8 @@ class Shop extends Component {
 			selectedCategoryId: -1,
 			pageItems: [],
 			pageLoaded: true,
+			pageNumber: null,
+			pageCount: null,
 			error: false
 		};
 		
@@ -235,7 +237,7 @@ class Shop extends Component {
 	}
 	
 	navigateCategory(categoryId, data) {
-		this.setState({selectedCategoryId: categoryId, pageLoaded: false});
+		this.setState({selectedCategoryId: categoryId, pageLoaded: false, pageNumber: null, pageCount: null});
 		
 		let url = buildGenericApiUrl('api', 'catalog/v1/list-json');
 		let paramIterator = 0;
@@ -252,15 +254,17 @@ class Shop extends Component {
 				const items = res.data;
 				
 				this.nextCursor = items.next_cursor;
-				this.setState({ pageItems: items.data, pageLoaded: true, error: false });
+				this.prevCursor = items.prev_cursor;
+				
+				this.setState({ pageItems: items.data, pageCount: items.pages, pageNumber: 1, pageLoaded: true, error: false });
 			}).catch(err => {
-				const data = err.response;
+				const data = err.response.data;
 				
 				let errorMessage = 'An error occurred while processing your request.';
 				if(data.errors)
 					errorMessage = data.errors[0].message;
 				
-				this.setState({ pageItems: [], pageLoaded: true, error: errorMessage });
+				this.setState({ pageItems: [], pageCount: null, pageNumber: null, pageLoaded: true, error: errorMessage });
 				this.inputBox.current.focus();
 			});
 	}
@@ -323,15 +327,15 @@ class Shop extends Component {
 						</div>
 						<ul className="list-inline mx-auto mt-3">
 							<li className="list-inline-item">
-								<button className="btn btn-secondary" disabled={this.state.pageLoaded ? null : true}><i className="fa-solid fa-angle-left"></i></button>
+								<button className="btn btn-secondary" disabled={(this.state.pageLoaded && this.prevCursor != null) ? null : true}><i className="fa-solid fa-angle-left"></i></button>
 							</li>
 							<li className="list-inline-item graphictoria-paginator">
 								<span>Page&nbsp;</span>
-								<input type="text" value="1" className="form-control" disabled={this.state.pageLoaded ? null : true} />
-								<span>&nbsp;of 20</span>
+								<input type="text" value={ this.state.pageNumber || '' } className="form-control" disabled={this.state.pageLoaded ? null : true} />
+								<span>&nbsp;of { this.state.pageCount || '???' }</span>
 							</li>
 							<li className="list-inline-item">
-								<button className="btn btn-secondary" disabled={this.state.pageLoaded ? null : true}><i className="fa-solid fa-angle-right"></i></button>
+								<button className="btn btn-secondary" disabled={(this.state.pageLoaded && this.nextCursor != null) ? null : true}><i className="fa-solid fa-angle-right"></i></button>
 							</li>
 						</ul>
 					</div>

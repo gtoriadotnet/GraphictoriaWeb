@@ -10,8 +10,34 @@ use Illuminate\Support\Facades\Validator;
 
 class ShopController extends Controller
 {
+	protected $validAssetTypeIds = [
+		'2',  // T-Shirts
+		'8',  // Hats
+		'11', // Shirts
+		'12', // Pants
+		'17', // Heads
+		'18', // Faces
+		'19', // Gear
+		'32'  // Packages
+	];
+	
 	protected static function generateValidatorError($validator) {
 		return response(ValidationHelper::generateErrorJSON($validator), 400);
+	}
+	
+	protected function getAssets($assetTypeIds, $gearGenre=null)
+	{
+		// TODO: XlXi: IMPORTANT!! Do not return raw DB response, return only needed values.
+		return Asset::where('approved', true)
+					->where('moderated', false)
+					->where('onSale', true)
+					->where(function($query) use($assetTypeIds, $gearGenre) {
+						$query->whereIn('assetTypeId', explode(',', $assetTypeIds));
+						
+						if ($gearGenre != null)
+							$query->whereIn('assetAttributeId', explode(',', $gearGenre));
+					})
+					->get();
 	}
 	
     protected function listjson(Request $request)
@@ -27,13 +53,23 @@ class ShopController extends Controller
 		
 		$valid = $validator->valid();
 		
+		foreach(explode(',', $valid['assetTypeId']) as $assetTypeId) {
+			if(!in_array($assetTypeId, $this->validAssetTypeIds)) {
+				$validator->errors()->add('assetTypeId', 'Invalid assetTypeId supplied.');
+				return ShopController::generateValidatorError($validator);
+			}
+		}
+		
 		if($valid['assetTypeId'] != '19' && isset($valid['gearGenreId'])) {
-			$validator->errors()->add('gearGenreId', 'gearGenreId can only be used with typeId 19.');
+			$validator->errors()->add('gearGenreId', 'gearGenreId can only be used with assetTypeId 19.');
 			return ShopController::generateValidatorError($validator);
 		}
 		
+		$assets = $this->getAssets($valid['assetTypeId'], (isset($valid['gearGenreId']) ? $valid['gearGenreId'] : null));
+		
 		return response([
-			'data' => [],
+			'pages' => 123,
+			'data' => $assets,
 			'next_cursor' => null,
 			'prev_cursor' => null
 		]);

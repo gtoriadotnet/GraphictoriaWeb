@@ -9,26 +9,13 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class FeedController extends Controller
 {
     protected function listjson()
 	{
 		// TODO: XlXi: Group shouts.
-		$postsQuery = Shout::where([['poster_type', 'user'], ['deleted', '0']])
-							->where(function($query) {
-								$query->where('poster_id', Auth::id())
-								->orWhereExists(function($query) {
-									$query->select(DB::raw('*'))
-										->from('friends')
-										->where('accepted', 1)
-										->where(function($query) {
-											$query->whereColumn('shouts.poster_id', 'friends.sender_id')
-												->orWhereColumn('shouts.poster_id', 'friends.receiver_id');
-										});
-								});
-							})
+		$postsQuery = Shout::getPosts()
 							->orderByDesc('created_at')
 							->cursorPaginate(15);
 		
