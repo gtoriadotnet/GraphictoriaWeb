@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FeedController extends Controller
 {
-    protected function listjson()
+    protected function listJson()
 	{
 		// TODO: XlXi: Group shouts.
 		$postsQuery = Shout::getPosts()

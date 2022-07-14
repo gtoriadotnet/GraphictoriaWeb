@@ -237,7 +237,7 @@ class Shop extends Component {
 	}
 	
 	navigateCategory(categoryId, data) {
-		this.setState({selectedCategoryId: categoryId, pageLoaded: false, pageNumber: null, pageCount: null});
+		this.setState({selectedCategoryId: categoryId, pageLoaded: false});
 		
 		let url = buildGenericApiUrl('api', 'catalog/v1/list-json');
 		let paramIterator = 0;
@@ -253,9 +253,6 @@ class Shop extends Component {
 			.then(res => {
 				const items = res.data;
 				
-				this.nextCursor = items.next_cursor;
-				this.prevCursor = items.prev_cursor;
-				
 				this.setState({ pageItems: items.data, pageCount: items.pages, pageNumber: 1, pageLoaded: true, error: false });
 			}).catch(err => {
 				const data = err.response.data;
@@ -264,7 +261,7 @@ class Shop extends Component {
 				if(data.errors)
 					errorMessage = data.errors[0].message;
 				
-				this.setState({ pageItems: [], pageCount: null, pageNumber: null, pageLoaded: true, error: errorMessage });
+				this.setState({ pageItems: [], pageCount: 1, pageNumber: 1, pageLoaded: true, error: errorMessage });
 				this.inputBox.current.focus();
 			});
 	}
@@ -310,34 +307,39 @@ class Shop extends Component {
 								:
 								<div>
 									{
-										this.state.pageItems.map(({}, index) => {
-											<a className="graphictoria-item-card" href="#" key={index}>
+										this.state.pageItems.map(({Name, Creator, Thumbnail}, index) =>
+											<a className="graphictoria-item-card" href="#" key={ index }>
 												<span className="card m-2">
-													<img className="img-fluid" src="https://gtoria.local/images/testing/hat.png" />
+													<img className="img-fluid" src={ Thumbnail } />
 													<div className="p-2">
-														<p>Test hat</p>
+														<p>{ Name }</p>
 														<p className="text-muted">Free</p>
 													</div>
 												</span>
 											</a>
-										})
+										)
 									}
 								</div>
 							}
 						</div>
-						<ul className="list-inline mx-auto mt-3">
-							<li className="list-inline-item">
-								<button className="btn btn-secondary" disabled={(this.state.pageLoaded && this.prevCursor != null) ? null : true}><i className="fa-solid fa-angle-left"></i></button>
-							</li>
-							<li className="list-inline-item graphictoria-paginator">
-								<span>Page&nbsp;</span>
-								<input type="text" value={ this.state.pageNumber || '' } className="form-control" disabled={this.state.pageLoaded ? null : true} />
-								<span>&nbsp;of { this.state.pageCount || '???' }</span>
-							</li>
-							<li className="list-inline-item">
-								<button className="btn btn-secondary" disabled={(this.state.pageLoaded && this.nextCursor != null) ? null : true}><i className="fa-solid fa-angle-right"></i></button>
-							</li>
-						</ul>
+						{
+							this.state.pageCount > 1 ?
+							<ul className="list-inline mx-auto mt-3">
+								<li className="list-inline-item">
+									<button className="btn btn-secondary" disabled={(this.state.pageNumber <= 1) ? true : null}><i className="fa-solid fa-angle-left"></i></button>
+								</li>
+								<li className="list-inline-item graphictoria-paginator">
+									<span>Page&nbsp;</span>
+									<input type="text" value={ this.state.pageNumber || '' } className="form-control" disabled={this.state.pageLoaded ? null : true} />
+									<span>&nbsp;of { this.state.pageCount || '???' }</span>
+								</li>
+								<li className="list-inline-item">
+									<button className="btn btn-secondary" disabled={(this.state.pageNumber >= this.state.pageCount) ? true : null}><i className="fa-solid fa-angle-right"></i></button>
+								</li>
+							</ul>
+							:
+							null
+						}
 					</div>
 				</div>
 			</div>

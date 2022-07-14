@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\ValidationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
+use App\Models\Shout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,9 +26,9 @@ class ShopController extends Controller
 		return response(ValidationHelper::generateErrorJSON($validator), 400);
 	}
 	
-	protected function getAssets($assetTypeIds, $gearGenre=null)
+	protected static function getAssets($assetTypeIds, $gearGenre=null)
 	{
-		// TODO: XlXi: IMPORTANT!! Do not return raw DB response, return only needed values.
+		// TODO: XlXi: Group owned assets
 		return Asset::where('approved', true)
 					->where('moderated', false)
 					->where('onSale', true)
@@ -36,11 +37,10 @@ class ShopController extends Controller
 						
 						if ($gearGenre != null)
 							$query->whereIn('assetAttributeId', explode(',', $gearGenre));
-					})
-					->get();
+					});
 	}
 	
-    protected function listjson(Request $request)
+    protected function listJson(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
 			'assetTypeId' => ['required', 'regex:/^\\d(,?\\d)*$/i'],
@@ -65,13 +65,29 @@ class ShopController extends Controller
 			return ShopController::generateValidatorError($validator);
 		}
 		
-		$assets = $this->getAssets($valid['assetTypeId'], (isset($valid['gearGenreId']) ? $valid['gearGenreId'] : null));
+		/* */
+		
+		$assets = self::getAssets($valid['assetTypeId'], (isset($valid['gearGenreId']) ? $valid['gearGenreId'] : null));
+		$assets = $assets->orderByDesc('created_at')
+							->paginate(30);
+		
+		$data = [];
+		foreach($assets as $asset) {
+			$creator = $asset->user;
+			
+			array_push($data, [
+				'Name' => $asset->name,
+				'Creator' => [
+					'Name' => $creator->username,
+					'Link' => url('/user/' . strval($creator->username) . '/profile')
+				],
+				'Thumbnail' => $asset->getThumbnail()
+			]);
+		}
 		
 		return response([
-			'pages' => 123,
-			'data' => $assets,
-			'next_cursor' => null,
-			'prev_cursor' => null
+			'pages' => ($assets->hasPages() ? $assets->lastPage() : 1),
+			'data' => $data
 		]);
 	}
 }
