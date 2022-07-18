@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Asset;
+
 Route::group(['as' => 'home.'], function() {
 	Route::get('/', 'HomeController@landing')->name('landing')->middleware('guest');
 	Route::get('/my/dashboard', 'HomeController@dashboard')->name('dashboard')->middleware('auth');
@@ -7,6 +9,7 @@ Route::group(['as' => 'home.'], function() {
 
 Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 	Route::get('/', 'ShopController@index')->name('index');
+	Route::get('/{asset}/{assetName:slug?}', 'ShopController@showAsset')->name('asset');
 });
 
 Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {

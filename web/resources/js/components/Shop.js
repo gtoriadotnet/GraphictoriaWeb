@@ -307,13 +307,14 @@ class Shop extends Component {
 								:
 								<div>
 									{
-										this.state.pageItems.map(({Name, Creator, Thumbnail}, index) =>
-											<a className="graphictoria-item-card" href="#" key={ index }>
+										this.state.pageItems.map(({Name, Creator, Thumbnail, Url}, index) =>
+											<a className="graphictoria-item-card" href={ Url } key={ index }>
 												<span className="card m-2">
 													<img className="img-fluid" src={ Thumbnail } />
 													<div className="p-2">
 														<p>{ Name }</p>
-														<p className="text-muted">Free</p>
+														{ /* TODO: XlXi: price */ }
+														<p className="text-muted">Todo123</p>
 													</div>
 												</span>
 											</a>

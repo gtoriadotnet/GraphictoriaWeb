@@ -8,6 +8,7 @@ use App\Models\Asset;
 use App\Models\Shout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ShopController extends Controller
 {
@@ -75,13 +76,15 @@ class ShopController extends Controller
 		foreach($assets as $asset) {
 			$creator = $asset->user;
 			
+			// TODO: XlXi: creator profile url
 			array_push($data, [
 				'Name' => $asset->name,
 				'Creator' => [
 					'Name' => $creator->username,
-					'Link' => url('/user/' . strval($creator->username) . '/profile')
+					'Url' => 'todo123'
 				],
-				'Thumbnail' => $asset->getThumbnail()
+				'Thumbnail' => $asset->getThumbnail(),
+				'Url' => route('shop.asset', ['asset' => $asset->id, 'assetName' => Str::slug($asset->name, '-')])
 			]);
 		}
 		
