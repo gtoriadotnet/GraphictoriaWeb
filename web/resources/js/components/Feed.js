@@ -118,20 +118,20 @@ class Feed extends Component {
 					(
 						this.state.feedPosts.length > 0 ?
 						<>
-							<div className="card d-flex">
+							<div className="card">
 							{
 								this.state.feedPosts.map(({ postId, poster, time, content }, index) => 
 									<>
-										<div className="row p-2" onMouseEnter={ () => this.setState({ mouseHover: index }) } onMouseLeave={ () => this.setState({ mouseHover: -1 }) }>
-											<div className="col-3 col-sm-2 col-md-1">
+										<div className="d-flex p-2" onMouseEnter={ () => this.setState({ mouseHover: index }) } onMouseLeave={ () => this.setState({ mouseHover: -1 }) }>
+											<div className="me-2">
 												<a href={ buildGenericApiUrl('www', (poster.type == 'User' ? `users/${poster.name}/profile` : `groups/${poster.id}`)) }>
 													{ poster.type == 'User' ?
-														<img src={ poster.thumbnail } width="90" height="90" className="img-fluid border graphictora-user-circle" /> :
-														<img src={ poster.thumbnail } width="90" height="90" className="img-fluid" />
+														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="border graphictora-feed-user-circle" /> :
+														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="img-fluid" />
 													}
 												</a>
 											</div>
-											<div className="col-9 col-sm-10 col-md-11">
+											<div className="flex-fill">
 												<div className="d-flex">
 													<a href={ buildGenericApiUrl('www', (poster.type == 'User' ? `users/${poster.name}/profile` : `groups/${poster.id}`)) } className="text-decoration-none fw-bold me-auto">{ poster.name }{ poster.icon ? <>&nbsp;<i className={ poster.icon }></i></> : null }</a>
 													{ this.state.mouseHover == index ? <a href={ buildGenericApiUrl('www', `report/user-wall/${postId}`) } target="_blank" className="text-decoration-none link-danger me-2">Report <i className="fa-solid fa-circle-exclamation"></i></a> : null }
