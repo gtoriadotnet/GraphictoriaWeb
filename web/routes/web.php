@@ -12,6 +12,12 @@ Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 	Route::get('/{asset}/{assetName:slug?}', 'ShopController@showAsset')->name('asset');
 });
 
+Route::middleware('auth')->group(function () {
+	Route::group(['as' => 'user.', 'prefix' => 'my'], function() {
+		Route::get('/settings', 'SettingsController@index')->name('index');
+	});
+});
+
 Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 	Route::group(['as' => 'protection.', 'prefix' => 'request-blocked'], function() {
 		Route::get('/', 'DoubleSessionBlockController@index')->name('index');

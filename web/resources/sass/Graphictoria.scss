@@ -36,6 +36,11 @@ img.twemoji {
 
 // Shop
 
+.graphictoria-item-page {
+	max-width: 1096px;
+    margin: 0 auto 0 auto;
+}
+
 .graphictoria-list-dropdown::after {
 	@include caret-down();
 
@@ -145,7 +150,9 @@ img.twemoji {
 }
 
 .modal-content {
-  background-color: #222 !important;
+	html.gtoria-dark & {
+		background-color: #222 !important;
+	}
 }
 
 .float-right {
@@ -958,6 +965,37 @@ input {
 }
 
 // Containers
+
+@media (min-width: 768px) {
+	.container-small {
+		width: 300px;
+	}
+	.container-large {
+		width: 970px;
+	} 
+}
+
+@media (min-width: 992px) {
+	.container-small {
+		width: 500px;
+	}
+	.container-large {
+		width: 1170px;
+	} 
+}
+
+@media (min-width: 1200px) {
+	.container-small {
+		width: 700px;
+	}
+	.container-large {
+		width: 1500px;
+	} 
+}
+
+.container-small, .container-large {
+	max-width: 100%;
+}
 
 a.list-group-item {
   &-success {
