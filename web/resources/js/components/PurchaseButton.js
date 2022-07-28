@@ -4,7 +4,6 @@
 import { createRef, Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import * as Bootstrap from 'bootstrap';
 import classNames from 'classnames/bind';
 
 const itemId = 'gt-item';

@@ -20,4 +20,6 @@ $(document).ready(function() {
 	if (document.getElementById(searchBarId)) {
 		render(<SearchBar />, document.getElementById(searchBarId));
 	}
+	
+	window.Bootstrap = Bootstrap;
 });
