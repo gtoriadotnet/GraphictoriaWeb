@@ -3,12 +3,13 @@
 @section('title', $title)
 
 @section('page-specific')
+<script src="{{ mix('js/Item.js') }}"></script>
 @endsection
 
 @section('content')
 {{-- XlXi: MOVE THESE TO JS --}}
 @if(false)
-<div class="modal fade" id="purchase-modal" aria-hidden="true" tabindex="-1">
+<div class="modal fade show" id="purchase-modal" aria-hidden="true" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content text-center">
 			<div class="modal-header">
@@ -29,7 +30,7 @@
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="purchase-modal" aria-hidden="true" tabindex="-1">
+<div class="modal fade show" id="purchase-modal" aria-hidden="true" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content text-center">
 			<div class="modal-header">
@@ -51,7 +52,20 @@
 	@if(!$asset->approved)
 		<div class="alert alert-danger text-center"><strong>This asset is pending approval.</strong> It will not appear in-game and cannot be voted on or purchased at this time.</div>
 	@endif
-	<div class="graphictoria-item-page">
+	<div id="gt-item" class="graphictoria-item-page"
+		@auth
+			data-asset-id="{{ $asset->id }}"
+			data-asset-name="{{ $asset->name }}"
+			data-asset-creator="{{ $asset->user->username }}"
+			data-asset-type="{{ $asset->typeString() }}"
+			data-asset-on-sale="{{ $asset->onSale }}"
+			@if ($asset->onSale)
+				data-asset-price="{{ $asset->priceInTokens }}"
+				data-user-currency="{{ Auth::user()->tokens }}"
+				data-can-afford="{{ $asset->priceInTokens <= Auth::user()->tokens }}"
+			@endif
+		@endauth
+	>
 		<div class="card shadow-sm">
 			<div class="card-body">
 				<div class="d-flex">
@@ -75,17 +89,9 @@
 									</h4>
 								@endif
 								@auth
-									@php
-										$buttonText = 'Buy';
-										$buttonClass = 'success';
-										
-										// TODO: XlXi: Owned items
-										if(!$asset->onSale) {
-											$buttonText = 'Offsale';
-											$buttonClass = 'secondary';
-										}
-									@endphp
-									<button id="purchase-button" class="ms-auto px-5 btn btn-lg btn-{{ $buttonClass }}" disabled>{{ $buttonText }}</button>
+									<div id="gt-purchase-button" class="ms-auto">
+										<button class="px-5 btn btn-lg btn-success" disabled>Buy</button>
+									</div>
 								@endauth
 							</div>
 						</div>

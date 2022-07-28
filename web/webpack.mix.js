@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
 	.js('resources/js/pages/Maintenance.js', 'public/js')
 	.js('resources/js/pages/Dashboard.js', 'public/js')
 	.js('resources/js/pages/Shop.js', 'public/js')
+	.js('resources/js/pages/Item.js', 'public/js')
     .react()
     .sass('resources/sass/Graphictoria.scss', 'public/css')
 	.banner({
