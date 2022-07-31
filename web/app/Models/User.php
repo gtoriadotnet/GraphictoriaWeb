@@ -6,8 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\ResetPasswordNotification;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
+
+use App\Notifications\ResetPasswordNotification;
+use App\Models\Friend;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -55,5 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
 		$url = route('auth.password.reset-submit', ['token' => $token]);
 		
 		$this->notify(new ResetPasswordNotification($url, $this));
+	}
+	
+	public function getFriendRequests()
+	{
+		return Friend::where('receiver_id', Auth::user()->id)
+						->where('accepted', false);
 	}
 }

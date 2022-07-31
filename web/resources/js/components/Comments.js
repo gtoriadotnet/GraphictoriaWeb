@@ -14,6 +14,7 @@ class Comments extends Component {
 		return (
 			<>
 				<h4 className="pt-3">Comments</h4>
+				{ /* TODO: XlXi: Hide comment input when logged out*/ }
 				<div className="card mb-2">
 					<div className="input-group p-2">
 						<input disabled="disabled" type="text" className="form-control" placeholder="Write a comment!" />

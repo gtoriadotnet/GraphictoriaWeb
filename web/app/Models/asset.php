@@ -155,7 +155,7 @@ class Asset extends Model
 	public function getContent($version = 0)
 	{
 		if($version === 0)
-			return $this->latestVersion()->contentURL;
+			return $this->latestVersion->contentURL;
 		
 		$assetVersion = AssetVersion::where('parentAsset', $this->id)
 									->where('localVersion', $version)
