@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 use App\Models\AssetVersion;
 use App\Models\User;
 
@@ -149,6 +151,28 @@ class Asset extends Model
 	public function getThumbnail()
 	{
 		return 'https://gtoria.local/images/testing/hat.png';
+	}
+	
+	public function getCreated()
+	{
+		$date = $this['created_at'];
+		if(Carbon::now()->greaterThan($date->copy()->addDays(2)))
+			$date = $date->isoFormat('lll');
+		else
+			$date = $date->calendar();
+		
+		return $date;
+	}
+	
+	public function getUpdated()
+	{
+		$date = $this['updated_at'];
+		if(Carbon::now()->greaterThan($date->copy()->addDays(2)))
+			$date = $date->isoFormat('lll');
+		else
+			$date = $date->calendar();
+		
+		return $date;
 	}
 	
 	// Version 0 is internally considered the latest.

@@ -64,6 +64,24 @@
 						</div>
 						<div class="row mt-2">
 							<div class="col-3 fw-bold">
+								<p>Created</p>
+							</div>
+							<div class="col-9">
+								<p>{{ $asset->getCreated() }}</p>
+							</div>
+						</div>
+						@if( $asset->getUpdated() != $asset->getCreated() )
+							<div class="row mt-2">
+								<div class="col-3 fw-bold">
+									<p>Updated</p>
+								</div>
+								<div class="col-9">
+									<p>{{ $asset->getUpdated() }}</p>
+								</div>
+							</div>
+						@endif
+						<div class="row mt-2">
+							<div class="col-3 fw-bold">
 								<p>Description</p>
 							</div>
 							<div class="col-9">
