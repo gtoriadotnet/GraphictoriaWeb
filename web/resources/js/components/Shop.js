@@ -1,5 +1,7 @@
-// © XlXi 2022
-// Graphictoria 5
+/*
+	Graphictoria 5 (https://gtoria.net)
+	Copyright © XlXi 2022
+*/
 
 import { Component, createRef } from 'react';
 
@@ -239,7 +241,7 @@ class Shop extends Component {
 	navigateCategory(categoryId, data) {
 		this.setState({selectedCategoryId: categoryId, pageLoaded: false});
 		
-		let url = buildGenericApiUrl('api', 'catalog/v1/list-json');
+		let url = buildGenericApiUrl('api', 'shop/v1/list-json');
 		let paramIterator = 0;
 		Object.keys(data).filter(key => {
 			if (key == 'label')

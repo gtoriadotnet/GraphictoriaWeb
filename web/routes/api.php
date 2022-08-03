@@ -11,7 +11,14 @@ Route::middleware('auth')->group(function () {
 	});
 });
 
-Route::group(['as' => 'catalog.', 'prefix' => 'catalog'], function() {
+Route::group(['as' => 'comments.', 'prefix' => 'comments'], function() {
+		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+			Route::get('/list-json', 'CommentsController@listJson')->name('list');
+			Route::post('/share', 'CommentsController@share')->name('share')->middleware(['auth', 'throttle:3,2']);
+		});
+	});
+
+Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 			Route::get('/list-json', 'ShopController@listJson')->name('list');
 		});

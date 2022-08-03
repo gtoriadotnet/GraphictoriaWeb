@@ -1,10 +1,10 @@
-// © XlXi 2022
-// Graphictoria 5
+/*
+	Graphictoria 5 (https://gtoria.net)
+	Copyright © XlXi 2022
+*/
 
 import { Component, createRef } from 'react';
-
 import axios from 'axios';
-
 import Twemoji from 'react-twemoji';
 
 import { buildGenericApiUrl } from '../util/HTTP.js';
@@ -124,7 +124,7 @@ class Feed extends Component {
 									<>
 										<div className="d-flex p-2" onMouseEnter={ () => this.setState({ mouseHover: index }) } onMouseLeave={ () => this.setState({ mouseHover: -1 }) }>
 											<div className="me-2">
-												<a href={ buildGenericApiUrl('www', (poster.type == 'User' ? `users/${poster.name}/profile` : `groups/${poster.id}`)) }>
+												<a href={ poster.url }>
 													{ poster.type == 'User' ?
 														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="border graphictora-feed-user-circle" /> :
 														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="img-fluid" />
@@ -133,8 +133,8 @@ class Feed extends Component {
 											</div>
 											<div className="flex-fill">
 												<div className="d-flex">
-													<a href={ buildGenericApiUrl('www', (poster.type == 'User' ? `users/${poster.name}/profile` : `groups/${poster.id}`)) } className="text-decoration-none fw-bold me-auto">{ poster.name }{ poster.icon ? <>&nbsp;<i className={ poster.icon }></i></> : null }</a>
-													{ this.state.mouseHover == index ? <a href={ buildGenericApiUrl('www', `report/user-wall/${postId}`) } target="_blank" className="text-decoration-none link-danger me-2">Report <i className="fa-solid fa-circle-exclamation"></i></a> : null }
+													<a href={ poster.url } className="text-decoration-none fw-bold me-auto">{ poster.name }{ poster.icon ? <>&nbsp;<i className={ poster.icon }></i></> : null }</a>
+													{ this.state.mouseHover == index ? <a href={ buildGenericApiUrl('www', `report/wall/${postId}`) } target="_blank" className="text-decoration-none link-danger me-2">Report <i className="fa-solid fa-circle-exclamation"></i></a> : null }
 													<p className="text-muted">{ time }</p>
 												</div>
 												<Twemoji options={{ className: 'twemoji', base: '/images/twemoji/', folder: 'svg', ext: '.svg' }}>

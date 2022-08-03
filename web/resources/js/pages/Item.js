@@ -1,5 +1,7 @@
-// © XlXi 2022
-// Graphictoria 5
+/*
+	Graphictoria 5 (https://gtoria.net)
+	Copyright © XlXi 2022
+*/
 
 import $ from 'jquery';
 
@@ -10,7 +12,7 @@ import Comments from '../components/Comments';
 import PurchaseButton from '../components/PurchaseButton';
 
 const purchaseId = 'gt-purchase-button';
-const commentsId = 'gt-comments';
+const commentsId = 'gt-comments'; // XlXi: Keep this in sync with the Comments component.
 
 $(document).ready(function() {
 	if (document.getElementById(commentsId)) {

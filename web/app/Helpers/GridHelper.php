@@ -13,23 +13,31 @@ use App\Models\DynamicWebConfiguration;
 
 class GridHelper
 {
-	public static function isIpWhitelisted() {
+	public static function isIpWhitelisted()
+	{
 		$ip = request()->ip();
 		$whitelistedIps = explode(';', DynamicWebConfiguration::where('name', 'WhitelistedIPs')->first()->value);
 		
 		return in_array($ip, $whitelistedIps);
 	}
 	
-	public static function isAccessKeyValid() {
+	public static function isAccessKeyValid()
+	{
 		$accessKey = DynamicWebConfiguration::where('name', 'ComputeServiceAccessKey')->first()->value;
 		
 		return (request()->header('AccessKey') == $accessKey);
 	}
 	
-	public static function hasAllAccess() {
+	public static function hasAllAccess()
+	{
 		if(app()->runningInConsole()) return true;
 		if(GridHelper::isIpWhitelisted() && GridHelper::isAccessKeyValid()) return true;
 		
 		return false;
+	}
+	
+	public static function createScript($scripts = [], $arguments = [])
+	{
+		
 	}
 }

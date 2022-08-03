@@ -7,47 +7,6 @@
 @endsection
 
 @section('content')
-{{-- XlXi: MOVE THESE TO JS --}}
-@if(false)
-<div class="modal fade show" id="purchase-modal" aria-hidden="true" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content text-center">
-			<div class="modal-header">
-				<h5 class="modal-title">Purchase Item</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body d-flex flex-column">
-				<p>Would you like to purchase the {{ $asset->typeString() }} "<strong>{{ $asset->name }}</strong>" from {{ $asset->user->username }} for <strong style="color:#e59800!important;font-weight:bold"><img src="{{ asset('images/symbols/token.svg') }}" height="16" width="16" class="img-fluid" style="margin-top:-1px" />{{ number_format($asset->priceInTokens) }}</strong>?</p>
-				<img src={{ asset('images/testing/hat.png') }} width="240" height="240" alt="{{ $asset->name }}" class="mx-auto my-2 img-fluid" />
-			</div>
-			<div class="modal-footer flex-column">
-				<div class="mx-auto">
-					<button class="btn btn-success" data-bs-dismiss="modal">Purchase</button>
-					<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-				</div>
-				<p class="text-muted pt-1">You will have <strong style="color:#e59800!important;font-weight:bold"><img src="{{ asset('images/symbols/token.svg') }}" height="16" width="16" class="img-fluid" style="margin-top:-1px" />{{ max(0, number_format(Auth::user()->tokens - $asset->priceInTokens)) }}</strong> after this purchase.</p>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal fade show" id="purchase-modal" aria-hidden="true" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content text-center">
-			<div class="modal-header">
-				<h5 class="modal-title">Insufficient Funds</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<p>You don't have enough tokens to buy this item.</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
-			</div>
-		</div>
-	</div>
-</div>
-@endif
-
 <div class="container mx-auto py-5">
 	@if(!$asset->approved)
 		<div class="alert alert-danger text-center"><strong>This asset is pending approval.</strong> It will not appear in-game and cannot be voted on or purchased at this time.</div>
@@ -119,7 +78,10 @@
 				</div>
 			</div>
 		</div>
-		<div id="gt-comments"></div>
+		<div id="gt-comments"
+			data-can-comment="{{ intval(Auth::check()) }}"
+			data-asset-id="{{ $asset->id }}"
+		></div>
 	</div>
 </div>
 @endsection

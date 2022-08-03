@@ -23,10 +23,6 @@ class ShopController extends Controller
 		'32'  // Packages
 	];
 	
-	protected static function generateValidatorError($validator) {
-		return response(ValidationHelper::generateErrorJSON($validator), 400);
-	}
-	
 	protected static function getAssets($assetTypeIds, $gearGenre=null)
 	{
 		// TODO: XlXi: Group owned assets
@@ -49,7 +45,7 @@ class ShopController extends Controller
 		]);
 		
 		if($validator->fails()) {
-			return ShopController::generateValidatorError($validator);
+			return ValidationHelper::generateValidatorError($validator);
 		}
 		
 		$valid = $validator->valid();
@@ -57,13 +53,13 @@ class ShopController extends Controller
 		foreach(explode(',', $valid['assetTypeId']) as $assetTypeId) {
 			if(!in_array($assetTypeId, $this->validAssetTypeIds)) {
 				$validator->errors()->add('assetTypeId', 'Invalid assetTypeId supplied.');
-				return ShopController::generateValidatorError($validator);
+				return ValidationHelper::generateValidatorError($validator);
 			}
 		}
 		
 		if($valid['assetTypeId'] != '19' && isset($valid['gearGenreId'])) {
 			$validator->errors()->add('gearGenreId', 'gearGenreId can only be used with assetTypeId 19.');
-			return ShopController::generateValidatorError($validator);
+			return ValidationHelper::generateValidatorError($validator);
 		}
 		
 		/* */

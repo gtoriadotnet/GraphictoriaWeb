@@ -11,6 +11,10 @@ use Illuminate\Validation\Validator;
 
 class ValidationHelper
 {
+	public static function generateValidatorError($validator) {
+		return response(self::generateErrorJSON($validator), 400);
+	}
+	
 	public static function generateErrorJSON(Validator $validator) {
 		$errorModel = [
 			'errors' => []

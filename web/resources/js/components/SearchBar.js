@@ -1,5 +1,7 @@
-// © XlXi 2022
-// Graphictoria 5
+/*
+	Graphictoria 5 (https://gtoria.net)
+	Copyright © XlXi 2022
+*/
 
 import { useState, useRef, useEffect } from 'react';
 

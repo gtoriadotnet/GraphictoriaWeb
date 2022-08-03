@@ -16,7 +16,7 @@ class FeedController extends Controller
 	{
 		// TODO: XlXi: Group shouts.
 		$postsQuery = Shout::getPosts()
-							->orderByDesc('created_at')
+							->orderByDesc('id')
 							->cursorPaginate(15);
 		
 		/* */
@@ -38,10 +38,12 @@ class FeedController extends Controller
 			if($post['poster_type'] == 'user') {
 				$user = User::where('id', $post['poster_id'])->first();
 				
+				// TODO: XlXi: user profile link
 				$poster = [
 					'type' => 'User',
 					'name' => $user->username,
-					'thumbnail' => 'https://www.gtoria.local/images/testing/headshot.png'
+					'thumbnail' => 'https://www.gtoria.local/images/testing/headshot.png',
+					'url' => 'https://gtoria.local/todo123'
 				];
 			}
 			
@@ -49,7 +51,7 @@ class FeedController extends Controller
 			
 			$postDate = $post['updated_at'];
 			if(Carbon::now()->greaterThan($postDate->copy()->addDays(2)))
-				$postDate = $postDate->isoFormat('LLLL');
+				$postDate = $postDate->isoFormat('lll');
 			else
 				$postDate = $postDate->calendar();
 			
