@@ -38,6 +38,6 @@ class GridHelper
 	
 	public static function createScript($scripts = [], $arguments = [])
 	{
-		
+		// TODO: XlXi: this when we get the grid working with the site
 	}
 }

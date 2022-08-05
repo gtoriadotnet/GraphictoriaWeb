@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Notifications\ResetPasswordNotification;
+use App\Models\UserRoleset;
+use App\Models\Roleset;
 use App\Models\Friend;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -64,5 +66,47 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return Friend::where('receiver_id', Auth::user()->id)
 						->where('accepted', false);
+	}
+	
+	public function getProfileUrl()
+	{
+		return route('user.profile', ['user' => $this->id]);
+	}
+	
+	public function _hasRolesetInternal($roleName)
+	{
+		$roleset = Roleset::where('Name', $roleName)->first();
+		if(
+			UserRoleset::where('Roleset_id', $roleset->id)
+						->where('User_id', Auth::user()->id)
+						->exists()
+		)
+			return true;
+		
+		return false;
+	}
+	
+	public function hasRoleset($roleName)
+	{
+		if(!Auth::check())
+			return false;
+		
+		$roleName = strtolower($roleName);
+		
+		// Special cases for Owner and Administrator rolesets
+		if($roleName == 'moderator') {
+			return (
+				$this->_hasRolesetInternal('Owner') ||
+				$this->_hasRolesetInternal('Administrator') ||
+				$this->_hasRolesetInternal('Moderator')
+			);
+		} elseif($roleName == 'administrator') {
+			return (
+				$this->_hasRolesetInternal('Owner') ||
+				$this->_hasRolesetInternal('Administrator')
+			);
+		}
+		
+		return $this->_hasRolesetInternal($roleName);
 	}
 }

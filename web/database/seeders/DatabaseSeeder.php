@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
 			//FFlagSeeder::class,
-			WebConfigurationSeeder::class
+			WebConfigurationSeeder::class,
+			RolesetSeeder::class
 		]);
     }
 }

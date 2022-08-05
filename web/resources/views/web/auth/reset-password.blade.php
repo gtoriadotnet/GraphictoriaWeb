@@ -27,7 +27,7 @@
 					@csrf
 					<input type="hidden" name="token" value="{{ $request->route('token') }}" />
 					@foreach($fields as $field => $label)
-						<input type="{{ $field == 'password_confirmation' ? 'password' : $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" :value="old($field)" />
+						<input type="{{ $field == 'password_confirmation' ? 'password' : $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" value="{{ old($field) }}" />
 					@endforeach
 					<button class="btn btn-primary px-5" type="submit">Change Password</button>
 				</form>

@@ -6,6 +6,13 @@
 <script src="{{ mix('js/Item.js') }}"></script>
 @endsection
 
+@section('quick-admin')
+<li class="nav-item">
+	{{-- TODO: XlXi: Make this use route() --}}
+	<a href="{{ url('/admin/moderate?id=' . $asset->id . '&type=asset') }}" class="nav-link py-0">Moderate Asset</a>
+</li>
+@endsection
+
 @section('content')
 <div class="container mx-auto py-5">
 	@if(!$asset->approved)
@@ -29,12 +36,18 @@
 			<div class="card-body">
 				<div class="d-flex">
 					<div class="pe-4">
-						<img src={{ asset('images/testing/hat.png') }} alt="{{ $asset->name }}" class="border img-fluid" />
+						<div class="border-1 position-relative">
+							<img src={{ asset('images/testing/hat.png') }} alt="{{ $asset->name }}" class="border img-fluid" />
+							<div id="gt-thumbnail-toolbar"></div>
+							<div class="d-flex position-absolute bottom-0 end-0 pb-2 pe-2">
+								<button class="btn btn-secondary me-2">Try On</button>
+								<button class="btn btn-secondary">3D</button>
+							</div>
+						</div>
 					</div>
 					<div class="flex-fill">
 						<h3 class="mb-0">{{ $asset->name }}</h3>
-						{{-- TODO: XlXi: url to user's profile --}}
-						<p>By {{ $asset->user->username }}</p>
+						<p>By <a class="text-decoration-none fw-normal" href="{{ $asset->user->getProfileUrl() }}">{{ $asset->user->username }}</a></p>
 						<hr />
 						{{-- TODO: XlXi: limiteds/trading --}}
 						<div class="row mt-2">

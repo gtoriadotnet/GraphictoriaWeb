@@ -33,7 +33,7 @@
 				<form method="POST" action="{{ route('auth.register.submit') }}">
 					@csrf
 					@foreach($fields as $field => $label)
-						<input type="{{ $field == 'password_confirmation' ? 'password' : $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" :value="old($field)" />
+						<input type="{{ $field == 'password_confirmation' ? 'password' : $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" value="{{ old($field) }}" />
 					@endforeach
 					<button class="btn btn-success px-5 mt-3" type="submit">Sign Up</button>
 				</form>

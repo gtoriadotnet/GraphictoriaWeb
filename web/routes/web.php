@@ -1,6 +1,11 @@
 <?php
 
 use App\Models\Asset;
+use App\Models\User;
+
+Route::group(['as' => 'user.', 'prefix' => 'users'], function() {
+	Route::get('/{user}/profile', 'ProfileController@index')->name('profile');
+});
 
 Route::group(['as' => 'home.'], function() {
 	Route::get('/', 'HomeController@landing')->name('landing')->middleware('guest');

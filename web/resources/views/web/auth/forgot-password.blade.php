@@ -34,7 +34,7 @@
 				<form method="POST" action="{{ route('auth.password.forgot-submit') }}">
 					@csrf
 					@foreach($fields as $field => $label)
-						<input type="{{ $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" :value="old($field)" />
+						<input type="{{ $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" value="{{ old($field) }}" />
 					@endforeach
 					<a href="{{ route('auth.login.index') }}" class="btn btn-secondary px-5" ><i class="fa-solid fa-angles-left"></i> Back</a>&nbsp;
 					<button class="btn btn-primary px-5" type="submit">Send Reset Link</button>

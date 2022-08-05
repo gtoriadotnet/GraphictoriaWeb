@@ -72,12 +72,11 @@ class ShopController extends Controller
 		foreach($assets as $asset) {
 			$creator = $asset->user;
 			
-			// TODO: XlXi: creator profile url
 			array_push($data, [
 				'Name' => $asset->name,
 				'Creator' => [
 					'Name' => $creator->username,
-					'Url' => 'todo123'
+					'Url' => $creator->getProfileUrl()
 				],
 				'Thumbnail' => $asset->getThumbnail(),
 				'Url' => route('shop.asset', ['asset' => $asset->id, 'assetName' => Str::slug($asset->name, '-')])

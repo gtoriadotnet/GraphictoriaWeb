@@ -47,11 +47,10 @@ class CommentsController extends Controller
 		
 		foreach($comments as $comment) {
 			// TODO: XlXi: user profile link
-			// TODO: XlXi: user thumbnail
 			$poster = [
 				'name' => $comment->user->username,
 				'thumbnail' => 'https://www.gtoria.local/images/testing/headshot.png',
-				'url' => 'https://gtoria.local/todo123'
+				'url' => $comment->user->getProfileUrl()
 			];
 			
 			$postDate = $comment['updated_at'];

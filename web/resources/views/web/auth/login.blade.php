@@ -33,7 +33,7 @@
 					<form method="POST" action="{{ route('auth.login.submit') }}">
 						@csrf
 						@foreach($fields as $field => $label)
-							<input type="{{ $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" :value="old($field)" />
+							<input type="{{ $field }}" @class(['form-control', 'mb-2', 'is-invalid'=>($errors->first($field) != null)]) placeholder="{{ $label }}" name="{{ $field }}" value="{{ old($field) }}" />
 						@endforeach
 						<div class="mb-2">
 							<input class="form-check-input" type="checkbox" value="" id="remember" name="remember">

@@ -38,12 +38,11 @@ class FeedController extends Controller
 			if($post['poster_type'] == 'user') {
 				$user = User::where('id', $post['poster_id'])->first();
 				
-				// TODO: XlXi: user profile link
 				$poster = [
 					'type' => 'User',
 					'name' => $user->username,
 					'thumbnail' => 'https://www.gtoria.local/images/testing/headshot.png',
-					'url' => 'https://gtoria.local/todo123'
+					'url' => $user->getProfileUrl()
 				];
 			}
 			
