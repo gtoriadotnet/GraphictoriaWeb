@@ -62,6 +62,12 @@
 					<div class="collapse navbar-collapse" id="graphictoria-admin-nav">
 						<ul class="navbar-nav graphictoria-admin-nav ms-auto">
 							@yield('quick-admin')
+							@admin
+								<li class="nav-item">
+									{{-- TODO: XlXi: Make this use route() --}}
+									<a href="{{ url('/admin/arbiter-diag') }}" class="nav-link py-0">Arbiter Diag</a>
+								</li>
+							@endadmin
 							<li class="nav-item">
 								{{-- TODO: XlXi: Make this use route() --}}
 								<a href="{{ url('/admin') }}" class="nav-link py-0"><i class="fa-solid fa-gavel"></i></a>
@@ -83,7 +89,7 @@
 											@endphp
 											<div
 												class="{{ $admin_memorybar_color }} rounded-1 position-absolute graphictoria-admin-memorybar"
-												style="width:{{ $admin_memorybar_usage }}px!important;height:8px!important;"
+												style="width:{{ $admin_memorybar_usage }}%!important;height:8px!important;"
 											></div>
 										</div>
 										<i class="my-auto fa-solid fa-gear"></i>
@@ -105,7 +111,7 @@
 											@endphp
 											<div
 												class="{{ $admin_cpubar_color }} rounded-1 position-absolute graphictoria-admin-memorybar"
-												style="width:{{ $admin_cpubar_usage }}px!important;height:8px!important;"
+												style="width:{{ $admin_cpubar_usage }}%!important;height:8px!important;"
 											></div>
 										</div>
 										<i class="my-auto fa-solid fa-microchip"></i>
@@ -173,7 +179,6 @@
 						<div id="graphictoria-nav-searchbar" class="graphictoria-search"></div>
 						<ul class="navbar-nav ms-auto me-2">
 							<li class="nav-item">
-								{{-- TODO: XlXi: messages and notifications --}}
 								<a @class(['nav-link', 'active'=>str_starts_with(Request::path(), 'my/friends')]) href="{{ url('/my/friends') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Friends">
 									@php
 										$friendRequestCount = Auth::user()->getFriendRequests()->count();
@@ -186,6 +191,16 @@
 										</span>
 									@endif
 									<i class="fa-solid fa-user-group"></i>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a @class(['nav-link', 'active'=>str_starts_with(Request::path(), 'my/messages')]) href="{{ url('/my/messages') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages">
+									<i class="fa-solid fa-inbox"></i>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+									<i class="fa-solid fa-bell"></i>
 								</a>
 							</li>
 						</ul>

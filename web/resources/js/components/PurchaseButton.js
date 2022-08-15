@@ -4,7 +4,6 @@
 */
 
 import { createRef, Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import classNames from 'classnames/bind';
 

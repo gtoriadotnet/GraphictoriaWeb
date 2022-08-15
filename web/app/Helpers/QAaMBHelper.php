@@ -115,11 +115,13 @@ class QAaMBHelper
 	{
 		$memoryInfo = self::getSystemMemoryInfo();
 		
+		// XlXi: the -2 is required so it fits inside of the bar thing
+		// XlXi: change this if theres ever a separate graph
 		return sprintf(
 			'%s of %s (%s%%) <br/> %s Free',
 			self::memoryString($memoryInfo['MemTotal'] - $memoryInfo['MemFree']),
 			self::memoryString($memoryInfo['MemTotal']),
-			round(self::getMemoryPercentage() * 100),
+			round(self::getMemoryPercentage() * (100-2)),
 			self::memoryString($memoryInfo['MemFree'])
 		);
 	}
@@ -133,9 +135,11 @@ class QAaMBHelper
 	
 	public static function getCpuUsage()
 	{
+		// XlXi: the -2 is required so it fits inside of the bar thing
+		// XlXi: change this if theres ever a separate graph
 		return sprintf(
 			'%s%% CPU Usage',
-			round(self::getSystemCpuInfo() * 100)
+			round(self::getSystemCpuInfo() * (100-2))
 		);
 	}
 }

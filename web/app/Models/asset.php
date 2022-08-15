@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-use App\Models\AssetVersion;
-use App\Models\User;
-
 class Asset extends Model
 {
     use HasFactory;
@@ -151,6 +148,18 @@ class Asset extends Model
 	public function getThumbnail()
 	{
 		return 'https://gtoria.local/images/testing/hat.png';
+	}
+	
+	public function set2DHash($hash)
+	{
+		$this->thumbnail2DHash = $hash;
+		$this->save();
+	}
+	
+	public function set3DHash($hash)
+	{
+		$this->thumbnail3DHash = $hash;
+		$this->save();
 	}
 	
 	public function getCreated()

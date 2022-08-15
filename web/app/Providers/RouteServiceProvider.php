@@ -54,6 +54,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
 				->namespace('App\Http\Controllers\Api')
                 ->group(base_path('routes/api.php'));
+				
+			//
+			// Domain: cdn.gtoria.net
+			//
+            Route::domain('cdn.' . DomainHelper::TopLevelDomain())
+                ->middleware('api')
+				->namespace('App\Http\Controllers\Cdn')
+                ->group(base_path('routes/cdn.php'));
         });
     }
 

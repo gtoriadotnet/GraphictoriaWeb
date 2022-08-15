@@ -7,6 +7,26 @@
 @endsection
 
 @section('quick-admin')
+@owner
+	<li class="nav-item">
+		{{-- TODO: XlXi: Make this use route() --}}
+		<a href="{{ url('/admin/grant-asset?id=' . $asset->id) }}" class="nav-link py-0">Grant Asset</a>
+	</li>
+@endowner
+@admin
+	<li class="nav-item">
+		{{-- TODO: XlXi: Make this use route() --}}
+		<a href="{{ url('/admin/rerender-asset?id=' . $asset->id) }}" class="nav-link py-0">Rerender Asset</a>
+	</li>
+	<li class="nav-item">
+		{{-- TODO: XlXi: Make this use route() --}}
+		<a href="{{ url('/admin/asset-dependencies?id=' . $asset->id) }}" class="nav-link py-0">Asset Dependencies</a>
+	</li>
+	<li class="nav-item">
+		{{-- TODO: XlXi: Make this use route() --}}
+		<a href="{{ url('/admin/endorse-asset?id=' . $asset->id) }}" class="nav-link py-0">Endorse Asset</a>
+	</li>
+@endadmin
 <li class="nav-item">
 	{{-- TODO: XlXi: Make this use route() --}}
 	<a href="{{ url('/admin/moderate?id=' . $asset->id . '&type=asset') }}" class="nav-link py-0">Moderate Asset</a>
@@ -36,13 +56,14 @@
 			<div class="card-body">
 				<div class="d-flex">
 					<div class="pe-4">
-						<div class="border-1 position-relative">
-							<img src={{ asset('images/testing/hat.png') }} alt="{{ $asset->name }}" class="border img-fluid" />
-							<div id="gt-thumbnail-toolbar"></div>
-							<div class="d-flex position-absolute bottom-0 end-0 pb-2 pe-2">
-								<button class="btn btn-secondary me-2">Try On</button>
-								<button class="btn btn-secondary">3D</button>
-							</div>
+						<div id="gt-thumbnail"
+							class="border position-relative graphictoria-asset-thumbnail"
+							data-asset-thumbnail-2d="{{ asset('images/testing/hat.png') }}"
+							data-asset-thumbnail-3d="{{ route('thumbnails.v1.asset', ['id' => $asset->id]) }}"
+							data-asset-name="{{ $asset->name }}"
+							data-asset-id="{{ $asset->id }}"
+						>
+							<img src="{{ asset('images/testing/hat.png') }}" alt="{{ $asset->name }}" class="img-fluid" />
 						</div>
 					</div>
 					<div class="flex-fill">

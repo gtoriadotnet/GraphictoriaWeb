@@ -42,7 +42,7 @@ class Comments extends Component {
 	}
 	
 	componentDidMount() {
-		let commentsElement = document.getElementById(commentsId);
+		let commentsElement = this.props.element;
 		if (commentsElement) {
 			this.assetId = commentsElement.getAttribute('data-asset-id')
 			this.setState({
