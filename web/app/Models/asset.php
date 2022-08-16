@@ -153,12 +153,14 @@ class Asset extends Model
 	public function set2DHash($hash)
 	{
 		$this->thumbnail2DHash = $hash;
+		$this->timestamps = false;
 		$this->save();
 	}
 	
 	public function set3DHash($hash)
 	{
 		$this->thumbnail3DHash = $hash;
+		$this->timestamps = false;
 		$this->save();
 	}
 	
