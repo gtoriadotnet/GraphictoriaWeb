@@ -33,7 +33,7 @@ class SoapService
 	public function __construct($arbiterType) {
 		$arbiter = GridHelper::{strtolower($arbiterType) . 'Arbiter'}();
 		$this->Client = new SoapClient(
-			Storage::path('grid/RCCservice.wsdl'), // Arbiter WCF service WSDL should not be used for RCCService calls.
+			Storage::path('grid/RCCService.wsdl'), // Arbiter WCF service WSDL should not be used for RCCService calls.
 			[
 				'location' => $arbiter,
 				'uri' => 'http://roblox.com/',
