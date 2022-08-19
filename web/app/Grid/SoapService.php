@@ -10,6 +10,9 @@ namespace App\Grid;
 use Illuminate\Support\Facades\Storage;
 use SoapClient;
 
+use App\Models\ArbiterSoapFault;
+use App\Helpers\GridHelper;
+
 class SoapService
 {
 	/**
@@ -27,11 +30,12 @@ class SoapService
      * @param  string  $arbiterAddr
      * @return null
      */
-	public function __construct($arbiterAddr) {
+	public function __construct($arbiterType) {
+		$arbiter = GridHelper::{strtolower($arbiterType) . 'Arbiter'}();
 		$this->Client = new SoapClient(
-			Storage::path('grid/RCCService.wsdl'),
+			Storage::path('grid/RCCservice.wsdl'), // Arbiter WCF service WSDL should not be used for RCCService calls.
 			[
-				'location' => $arbiterAddr,
+				'location' => $arbiter,
 				'uri' => 'http://roblox.com/',
 				'exceptions' => false
 			]
@@ -49,70 +53,15 @@ class SoapService
 		$soapResult = $this->Client->{$name}($args);
 		
 		if(is_soap_fault($soapResult)) {
-			// TODO: XlXi: log faults
+			ArbiterSoapFault::create([
+				'function' => $name,
+				'code' => $soapResult->getCode(),
+				'message' => $soapResult->getMessage(),
+				'job_arguments' => json_encode($args)
+			]);
 		}
 		
 		return $soapResult;
-	}
-	
-	/* Job constructors */
-	
-	public static function LuaValue($value)
-	{
-		switch ($value) {
-			case is_bool(json_encode($value)) || $value == 1:
-				return json_encode($value);
-			default:
-				return $value;
-		}
-	}
-	
-	public static function CastType($value)
-	{
-		$luaTypeConversions = [
-			'NULL' 		=> 'LUA_TNIL',
-			'boolean'	=> 'LUA_TBOOLEAN',
-			'integer'	=> 'LUA_TNUMBER',
-			'double'	=> 'LUA_TNUMBER',
-			'string'	=> 'LUA_TSTRING',
-			'array'		=> 'LUA_TTABLE',
-			'object'	=> 'LUA_TNIL'
-		];
-		return $luaTypeConversions[gettype($value)];
-	}
-	
-	public static function ToLuaArguments($luaArguments = [])
-    {
-		$luaValue = ['LuaValue' => []];
-		
-		foreach ($luaArguments as $argument) {
-			array_push(
-				$luaValue['LuaValue'],
-				[
-					'type' => SoapService::CastType($argument),
-					'value' => SoapService::LuaValue($argument)
-				]
-			);
-		}
-		
-		return $luaValue;
-    }
-	
-	public static function MakeJobJSON($jobID, $expiration, $category, $cores, $scriptName, $script, $scriptArgs = [])
-	{
-		return [
-				'job' => [
-					'id' => $jobID,
-					'expirationInSeconds' => $expiration,
-					'category' => $category,
-					'cores' => $cores
-				],
-				'script' => [
-					'name' => $scriptName,
-					'script' => $script,
-					'arguments' => SoapService::ToLuaArguments($scriptArgs)
-				]
-			];
 	}
 	
 	/* Service functions */

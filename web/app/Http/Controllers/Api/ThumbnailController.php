@@ -49,7 +49,7 @@ class ThumbnailController extends Controller
 			$tracker->target = $valid['id'];
 			$tracker->save();
 			
-			ArbiterRender::dispatch($tracker, $valid['type'] == '3d');
+			ArbiterRender::dispatch($tracker, $valid['type'] == '3d', $asset->typeString(), $asset->id);
 		}
 		
 		return response(['status' => 'loading']);

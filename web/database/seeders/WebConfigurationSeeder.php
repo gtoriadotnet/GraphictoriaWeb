@@ -43,5 +43,15 @@ class WebConfigurationSeeder extends Seeder
 			'name' => 'VersionCompatibilityHashes',
 			'value' => 'debughash' // hash1;hash2;hash3
 		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'GameArbiterIP',
+			'value' => '127.0.0.1'
+		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'ThumbnailArbiterIP',
+			'value' => '127.0.0.1'
+		]);
     }
 }

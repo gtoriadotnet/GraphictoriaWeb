@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 
 use App\Grid\SoapService;
 use App\Helpers\CdnHelper;
+use App\Helpers\GridHelper;
 use App\Models\RenderTracker;
 
 class ArbiterRender implements ShouldQueue
@@ -45,16 +46,32 @@ class ArbiterRender implements ShouldQueue
      * @var bool
      */
 	public $is3D;
+	
+	/**
+     * Asset type string based on asset's type id
+     *
+     * @var string
+     */
+	public $type;
+	
+	/**
+     * Asset ID to render
+     *
+     * @var int
+     */
+	public $assetId;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(RenderTracker $tracker, bool $is3D)
+    public function __construct(RenderTracker $tracker, bool $is3D, string $type, int $assetId)
     {
         $this->tracker = $tracker;
         $this->is3D = $is3D;
+        $this->type = $type;
+        $this->assetId = $assetId;
     }
 
     /**
@@ -64,28 +81,41 @@ class ArbiterRender implements ShouldQueue
      */
     public function handle()
     {
-        $testScript = <<<TestScript
-		settings()["Task Scheduler"].ThreadPoolConfig = Enum.ThreadPoolConfig.PerCore4;
-		game:GetService("ContentProvider"):SetThreadPool(16)
-		game:GetService("Stats"):SetReportUrl("http://api.gtoria.net/reportstat?cock=1")
-
-		local Lighting = game:GetService("Lighting")
-		Lighting.ClockTime = 13
-		Lighting.GeographicLatitude = -5
+		$arguments = [
+			url(sprintf('/asset?id=%d', $this->assetId)), // TODO: XlXi: Move url() to route once the route actually exists.
+			($this->is3D ? 'OBJ' : 'PNG'),
+			840, // Width
+			840, // Height
+			url('/')
+		];
+		switch($this->type) {
+			case 'Head':
+			case 'Shirt':
+			case 'Pants':
+			case 'BodyPart':
+				// TODO: XlXi: Move this to config, as it could be different from prod in a testing environment. Also move this to it's own asset (not loading from roblox).
+				array_push($arguments, 'https://www.roblox.com/asset/?id=1785197'); // Rig
+				break;
+			case 'Package':
+				// TODO: XlXi: Move these to config, as it could be different from prod in a testing environment. Also move these to their own assets (not loading from roblox).
+				array_push($arguments, 'https://www.roblox.com/asset/?id=1785197'); // Rig
+				array_push($arguments, '27113661;25251154'); // Custom Texture URLs (shirt and pands)
+				break;
+			case 'Place':
+				array_push($arguments, '0'); // TODO: XlXi: Universe IDs
+				break;
+		}
 		
-		game:Load("http://gtoria.net/asset/?id=3529");
-		for _, Object in pairs(game:GetChildren())do
-			if Object:IsA("Tool") then
-				Object.Parent = workspace
-			end
-		end
-
-		--                                                 format,  width,  height,  sky,   crop
-		return game:GetService("ThumbnailGenerator"):Click("OBJ",   840,    840,     true,  true)
-TestScript;
-		
-		$test = new SoapService('http://192.168.0.3:64989');
-		$result = $test->OpenJob(SoapService::MakeJobJSON(Str::uuid()->toString(), 120, 0, 0, sprintf('Render %s %d', $this->tracker->type, $this->tracker->target), $testScript));
+		$service = new SoapService('Thumbnail');
+		$result = $service->OpenJob(GridHelper::JobTemplate(
+			Str::uuid()->toString(), // Job ID
+			120, // Expiration
+			0, // Category ID
+			0, // Cores
+			sprintf('Render %s %d', $this->tracker->type, $this->tracker->target), // Script Name
+			$this->type, // Script
+			$arguments // Arguments
+		));
 		
 		if(is_soap_fault($result))
 			$this->fail(sprintf('SOAP Fault: (faultcode: %s, faultstring: %s)', $result->faultcode, $result->faultstring));

@@ -64,8 +64,7 @@
 							@yield('quick-admin')
 							@admin
 								<li class="nav-item">
-									{{-- TODO: XlXi: Make this use route() --}}
-									<a href="{{ url('/admin/arbiter-diag') }}" class="nav-link py-0">Arbiter Diag</a>
+									<a href="{{ route('admin.diag') }}" class="nav-link py-0">Arbiter Diag</a>
 								</li>
 							@endadmin
 							<li class="nav-item">

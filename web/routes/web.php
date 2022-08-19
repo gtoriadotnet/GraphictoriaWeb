@@ -23,6 +23,20 @@ Route::middleware('auth')->group(function () {
 	});
 });
 
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
+	Route::middleware('roleset:moderator')->group(function () {
+		Route::get('/', 'AdminController@dashboard')->name('dashboard');
+	});
+	
+	Route::middleware('roleset:administrator')->group(function () {
+		Route::get('/arbiter-diag/{arbiterType?}', 'AdminController@arbiterDiag')->name('diag');
+	});
+	
+	Route::middleware('roleset:owner')->group(function () {
+		
+	});
+});
+
 Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 	Route::group(['as' => 'protection.', 'prefix' => 'request-blocked'], function() {
 		Route::get('/', 'DoubleSessionBlockController@index')->name('index');
