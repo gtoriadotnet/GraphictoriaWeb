@@ -8,7 +8,7 @@
 It is important that you understand licensing before accessing this repository; it's in plain english... You do not have permission to use, distribute, modify, or share the contents of this repository per[^1] [XlXi](mailto:XlXi@gtoria.net)'s discretion[^2].
 
 [^1]: Per: For each.
-[^2]: Discretion: The freedom to decide what should be done in a particular situation.^
+[^2]: Discretion: The freedom to decide what should be done in a particular situation.
 
 ---
 
