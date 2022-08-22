@@ -19,8 +19,6 @@ return new class extends Migration
 			$table->unsignedBigInteger('parentAsset');
 			$table->unsignedBigInteger('localVersion');
 			
-			// Calculating the subdomain on runtime is too expensive.
-			// So full URLs are used instead of just the hashes.
 			$table->string('contentURL');
 			
             $table->timestamps();

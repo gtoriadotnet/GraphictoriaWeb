@@ -58,12 +58,12 @@
 					<div class="pe-4">
 						<div id="gt-thumbnail"
 							class="border position-relative graphictoria-asset-thumbnail"
-							data-asset-thumbnail-2d="{{ asset('images/testing/hat.png') }}"
+							data-asset-thumbnail-2d="{{ $asset->getThumbnail() }}"
 							data-asset-thumbnail-3d="{{ route('thumbnails.v1.asset', ['id' => $asset->id]) }}"
 							data-asset-name="{{ $asset->name }}"
 							data-asset-id="{{ $asset->id }}"
 						>
-							<img src="{{ asset('images/testing/hat.png') }}" alt="{{ $asset->name }}" class="img-fluid" />
+							<img src="{{ $asset->getThumbnail() }}" alt="{{ $asset->name }}" class="img-fluid" />
 						</div>
 					</div>
 					<div class="flex-fill">

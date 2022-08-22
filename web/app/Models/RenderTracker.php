@@ -9,6 +9,16 @@ class RenderTracker extends Model
 {
     use HasFactory;
 	
+	/**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+		'type',
+		'target'
+	];
+	
 	public function targetObj()
     {
 		if($this->type == 'user2d' || $this->type == 'user3d')

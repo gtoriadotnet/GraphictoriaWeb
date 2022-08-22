@@ -25,6 +25,9 @@ return new class extends Migration
 			$table->unsignedBigInteger('tokens')->default(0);
 			$table->dateTime('next_reward')->useCurrent();
 			
+			$table->string('thumbnail2DHash')->nullable();
+			$table->string('thumbnail3DHash')->nullable();
+			
             $table->timestamps();
         });
     }

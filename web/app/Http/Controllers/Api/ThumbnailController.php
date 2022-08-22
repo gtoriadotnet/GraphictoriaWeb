@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -14,50 +15,93 @@ use App\Models\RenderTracker;
 
 class ThumbnailController extends Controller
 {
-	public function renderAsset(Request $request)
+	private function assetValidationRules()
 	{
-		$validator = Validator::make($request->all(), [
+		return [
 			'id' => [
 				'required',
 				Rule::exists('App\Models\Asset', 'id')->where(function($query) {
-					return $query->where('moderated', false);
+					return $query->where('moderated', false)
+									->where('approved', true);
 				})
 			],
 			'type' => 'regex:/(3D|2D)/i'
-		]);
+		];
+	}
+	
+	private function userValidationRules()
+	{
+		// TODO: Fail validation if user is moderated.
+		return [
+			'id' => [
+				'required',
+				Rule::exists('App\Models\User', 'id')
+			],
+			'position' => ['sometimes', 'regex:/(Full|Bust)/i'],
+			'type' => 'regex:/(3D|2D)/i'
+		];
+	}
+	
+	private function handleRender(Request $request, string $renderType)
+	{
+		$validator = Validator::make($request->all(), $this->{strtolower($renderType) . 'ValidationRules'}());
 		
 		if($validator->fails())
 			return ValidationHelper::generateValidatorError($validator);
 		
 		$valid = $validator->valid();
-		$asset = Asset::where('id', $valid['id'])->first();
+		$model = ('App\\Models\\' . $renderType)::where('id', $valid['id'])->first();
+		
+		if($renderType == 'User') {
+			if($valid['position'] == null)
+				$valid['position'] = 'Full';
+			
+			$valid['position'] = strtolower($valid['position']);
+		} elseif($renderType == 'Asset') {
+			// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
+			// 			   Things like HTML assets should just have a generic "default" image.
+			if($model->assetTypeId == 1)
+				$model = Asset::where('id', $model->parentAsset)->first();
+		}
 		
 		$valid['type'] = strtolower($valid['type']);
 		
-		if($asset->thumbnail2DHash && $valid['type'] == '2d')
-			return response(['status' => 'success', 'data' => route('content', $asset->thumbnail2DHash)]);
+		if($model->thumbnail2DHash && $valid['type'] == '2d')
+			return response(['status' => 'success', 'data' => route('content', $model->thumbnail2DHash)]);
 		
-		if($asset->thumbnail3DHash && $valid['type'] == '3d')
-			return response(['status' => 'success', 'data' => route('content', $asset->thumbnail3DHash)]);
+		if($model->thumbnail3DHash && $valid['type'] == '3d')
+			return response(['status' => 'success', 'data' => route('content', $model->thumbnail3DHash)]);
 		
-		$tracker = RenderTracker::where('type', sprintf('asset%s', $valid['type']))
-								->where('target', $valid['id']);
+		$trackerType = sprintf('%s%s', strtolower($renderType), $valid['type']);
+		$tracker = RenderTracker::where('type', $trackerType)
+								->where('target', $valid['id'])
+								->where('created_at', '>', Carbon::now()->subMinute());
 		
 		if(!$tracker->exists()) {
-			$tracker = new RenderTracker;
-			$tracker->type = sprintf('asset%s', $valid['type']);
-			$tracker->target = $valid['id'];
-			$tracker->save();
+			$tracker = RenderTracker::create([
+				'type' => $trackerType,
+				'target' => $valid['id']
+			]);
 			
-			ArbiterRender::dispatch($tracker, $valid['type'] == '3d', $asset->typeString(), $asset->id);
+			ArbiterRender::dispatch(
+				$tracker,
+				$valid['type'] == '3d',
+				($renderType == 'User' ? $valid['position'] : $model->typeString()),
+				$model->id
+			);
 		}
 		
 		return response(['status' => 'loading']);
 	}
 	
+	public function renderAsset(Request $request)
+	{
+		return $this->handleRender($request, 'Asset');
+	}
+	
 	public function renderUser()
 	{
-		//
+		return handleRender($request, 'User');
 	}
 	
 	public function tryAsset()

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class Asset extends Model
 {
@@ -135,6 +136,11 @@ class Asset extends Model
         return $this->belongsTo(User::class, 'creatorId');
     }
 	
+	public function parentAsset()
+    {
+        return $this->belongsTo(User::class, 'parentAssetId');
+    }
+	
 	public function typeString()
 	{
 		return $this->assetTypes[$this->assetTypeId];
@@ -147,7 +153,18 @@ class Asset extends Model
 	
 	public function getThumbnail()
 	{
-		return 'https://gtoria.local/images/testing/hat.png';
+		$renderId = $this->id;
+		
+		// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
+		// 			   Things like HTML assets should just have a generic "default" image.
+		if($this->assetTypeId == 1) // Image
+			$renderId = $this->parentAsset->id;
+		
+		$thumbnail = Http::get(route('thumbnails.v1.asset', ['id' => $renderId, 'type' => '2d']));
+		if($thumbnail->json('status') == 'loading')
+			return 'https://gtoria.local/images/busy/asset.png';
+		
+		return $thumbnail->json('data');
 	}
 	
 	public function set2DHash($hash)
@@ -189,13 +206,13 @@ class Asset extends Model
 	// Version 0 is internally considered the latest.
 	public function getContent($version = 0)
 	{
-		if($version === 0)
+		if($version == 0)
 			return $this->latestVersion->contentURL;
 		
 		$assetVersion = AssetVersion::where('parentAsset', $this->id)
 									->where('localVersion', $version)
-									->get();
+									->first();
 		
-		return ($assetVersion !== null ? $assetVersion->contentURL : null);
+		return ($assetVersion ? $assetVersion->contentURL : null);
 	}
 }

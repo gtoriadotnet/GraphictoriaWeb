@@ -83,3 +83,7 @@ Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 		Route::get('/logout', 'AuthenticatedSessionController@destroy')->name('logout');
 	});
 });
+
+Route::group(['as' => 'client.'], function() {
+	Route::get('/asset', 'ClientController@asset')->name('asset');
+});

@@ -81,12 +81,13 @@ class ArbiterRender implements ShouldQueue
      */
     public function handle()
     {
+		// TODO: XlXi: User avatar/closeup render support.
 		$arguments = [
 			url(sprintf('/asset?id=%d', $this->assetId)), // TODO: XlXi: Move url() to route once the route actually exists.
 			($this->is3D ? 'OBJ' : 'PNG'),
 			840, // Width
 			840, // Height
-			url('/')
+			url('/') . '/'
 		];
 		switch($this->type) {
 			case 'Head':
@@ -118,7 +119,10 @@ class ArbiterRender implements ShouldQueue
 		));
 		
 		if(is_soap_fault($result))
+		{
+			$this->tracker->delete();
 			$this->fail(sprintf('SOAP Fault: (faultcode: %s, faultstring: %s)', $result->faultcode, $result->faultstring));
+		}
 		
 		$result = $result->OpenJobExResult->LuaValue[0]->value;
 		
