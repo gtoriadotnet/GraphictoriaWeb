@@ -151,6 +151,74 @@ class Asset extends Model
 		return $this->belongsTo(AssetVersion::class, 'assetVersionId');
 	}
 	
+	public function isWearable()
+	{
+		switch($this->assetTypeId)
+		{
+			case 2: // T-Shirt
+			case 8: // Hat
+			case 11: // Shirt
+			case 12: // Pants
+			case 17: // Head
+			case 18: // Face
+			case 19: // Gear
+			case 25: // Arms
+			case 26: // Legs
+			case 27: // Torso
+			case 28: // Right Arm
+			case 29: // Left Arm
+			case 30: // Left Leg
+			case 31: // Right Leg
+			case 32: // Package
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public function isRenderable()
+	{
+		switch($this->assetTypeId)
+		{
+			case 2: // T-Shirt
+			case 4: // Mesh
+			case 8: // Hat
+			case 9: // Place
+			case 10: // Model
+			case 11: // Shirt
+			case 12: // Pants
+			case 13: // Decal
+			case 17: // Head
+			case 18: // Face
+			case 19: // Gear
+			case 25: // Arms
+			case 26: // Legs
+			case 27: // Torso
+			case 28: // Right Arm
+			case 29: // Left Arm
+			case 30: // Left Leg
+			case 31: // Right Leg
+			case 32: // Package
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public function canRender3D()
+	{
+		switch($this->assetTypeId)
+		{
+			case 9: // Place
+			case 10: // Model
+			case 13: // Decal
+			case 18: // Face
+				return false;
+		}
+		
+		return $this->isRenderable();
+	}
+	
 	public function getThumbnail()
 	{
 		$renderId = $this->id;

@@ -52,19 +52,25 @@ class ThumbnailController extends Controller
 		$valid = $validator->valid();
 		$model = ('App\\Models\\' . $renderType)::where('id', $valid['id'])->first();
 		
+		$valid['type'] = strtolower($valid['type']);
+		
 		if($renderType == 'User') {
 			if($valid['position'] == null)
 				$valid['position'] = 'Full';
 			
 			$valid['position'] = strtolower($valid['position']);
 		} elseif($renderType == 'Asset') {
+			if(!$model->{$valid['type'] == '3d' ? 'canRender3D' : 'isRenderable'}()) {
+				$validator->errors()->add('id', 'This asset cannot be rendered.');
+				return ValidationHelper::generateValidatorError($validator);
+			}
+			
 			// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
 			// 			   Things like HTML assets should just have a generic "default" image.
 			if($model->assetTypeId == 1)
 				$model = Asset::where('id', $model->parentAsset)->first();
 		}
 		
-		$valid['type'] = strtolower($valid['type']);
 		
 		if($model->thumbnail2DHash && $valid['type'] == '2d')
 			return response(['status' => 'success', 'data' => route('content', $model->thumbnail2DHash)]);

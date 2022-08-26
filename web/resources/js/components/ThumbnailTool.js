@@ -88,7 +88,7 @@ const Scene = ({json}) => {
 				/>
 			</EffectComposer>
 			*/}
-			<OrbitControls makeDefault ref={controls} enableDamping={false} enablePan={false} />
+			<OrbitControls makeDefault ref={controls} enableDamping={false} enablePan={false} autoRotate={true} />
 		</>
 	)
 }
@@ -114,8 +114,13 @@ class ThumbnailTool extends Component {
 			this.thumbnail2d = thumbnailElement.getAttribute('data-asset-thumbnail-2d');
 			this.assetId = thumbnailElement.getAttribute('data-asset-id');
 			this.assetName = thumbnailElement.getAttribute('data-asset-name');
+			this.wearable = Boolean(thumbnailElement.getAttribute('data-wearable'));
+			this.renderable3d = Boolean(thumbnailElement.getAttribute('data-renderable3d'));
 			
 			this.setState({ initialLoading: false });
+			
+			if(localStorage.getItem('gt-use-3d-thumbnails') === 'true')
+				this.toggle3D();
 		}
 	}
 	
@@ -164,6 +169,7 @@ class ThumbnailTool extends Component {
 		let is3d = !this.state.is3d;
 		
 		this.setState({ loading: true, is3d: is3d, seed3d: Math.random() });
+		localStorage.setItem('gt-use-3d-thumbnails', is3d);
 		
 		if(is3d) {
 			this.loadThumbnail(`thumbnails/v1/asset?id=${this.assetId}&type=3D`, true);
@@ -207,10 +213,24 @@ class ThumbnailTool extends Component {
 							/>
 						)
 					}
+					{ this.wearable || this.renderable3d ?
 					<div className='d-flex position-absolute bottom-0 end-0 pb-2 pe-2'>
-						<button className='btn btn-secondary me-2' onClick={ this.tryAsset } disabled={ this.state.loading }>Try On</button>
-						<button className='btn btn-secondary' onClick={ this.toggle3D } disabled={ this.state.loading }>{ this.state.is3d ? '2D' : '3D' }</button>
+						{
+							this.wearable ?
+							<button className='btn btn-secondary me-2' onClick={ this.tryAsset } disabled={ this.state.loading }>Try On</button>
+							:
+							null
+						}
+						{
+							this.renderable3d ?
+							<button className='btn btn-secondary' onClick={ this.toggle3D } disabled={ this.state.loading }>{ this.state.is3d ? '2D' : '3D' }</button>
+							:
+							null
+						}
 					</div>
+					:
+					null
+					}
 				</>
 			}
 			</>

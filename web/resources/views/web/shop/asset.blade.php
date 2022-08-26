@@ -62,6 +62,12 @@
 							data-asset-thumbnail-3d="{{ route('thumbnails.v1.asset', ['id' => $asset->id]) }}"
 							data-asset-name="{{ $asset->name }}"
 							data-asset-id="{{ $asset->id }}"
+							@if($asset->isWearable() && Auth::check())
+								data-wearable="true"
+							@endif
+							@if($asset->canRender3D())
+								data-renderable3d="true"
+							@endif
 						>
 							<img src="{{ $asset->getThumbnail() }}" alt="{{ $asset->name }}" class="img-fluid" />
 						</div>
