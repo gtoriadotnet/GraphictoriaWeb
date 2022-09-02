@@ -33,7 +33,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 	});
 	
 	Route::middleware('roleset:owner')->group(function () {
-		
+		Route::get('/arbiter-management/{arbiterType?}/{jobId?}', 'AdminController@arbiterManagement')->name('arbitermanagement');
 	});
 });
 

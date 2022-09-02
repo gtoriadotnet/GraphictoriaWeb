@@ -67,9 +67,13 @@
 									<a href="{{ route('admin.diag') }}" class="nav-link py-0">Arbiter Diag</a>
 								</li>
 							@endadmin
+							@owner
+								<li class="nav-item">
+									<a href="{{ route('admin.arbitermanagement') }}" class="nav-link py-0">Arbiter Management</a>
+								</li>
+							@endowner
 							<li class="nav-item">
-								{{-- TODO: XlXi: Make this use route() --}}
-								<a href="{{ url('/admin') }}" class="nav-link py-0"><i class="fa-solid fa-gavel"></i></a>
+								<a href="{{ route('admin.dashboard') }}" class="nav-link py-0"><i class="fa-solid fa-gavel"></i></a>
 							</li>
 							@admin
 								<li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<strong>Only accurate at page load</strong><br/>{{ \App\Helpers\QAaMBHelper::getMemoryUsage() }}">

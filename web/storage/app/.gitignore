@@ -1,4 +1,5 @@
 *
 !public/
 !grid/
+!layouts/
 !.gitignore

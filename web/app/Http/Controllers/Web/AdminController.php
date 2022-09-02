@@ -10,17 +10,23 @@ class AdminController extends Controller
 	// Moderator+
 	function dashboard()
 	{
-		//
+		return view('web.admin.dashboard');
 	}
 	
 	// Admin+
     function arbiterDiag(Request $request, string $arbiterType = null)
 	{
-		if($arbiterType == null)
-			return view('web.admin.diag.picker');
-		
-		return view('web.admin.diag')->with([
+		return view('web.admin.arbiter.diag')->with([
 			'title' => sprintf('%s Arbiter Diag', $arbiterType),
+			'arbiter' => $arbiterType
+		]);
+	}
+	
+	// Owner+
+	function arbiterManagement(Request $request, string $arbiterType = null, string $jobId = null)
+	{
+		return view('web.admin.arbiter.management')->with([
+			'title' => sprintf('%s Arbiter Management', $arbiterType),
 			'arbiter' => $arbiterType
 		]);
 	}

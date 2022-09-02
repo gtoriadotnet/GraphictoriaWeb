@@ -1,0 +1,90 @@
+<?xml version="1.0"?>  
+<root>
+	<list name="Moderation" color="success" roleset="Moderator">
+		<category name="User Admin">
+			<link name="Find User" route="admin.dashboard" />
+			<link name="Find Payment" route="admin.dashboard" />
+			<link name="User Asset Transfer" route="admin.dashboard" />
+			<link name="Asset Transfer" route="admin.dashboard" />
+			<link name="User Assets" route="admin.dashboard" />
+			<link name="User/Group Transactions" route="admin.dashboard" />
+			<link name="User Trades" route="admin.dashboard" />
+			<link name="Send Personal Message" route="admin.dashboard" />
+			<link name="User Message" route="admin.dashboard" />
+		</category>
+		
+		<category name="Groups">
+			<link name="Group Admin" route="admin.dashboard" />
+			<link name="Group Mass Reward" route="admin.dashboard" />
+		</category>
+		
+		<category name="Private Servers">
+			<link name="Private Server Transactions" route="admin.dashboard" />
+		</category>
+	</list>
+	
+	<list name="Administration" color="primary" roleset="Administrator">
+		<category name="Service">
+			<link name="Arbiter Diag" route="admin.diag" parameters="games" />
+			<link name="Banner Editor" route="admin.dashboard" />
+		</category>
+		
+		<category name="Review">
+			<link name="Moderator review" route="admin.dashboard" />
+			<link name="Performance" route="admin.dashboard" />
+			<link name="Image Moderation Review" route="admin.dashboard" />
+		</category>
+		
+		<category name="Moderation">
+			<link name="Audit trail" route="admin.dashboard" />
+			<link name="Blacklist email" route="admin.dashboard" />
+			<link name="IP" route="admin.dashboard" />
+			<link name="MAC Address" route="admin.dashboard" />
+			<link name="Delete previous Username" route="admin.dashboard" />
+		</category>
+		
+		<category name="User Admin">
+			<link name="Grant Membership" route="admin.dashboard" />
+			<link name="Adjust Assets, Credit &amp; Currency" route="admin.dashboard" />
+			<link name="Imbursements" route="admin.dashboard" />
+			<link name="Imbursements Blacklist" route="admin.dashboard" />
+			<link name="Mass Reward" route="admin.dashboard" />
+			<link name="Reward Using CSV" route="admin.dashboard" />
+			<link name="Mass Password Reset" route="admin.dashboard" />
+		</category>
+		
+		<category name="Inventory Management">
+			<link name="Asset Scrub" route="admin.dashboard" />
+			<link name="Game Pass Scrub" route="admin.dashboard" />
+			<link name="Badge Scrub" route="admin.dashboard" />
+			<link name="Collectibles Audit" route="admin.dashboard" />
+		</category>
+		
+		<category name="Universe Status">
+			<link name="Universe Status" route="admin.dashboard" />
+		</category>
+	</list>
+	
+	<list name="Owner" color="danger" roleset="Owner">
+		<category name="Service">
+			<link name="Arbiter Management" route="admin.arbitermanagement" />
+			<link name="Arbiter Diag" route="admin.diag" />
+			<link name="Configuration Editor" route="admin.dashboard" />
+			<link name="Banner Editor" route="admin.dashboard" />
+		</category>
+		
+		<category name="Manage">
+			<link name="Watchdog Creator Whitelist" route="admin.dashboard" />
+			<link name="ContentFilter Whitelist" route="admin.dashboard" />
+			<link name="Manage Staff" route="admin.dashboard" />
+			<link name="Manage Protected Users" route="admin.dashboard" />
+			<link name="Manage Beta Testers" route="admin.dashboard" />
+		</category>
+		
+		<category name="Emergency Use">
+			<link name="Website Killswitch" route="admin.dashboard" />
+			<link name="Gameserver Killswitch" route="admin.dashboard" />
+			<link name="Master Server Killswitch" route="admin.dashboard" />
+		</category>
+	</list>
+</root>
