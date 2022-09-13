@@ -36,6 +36,38 @@ img.twemoji {
 
 // Shop
 
+.graphictoria-tokens {
+    background: 0 1px/contain no-repeat url("/images/symbols/token.svg");
+    color: #e59800!important;
+    font-weight: bold;
+	
+	// XlXi: This is god awful
+	@at-root {
+		h1#{&} {
+			padding: 0 0 0 46px;
+		}
+		h2#{&} {
+			padding: 0 0 0 36px;
+		}
+		h3#{&} {
+			padding: 0 0 0 32px;
+		}
+		h4#{&} {
+			padding: 0 0 0 28px;
+		}
+		h6#{&} {
+			padding: 0 0 0 20px;
+		}
+		h5#{&}, p#{&}, span#{&} {
+			padding: 0 0 0 25px;
+		}
+		
+		p > span#{&} {
+			padding: 0 0 0 20px;
+		}
+	}
+}
+
 .graphictoria-asset-thumbnail {
 	width: 420px;
 	height: 420px;
@@ -76,6 +108,30 @@ img.twemoji {
 	@media (min-width: 768px) {
 		flex: 0 0 auto;
 		width: 144px;
+	}
+	
+	// text-reset
+	--bs-text-opacity: 1;
+	color: inherit!important;
+}
+
+.graphictoria-item-details {
+	position: relative;
+	display: flex;
+	
+	z-index: 99999;
+	
+	// mx-2
+	margin: 0 0.5rem 0 0.5rem!important;
+	
+	&>.card {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		border-radius: 0 0 4px 4px;
+		margin-top: -16px;
+		
+		font-size: .86rem!important;
 	}
 }
 

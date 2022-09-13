@@ -79,6 +79,8 @@ class ShopController extends Controller
 					'Url' => $creator->getProfileUrl()
 				],
 				'Thumbnail' => $asset->getThumbnail(),
+				'OnSale' => $asset->onSale,
+				'Price' => $asset->priceInTokens,
 				'Url' => route('shop.asset', ['asset' => $asset->id, 'assetName' => Str::slug($asset->name, '-')])
 			]);
 		}

@@ -83,8 +83,8 @@
 							</div>
 							<div class="col-9 d-flex">
 								@if( $asset->onSale )
-									<h4 class="my-auto" style="color:#e59800!important;font-weight:bold">
-										<img src="{{ asset('images/symbols/token.svg') }}" height="32" width="32" class="img-fluid me-1" style="margin-top:-1px" />{{ number_format($asset->priceInTokens) }}</h4>
+									<h4 class="my-auto graphictoria-tokens">
+										{{ number_format($asset->priceInTokens) }}
 									</h4>
 								@endif
 								@auth

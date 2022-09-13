@@ -12,6 +12,7 @@ import axios from 'axios';
 import Twemoji from 'react-twemoji';
 
 import { buildGenericApiUrl } from '../util/HTTP.js';
+import ProgressiveImage from './ProgressiveImage';
 import Loader from './Loader';
 
 axios.defaults.withCredentials = true;
@@ -106,6 +107,12 @@ function makeCategoryId(originalName, category) {
 	return `shop-${originalName.toLowerCase().replaceAll(' ', '-')}-${category}`;
 }
 
+function commaSeparate(num) {
+	let str = num.toString().split('.');
+	str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	return str.join('.');
+}
+
 class ShopCategoryButton extends Component {
 	constructor(props) {
 		super(props);
@@ -192,6 +199,66 @@ class ShopCategories extends Component {
 					}
 				</ul>
 			</div>
+		);
+	}
+}
+
+class ShopItemCard extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			hovered: false
+		}
+	}
+	
+	render() {
+		var item = this.props.item;
+		
+		return (
+			<a
+				className="graphictoria-item-card"
+				href={ item.Url }
+				onMouseEnter={() => this.setState({hovered: true})}
+				onMouseLeave={() => this.setState({hovered: false})}
+			>
+				<span className="card m-2">
+					<ProgressiveImage
+						src={ item.Thumbnail } 
+						placeholderImg={ buildGenericApiUrl('www', 'images/busy/asset.png') }
+						alt={ item.Name }
+						className='img-fluid'
+					/>
+					<div className="p-2">
+						<p>{ item.Name }</p>
+						{ item.OnSale ?
+						<p className="graphictoria-tokens text-truncate">{commaSeparate(item.Price)}</p>
+						: <p className="text-muted">Offsale</p>
+						}
+					</div>
+				</span>
+				{
+					this.state.hovered ?
+					<span className="graphictoria-item-details">
+						<div className="card px-2">
+							<p className="text-truncate">
+								<span className="text-muted">Creator: </span><a href={ item.Creator.Url } className="text-decoration-none fw-normal">{ item.Creator.Name }</a>
+							</p>
+							{/* TODO: XlXi: These */}
+							<p className="text-truncate">
+								<span className="text-muted">Updated: </span>test
+							</p>
+							<p className="text-truncate">
+								<span className="text-muted">Sales: </span>test
+							</p>
+							<p className="text-truncate">
+								<span className="text-muted">Favorites: </span>test
+							</p>
+						</div>
+					</span>
+					:
+					null
+				}
+			</a>
 		);
 	}
 }
@@ -309,17 +376,8 @@ class Shop extends Component {
 								:
 								<div>
 									{
-										this.state.pageItems.map(({Name, Creator, Thumbnail, Url}, index) =>
-											<a className="graphictoria-item-card" href={ Url } key={ index }>
-												<span className="card m-2">
-													<img className="img-fluid" src={ Thumbnail } />
-													<div className="p-2">
-														<p>{ Name }</p>
-														{ /* TODO: XlXi: price */ }
-														<p className="text-muted">Todo123</p>
-													</div>
-												</span>
-											</a>
+										this.state.pageItems.map((item, index) =>
+											<ShopItemCard item={ item } key={ index } />
 										)
 									}
 								</div>

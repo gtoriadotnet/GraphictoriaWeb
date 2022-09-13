@@ -54,8 +54,8 @@ class PurchaseConfirmationModal extends Component {
 							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div className="modal-body d-flex flex-column">
-							<p>Would you like to purchase the { this.state.assetType } "<strong>{ this.state.assetName }</strong>" from { this.state.assetCreator } for <strong style={{'color': '#e59800', 'fontWeight': 'bold'}}><img src="/images/symbols/token.svg" height="16" width="16" className="img-fluid" style={{'marginTop': '-1px'}} />{ this.state.assetPrice }</strong>?</p>
-							<img src="/images/testing/hat.png" width="240" height="240" alt="{ this.state.assetName }" className="mx-auto my-2 img-fluid" />
+							<p>Would you like to purchase the { this.state.assetType } <strong>{ this.state.assetName }</strong> from { this.state.assetCreator } for <span className="graphictoria-tokens">{ this.state.assetPrice }</span>?</p>
+							<img src="/images/testing/hat.png" width="240" height="240" alt={ this.state.assetName } className="mx-auto my-2 img-fluid" />
 						</div>
 						<div className="modal-footer flex-column">
 							<div className="mx-auto">
@@ -63,7 +63,7 @@ class PurchaseConfirmationModal extends Component {
 								&nbsp;
 								<button className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 							</div>
-							<p className="text-muted pt-1">You will have <strong style={{'color': '#e59800', 'fontWeight': 'bold'}}><img src="/images/symbols/token.svg" height="16" width="16" className="img-fluid" style={{'marginTop': '-1px'}} />{ Math.max(0, (this.state.userTokens - this.state.assetPrice)) }</strong> after this purchase.</p>
+							<p className="text-muted pt-1">You will have <span className="graphictoria-tokens">{ Math.max(0, (this.state.userTokens - this.state.assetPrice)) }</span> after this purchase.</p>
 						</div>
 					</div>
 				</div>
@@ -114,7 +114,7 @@ class NotEnoughTokensModal extends Component {
 							<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div className="modal-body">
-							<p>You need <strong style={{'color': '#e59800', 'fontWeight': 'bold'}}><img src="/images/symbols/token.svg" height="16" width="16" className="img-fluid" style={{'marginTop': '-1px'}} />{ this.state.assetPrice - this.state.userTokens }</strong> more to purchase this item.</p>
+							<p>You need <span className="graphictoria-tokens">{ this.state.assetPrice - this.state.userTokens }</span> more to purchase this item.</p>
 						</div>
 						<div className="modal-footer">
 							<button className="btn btn-secondary" data-bs-dismiss="modal">Ok</button>

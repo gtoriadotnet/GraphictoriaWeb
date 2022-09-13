@@ -208,10 +208,8 @@
 							</li>
 						</ul>
 						<div class="d-md-flex">
-							<p class="my-auto me-2 text-muted" style="color:#e59800!important;font-weight:bold">
-								<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="You have {{ number_format(Auth::user()->tokens) }} tokens. Your next reward is in {{ Auth::user()->next_reward->diffForHumans(['syntax' => Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.">
-									<img src="{{ asset('images/symbols/token.svg') }}" height="20" width="20" class="img-fluid me-1" style="margin-top:-1px" />{{ \App\Helpers\NumberHelper::Abbreviate(Auth::user()->tokens) }}
-								</span>
+							<p class="my-auto me-2 graphictoria-tokens" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You have {{ number_format(Auth::user()->tokens) }} tokens. Your next reward is in {{ Auth::user()->next_reward->diffForHumans(['syntax' => Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.">
+								{{ \App\Helpers\NumberHelper::Abbreviate(Auth::user()->tokens) }}
 							</p>
 							<div class="dropdown">
 								<a class="nav-link dropdown-toggle graphictoria-user-dropdown px-0 px-md-3" href="#" id="graphictoria-user-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">
