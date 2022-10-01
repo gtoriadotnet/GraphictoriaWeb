@@ -69,7 +69,7 @@
 		<category name="Service">
 			<link name="Arbiter Management" route="admin.arbitermanagement" />
 			<link name="Arbiter Diag" route="admin.diag" />
-			<link name="Configuration Editor" route="admin.dashboard" />
+			<link name="Configuration Editor" route="admin.configuration" />
 			<link name="Banner Editor" route="admin.dashboard" />
 		</category>
 		

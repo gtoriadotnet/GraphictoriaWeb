@@ -25,7 +25,14 @@
 			"label" => "Blog",
 			"location" => 'https://blog.gtoria.net'
 		],
-	]
+	];
+	
+	if(str_starts_with(request()->getHost(), 'blog.')) {
+		foreach($routes as $key => $route) {
+			if($route['label'] == 'Blog')
+				array_splice($routes, $key, $key);
+		}
+	}
 @endphp
 
 <div class="footer mt-auto pt-3 text-center shadow-lg">

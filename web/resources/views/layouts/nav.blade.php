@@ -76,7 +76,7 @@
 								<a href="{{ route('admin.dashboard') }}" class="nav-link py-0"><i class="fa-solid fa-gavel"></i></a>
 							</li>
 							@admin
-								<li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<strong>Only accurate at page load</strong><br/>{{ \App\Helpers\QAaMBHelper::getMemoryUsage() }}">
+								<li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<strong>Updates every minute</strong><br/>{{ \App\Helpers\QAaMBHelper::getMemoryUsage() }}">
 									<span class="px-md-2 d-flex" style="height:24px;">
 										<div class="my-auto rounded-1 bg-secondary border border-light right-0 me-1 position-relative graphictoria-admin-memorybar">
 											@php
@@ -98,12 +98,12 @@
 										<i class="my-auto fa-solid fa-gear"></i>
 									</span>
 								</li>
-								<li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<strong>Only accurate at page load</strong><br/>{{ \App\Helpers\QAaMBHelper::getCpuUsage() }}">
+								<li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="<strong>Updates every minute</strong><br/>{{ \App\Helpers\QAaMBHelper::getCpuUsage() }}">
 									<span class="px-md-2 d-flex" style="height:24px;">
 										<div class="my-auto rounded-1 bg-secondary border border-light right-0 me-1 position-relative graphictoria-admin-memorybar">
 											@php
 												$admin_cpubar_color = 'bg-primary';
-												$admin_cpubar_usage = \App\Helpers\QAaMBHelper::getSystemCpuInfo() * 100;
+												$admin_cpubar_usage = \App\Helpers\QAaMBHelper::getCpuPercentage() * 100;
 												
 												if($admin_cpubar_usage <= 25)
 													$admin_cpubar_color = 'bg-success'; // Green

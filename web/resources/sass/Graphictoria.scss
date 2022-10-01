@@ -73,7 +73,7 @@ img.twemoji {
 	height: 420px;
 }
 
-.graphictoria-item-page {
+.graphictoria-smaller-page {
 	max-width: 1096px;
     margin: 0 auto 0 auto;
 }
@@ -366,6 +366,16 @@ html {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.graphictoria-blog {
+	/* XlXi: I LOVE CSS I LOVE CSS I LOVE CSS I LOVE CSS I LOVE CSS I LOVE CSS */
+	background-image: url("/Images/Backgrounds/Blog.png")!important;
+	background-size: cover!important;
+	background-repeat: no-repeat!important;
+	background-position: center!important;
+	height: 330px;
+	background: #141414;
 }
 
 // Home Page

@@ -7,6 +7,8 @@
 
 namespace App\Helpers;
 
+use App\Models\UsageCounter;
+
 class QAaMBHelper
 {
 	public static function wmiWBemLocatorQuery($query)
@@ -78,31 +80,29 @@ class QAaMBHelper
 	
 	public static function getSystemCpuInfo($output_key = '')
 	{
-		return cache()->remember('QAaMB-Cpu-Info', 5, function(){
-			$result = 0;
+		$result = 0;
 
-			try {
-				if (strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') {
-					// LINUX
-					
-					return sys_getloadavg();
-				} else {
-					// WINDOWS
-					
-					$wmi_found = false;
-					if ( $wmi_query = self::wmiWBemLocatorQuery( 
-						"SELECT LoadPercentage FROM Win32_Processor" ) ) {
-						foreach($wmi_query as $r) {
-							$result = $r->LoadPercentage / 100;
-							$wmi_found = true;
-						}
+		try {
+			if (strtoupper(substr(PHP_OS, 0, 3)) != 'WIN') {
+				// LINUX
+				
+				return sys_getloadavg();
+			} else {
+				// WINDOWS
+				
+				$wmi_found = false;
+				if ( $wmi_query = self::wmiWBemLocatorQuery( 
+					"SELECT LoadPercentage FROM Win32_Processor" ) ) {
+					foreach($wmi_query as $r) {
+						$result = $r->LoadPercentage / 100;
+						$wmi_found = true;
 					}
 				}
-			} catch(Exception $e) {
-				echo $e->getMessage();
 			}
-			return empty($output_key) || !isset($result[$output_key]) ? $result : $result[$output_key];
-		});
+		} catch(Exception $e) {
+			echo $e->getMessage();
+		}
+		return empty($output_key) || !isset($result[$output_key]) ? $result : $result[$output_key];
 	}
 	
 	public static function memoryString($memory)
@@ -113,7 +113,7 @@ class QAaMBHelper
 	
 	public static function getMemoryUsage()
 	{
-		$memoryInfo = self::getSystemMemoryInfo();
+		$memoryInfo = json_decode(UsageCounter::where('name', 'Memory')->first()->value, true);
 		
 		// XlXi: the -2 is required so it fits inside of the bar thing
 		// XlXi: change this if theres ever a separate graph
@@ -128,18 +128,27 @@ class QAaMBHelper
 	
 	public static function getMemoryPercentage()
 	{
-		$memoryInfo = self::getSystemMemoryInfo();
+		$memoryInfo = json_decode(UsageCounter::where('name', 'Memory')->first()->value, true);
 		
 		return ($memoryInfo['MemTotal'] - $memoryInfo['MemFree']) / $memoryInfo['MemTotal'];
 	}
 	
 	public static function getCpuUsage()
 	{
+		$cpuInfo = UsageCounter::where('name', 'CPU')->first();
+		
 		// XlXi: the -2 is required so it fits inside of the bar thing
 		// XlXi: change this if theres ever a separate graph
 		return sprintf(
 			'%s%% CPU Usage',
-			round(self::getSystemCpuInfo() * (100-2))
+			round(floatval($cpuInfo->value) * (100-2))
 		);
+	}
+	
+	public static function getCpuPercentage()
+	{
+		$cpuInfo = UsageCounter::where('name', 'CPU')->first();
+		
+		return $cpuInfo->value;
 	}
 }

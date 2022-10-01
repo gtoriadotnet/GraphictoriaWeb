@@ -2,6 +2,10 @@
 
 Route::get('/', 'ApiController@index')->name('index');
 
+Route::get('/ping', function() {
+	return response('');
+})->middleware('lastseen');
+
 Route::middleware('auth')->group(function () {
 	Route::group(['as' => 'feed.', 'prefix' => 'feed'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {

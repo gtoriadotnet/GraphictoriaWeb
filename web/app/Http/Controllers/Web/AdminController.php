@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use App\Models\DynamicWebConfiguration;
 
 class AdminController extends Controller
 {
@@ -28,6 +30,13 @@ class AdminController extends Controller
 		return view('web.admin.arbiter.management')->with([
 			'title' => sprintf('%s Arbiter Management', $arbiterType),
 			'arbiter' => $arbiterType
+		]);
+	}
+	
+	function configuration(Request $request)
+	{
+		return view('web.admin.configuration')->with([
+			'values' => DynamicWebConfiguration::get()
 		]);
 	}
 }

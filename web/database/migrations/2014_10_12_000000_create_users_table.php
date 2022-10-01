@@ -28,6 +28,7 @@ return new class extends Migration
 			$table->string('thumbnail2DHash')->nullable();
 			$table->string('thumbnail3DHash')->nullable();
 			
+			$table->dateTime('last_seen')->useCurrent();
             $table->timestamps();
         });
     }

@@ -39,9 +39,10 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 			
-			// Yeah no, the double session protector was stupid.
+			// XlXi: Yeah no, the double session protector was stupid.
 			//\App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
-			\App\Http\Middleware\DailyReward::class
+			\App\Http\Middleware\DailyReward::class,
+			\App\Http\Middleware\LastSeenMiddleware::class
         ],
 
         'api' => [
@@ -71,5 +72,6 @@ class Kernel extends HttpKernel
 		
         'roleset' => \App\Http\Middleware\Roleset::class,
         'banned' => \App\Http\Middleware\CheckBan::class,
+        'lastseen' => \App\Http\Middleware\LastSeenMiddleware::class,
     ];
 }

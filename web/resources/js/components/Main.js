@@ -5,11 +5,15 @@
 
 import $ from 'jquery';
 import * as Bootstrap from 'bootstrap';
+import axios from 'axios';
 
 import React from 'react';
 import { render } from 'react-dom';
 
+import { buildGenericApiUrl } from '../util/HTTP.js';
 import SearchBar from './SearchBar';
+
+axios.defaults.withCredentials = true;
 
 const searchBarId = 'graphictoria-nav-searchbar';
 
@@ -25,3 +29,7 @@ $(document).ready(function() {
 	
 	window.Bootstrap = Bootstrap;
 });
+
+setInterval(function(){
+	axios.get(buildGenericApiUrl('api', 'ping'))
+}, 120000)

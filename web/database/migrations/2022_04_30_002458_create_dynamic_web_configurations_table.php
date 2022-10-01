@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
 			$table->string('name');
 			$table->string('value');
+			$table->boolean('masked')->default(false);
             $table->timestamps();
         });
     }

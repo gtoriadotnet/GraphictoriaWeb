@@ -15,9 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-			//FFlagSeeder::class,
 			WebConfigurationSeeder::class,
+			UsageCounterSeeder::class,
 			RolesetSeeder::class
+			//FFlagSeeder::class
 		]);
     }
 }

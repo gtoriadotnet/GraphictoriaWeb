@@ -38,7 +38,7 @@
 	@if(!$asset->approved)
 		<div class="alert alert-danger text-center"><strong>This asset is pending approval.</strong> It will not appear in-game and cannot be voted on or purchased at this time.</div>
 	@endif
-	<div id="gt-item" class="graphictoria-item-page"
+	<div id="gt-item" class="graphictoria-smaller-page"
 		@auth
 			data-asset-id="{{ $asset->id }}"
 			data-asset-name="{{ $asset->name }}"

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'next_reward' => 'datetime',
+        'last_seen' => 'datetime',
     ];
 	
 	/**
@@ -73,12 +75,39 @@ class User extends Authenticatable implements MustVerifyEmail
 		return route('user.profile', ['user' => $this->id]);
 	}
 	
+	public function getLastSeen()
+	{
+		if($this->last_seen >= Carbon::now()->subMinutes(2))
+			return 'Now';
+		
+		if(Carbon::now() >= $this->last_seen->copy()->addDays(2))
+			return $this->last_seen->isoFormat('ll');
+		else
+			return $this->last_seen->calendar();
+	}
+	
+	public function getJoinDate()
+	{
+		return $this->created_at->isoFormat('ll');
+	}
+	
+	// XlXi: Returns a class name like text-success or
+	//       gt-status-studio to show next to the
+	//       user's name.
+	public function getOnlineClass()
+	{
+		if($this->last_seen >= Carbon::now()->subMinutes(2))
+			return 'text-success';
+		
+		return 'text-muted';
+	}
+	
 	public function _hasRolesetInternal($roleName)
 	{
 		$roleset = Roleset::where('Name', $roleName)->first();
 		if(
 			UserRoleset::where('Roleset_id', $roleset->id)
-						->where('User_id', Auth::user()->id)
+						->where('User_id', $this->id)
 						->exists()
 		)
 			return true;

@@ -17,6 +17,11 @@ Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 	Route::get('/{asset}/{assetName:slug?}', 'ShopController@showAsset')->name('asset');
 });
 
+Route::group(['as' => 'games.', 'prefix' => 'games'], function() {
+	Route::get('/', 'GamesController@index')->name('index');
+	//Route::get('/{asset}/{assetName:slug?}', 'GamesController@showGame')->name('game');
+});
+
 Route::middleware('auth')->group(function () {
 	Route::group(['as' => 'user.', 'prefix' => 'my'], function() {
 		Route::get('/settings', 'SettingsController@index')->name('index');
@@ -34,6 +39,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 	
 	Route::middleware('roleset:owner')->group(function () {
 		Route::get('/arbiter-management/{arbiterType?}/{jobId?}', 'AdminController@arbiterManagement')->name('arbitermanagement');
+		
+		Route::get('/configuration', 'AdminController@configuration')->name('configuration');
 	});
 });
 
