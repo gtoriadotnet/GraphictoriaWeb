@@ -1,5 +1,7 @@
 <?php
 
-Route::get('/', function(){
-	return view('layouts.blog');
+Route::get('/', 'BlogController@home')->name('home');
+
+Route::fallback(function () {
+    return response(view('blog.404'), 404);
 });

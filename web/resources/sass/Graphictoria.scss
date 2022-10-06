@@ -374,7 +374,7 @@ html {
 	background-size: cover!important;
 	background-repeat: no-repeat!important;
 	background-position: center!important;
-	height: 330px;
+	min-height: 330px;
 	background: #141414;
 }
 
@@ -563,6 +563,16 @@ html {
       }
     }
   }
+}
+
+.graphictoria-blognav {
+	transition: background 100ms, border-color 100ms;
+	transition-timing-function: ease-out;
+}
+
+.graphictoria-blognav-hide {
+	background: #ffffff00!important;
+	border-color: #ffffff00!important;
 }
 
 .graphictoria-nav-margin {

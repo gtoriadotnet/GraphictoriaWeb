@@ -53,6 +53,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::domain('blog.' . DomainHelper::TopLevelDomain())
                 ->middleware('web')
 				->namespace('App\Http\Controllers\Blog')
+				->name('blog.')
                 ->group(base_path('routes/blog.php'));
 			
 			//

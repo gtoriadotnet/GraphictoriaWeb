@@ -7,6 +7,7 @@ const mix = require('laravel-mix');
 require('laravel-mix-banner');
 
 mix.js('resources/js/app.js', 'public/js')
+	.js('resources/js/pages/Blog.js', 'public/js')
 	.js('resources/js/pages/Maintenance.js', 'public/js')
 	.js('resources/js/pages/Dashboard.js', 'public/js')
 	.js('resources/js/pages/Shop.js', 'public/js')
