@@ -1345,3 +1345,29 @@ p {
   -webkit-animation-fill-mode: both;
   -webkit-animation-name: dropdownEase;
 }
+
+// Voting
+.graphictoria-vote-bar {
+	// border
+	html.gtoria-dark & {
+		border-color: $gray-700;
+	}
+	html.gtoria-light & {
+		border-color: $border-color;
+	}
+	
+	// rounded-1
+	border-radius: 0.2rem;
+	
+	// bg-secondary
+	background-color: $secondary;
+	
+	// my-auto and mx-1
+	margin: auto 0.25rem auto 0.25rem;
+	
+	// flex-fill
+	flex: 1 1 auto;
+	
+	position: relative;
+	height: 10px;
+}

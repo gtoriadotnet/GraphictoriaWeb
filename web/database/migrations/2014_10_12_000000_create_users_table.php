@@ -22,6 +22,8 @@ return new class extends Migration
             $table->rememberToken();
 			$table->unsignedBigInteger('banId')->nullable();
 			
+            $table->string('biography')->nullable();
+			
 			$table->unsignedBigInteger('tokens')->default(0);
 			$table->dateTime('next_reward')->useCurrent();
 			

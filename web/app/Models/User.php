@@ -91,15 +91,12 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->created_at->isoFormat('ll');
 	}
 	
-	// XlXi: Returns a class name like text-success or
-	//       gt-status-studio to show next to the
-	//       user's name.
-	public function getOnlineClass()
+	// XlXi: TODO: Replace this with detailed presence
+	//		       like what game the user is in or
+	//			   what place they're editing.
+	public function isOnline()
 	{
-		if($this->last_seen >= Carbon::now()->subMinutes(2))
-			return 'text-success';
-		
-		return 'text-muted';
+		return ($this->last_seen >= Carbon::now()->subMinutes(2));
 	}
 	
 	public function _hasRolesetInternal($roleName)
