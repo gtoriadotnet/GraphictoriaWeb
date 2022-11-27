@@ -53,5 +53,35 @@ class WebConfigurationSeeder extends Seeder
 			'name' => 'ThumbnailArbiterIP',
 			'value' => '127.0.0.1'
 		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'ClientUploadVersion',
+			'value' => 'version-unknown'
+		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'ClientDeployVersion',
+			'value' => '0.0.0.0'
+		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'ClientLauncherDeployVersion',
+			'value' => '0, 0, 0, 0'
+		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'StudioUploadVersion',
+			'value' => 'version-unknown'
+		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'StudioDeployVersion',
+			'value' => '0.0.0.0'
+		]);
+		
+		DynamicWebConfiguration::create([
+			'name' => 'StudioLauncherDeployVersion',
+			'value' => '0, 0, 0, 0'
+		]);
     }
 }

@@ -9,8 +9,12 @@
 @import "Variables";
 @import "~bootstrap/scss/bootstrap";
 @import "./scss/fontawesome.scss";
-@import "./scss/solid.scss";
 @import "./scss/brands.scss";
+@import "./scss/duotone.scss";
+@import "./scss/light.scss";
+@import "./scss/regular.scss";
+@import "./scss/solid.scss";
+@import "./scss/thin.scss";
 
 // Variables
 
@@ -71,6 +75,11 @@ img.twemoji {
 .graphictoria-asset-thumbnail {
 	width: 420px;
 	height: 420px;
+}
+
+.graphictoria-game-thumbnail {
+	width: 640px;
+	height: 360px;
 }
 
 .graphictoria-smaller-page {
@@ -138,6 +147,28 @@ img.twemoji {
 .graphictoria-item-card > span > img {
 	background: url("/Images/Item-Image-Vignette.png");
 	background-size: cover;
+}
+
+.graphictoria-game-card {
+	@media (max-width: 576px) {
+		width: math.div(100%, 2)
+	}
+	
+	@media (min-width: 576px) {
+		width: math.div(100%, 3)
+	}
+	
+	@media (min-width: 768px) {
+		width: math.div(100%, 4)
+	}
+	
+	@media (min-width: 992px) {
+		width: math.div(100%, 5)
+	}
+	
+	@media (min-width: 1200px) {
+		width: 176px;
+	}
 }
 
 .graphictoria-shop-overlay {
@@ -748,6 +779,75 @@ html {
       border-top-width: 2px;
     }
   }
+}
+
+.btn-favorite {
+	--bs-text-opacity: 1;
+	transition: .1s;
+	background: transparent;
+	border: 0;
+	
+	html.gtoria-light & {
+		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
+	}
+	
+	html.gtoria-dark & {
+		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
+	}
+	
+	&:hover {
+		color: #e59800!important;
+	}
+	
+	&.selected {
+		color: #e59800!important;
+	}
+}
+
+.btn-upvote {
+	--bs-text-opacity: 1;
+	transition: .1s;
+	background: transparent;
+	border: 0;
+	
+	html.gtoria-light & {
+		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
+	}
+	
+	html.gtoria-dark & {
+		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
+	}
+	
+	&:hover {
+		color: rgba(var(--bs-success-rgb),var(--bs-text-opacity))!important;
+	}
+	
+	&.selected {
+		color: rgba(var(--bs-success-rgb),var(--bs-text-opacity))!important;
+	}
+}
+
+.btn-downvote {
+	--bs-text-opacity: 1;
+	transition: .1s;
+	background: transparent;
+	border: 0;
+	
+	html.gtoria-light & {
+		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
+	}
+	
+	html.gtoria-dark & {
+		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
+	}
+	
+	&:hover {
+		color: rgba(var(--bs-danger-rgb),var(--bs-text-opacity))!important;
+	}
+	
+	&.selected {
+		color: rgba(var(--bs-danger-rgb),var(--bs-text-opacity))!important;
+	}
 }
 
 // Typography

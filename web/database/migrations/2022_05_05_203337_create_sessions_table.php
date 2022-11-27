@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('user_agent')->nullable();
             $table->text('payload');
             $table->integer('last_activity')->index();
+			$table->boolean('clientAuthenticated')->default(false);
 			$table->timestamps();
         });
     }

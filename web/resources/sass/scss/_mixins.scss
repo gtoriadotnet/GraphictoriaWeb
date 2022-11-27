@@ -62,6 +62,36 @@
   }
 }
 
+@mixin fa-icon-light($fa-var) {
+  @extend %fa-icon;
+  @extend .fa-light;
+
+  &::before {
+    content: unquote("\"#{ $fa-var }\"");
+  }
+}
+
+@mixin fa-icon-thin($fa-var) {
+  @extend %fa-icon;
+  @extend .fa-thin;
+
+  &::before {
+    content: unquote("\"#{ $fa-var }\"");
+  }
+}
+
+@mixin fa-icon-duotone($fa-var) {
+  @extend %fa-icon;
+  @extend .fa-duotone;
+
+  &::before {
+    content: unquote("\"#{ $fa-var }\"");
+  }
+  &::after {
+    content: unquote("\"#{ $fa-var }#{ $fa-var }\"");
+  }
+}
+
 @mixin fa-icon-brands($fa-var) {
   @extend %fa-icon;
   @extend .fa-brands;

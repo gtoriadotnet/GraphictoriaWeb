@@ -4,6 +4,20 @@
 
 @section('page-specific')
 <style>
+	.gt-conf-row > .row {
+		padding: 0.5rem!important;
+		margin: 0;
+	}
+	
+	.gt-conf-row:nth-of-type(even)>* {
+		background-color: #0000000d;
+	}
+	
+	.gt-conf-row > .row > div:not(:last-child) {
+		border-right: 1px solid #00000020;
+	}
+	
+	/* old stuff */
 	.gt-small-row {
 		width: 0;
 		text-align: center;
@@ -19,13 +33,29 @@
 </style>
 
 <!-- Secure Page JS -->
-<script src="data:text/javascript;base64,{{ base64_encode(File::get(public_path('js/adm/SiteConfiguration.js'))) }}"></script>
+<script src="{{ mix('js/adm/SiteConfiguration.js') }}"></script>
 @endsection
 
 @push('content')
 	<div class="container-md">
 		<h4>Site Configuration</h4>
-		<div class="card p-2">
+		<div class="card">
+			<div class="gt-conf-row">
+				<div class="row">
+					<div class="col-3">
+						<p>Name</p>
+					</div>
+					<div class="col-6">
+						<p>Value</p>
+					</div>
+					<div class="col-2">
+						<p>Last Modified</p>
+					</div>
+					<div class="col-1">
+						<button class="btn btn-sm btn-primary mx-auto" disabled>Edit</button>
+					</div>
+				</div>
+			</div>
 			<table class="table table-sm table-bordered table-striped mb-2">
 				<thead>
 					<tr>

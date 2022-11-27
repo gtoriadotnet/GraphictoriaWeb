@@ -3,7 +3,7 @@
 	Copyright © XlXi 2022
 */
 
-import { Component, createRef } from 'react';
+import { Component } from 'react';
 
 import classNames from 'classnames/bind';
 

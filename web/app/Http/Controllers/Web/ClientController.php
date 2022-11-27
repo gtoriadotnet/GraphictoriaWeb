@@ -81,6 +81,8 @@ class ClientController extends Controller
 		if(
 			!($asset->onSale || (Auth::check() && Auth::user()->id == $asset->creatorId)) // not on sale and not the creator
 			&&
+			!($asset->copyable()) // asset isn't defaulted to open source
+			&&
 			!GridHelper::hasAllAccess() // not grid
 		) {
 			$validator->errors()->add('id', 'You do not have access to this asset.');

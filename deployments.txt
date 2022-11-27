@@ -1,0 +1,33 @@
+Deployer
+
+Deploy or Revert switch
+
+If deploy:
+- Generate a new version hash for studio and/or client.
+- Able to deploy both client/studio at the same time.
+- If no launcher provided, use launcher from previous version.
+- Set client/studio version in dynamic web config.
+
+If revert:
+- Provide a dropdown list of recent versions with their version numbers
+  i.e.: (Studio 1.0.0.0) version-abcdefghijk
+        (Client 1.0.0.0) version-bbcdefghijk
+- Reset client/studio version in dynamic web config.
+
+Studio/Client deployment buttons.
+- Create a new card for deploying the new studio/client.
+- Disable button if one exists on the view already.
+- Allow Xing out of a deployment box.
+- Standardized deployment interface.
+- Allow one or both.
+- On upload both should be pushed at the same time, not as they upload.
+
+
+Deployment Api
+
+On deploy:
+- Create and return version hash.
+- /admin/v1/deploy should return a status, such as the ones thumbnails return. These should have a percentage and a message.
+- Message/percentage to be displayed on modal in deployment JS.
+- Call /admin/v1/deploy/version-hash
+- Validate if the version is supposed to be deployed.

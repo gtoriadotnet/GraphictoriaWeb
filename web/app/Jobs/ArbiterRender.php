@@ -83,7 +83,7 @@ class ArbiterRender implements ShouldQueue
     {
 		// TODO: XlXi: User avatar/closeup render support.
 		$arguments = [
-			url(sprintf('/asset?id=%d', $this->assetId)), // TODO: XlXi: Move url() to route once the route actually exists.
+			url(sprintf('/asset?id=%d', $this->assetId)), // TODO: XlXi: Move url() to route() once the route actually exists.
 			($this->is3D ? 'OBJ' : 'PNG'),
 			840, // Width
 			840, // Height
@@ -103,6 +103,8 @@ class ArbiterRender implements ShouldQueue
 				array_push($arguments, '27113661;25251154'); // Custom Texture URLs (shirt and pands)
 				break;
 			case 'Place':
+				$arguments[2] = 768*4; // XlXi: These get scaled down by 4.
+				$arguments[3] = 432*4; // XlXi: These get scaled down by 4.
 				array_push($arguments, '0'); // TODO: XlXi: Universe IDs
 				break;
 		}

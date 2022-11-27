@@ -9,6 +9,16 @@ use App\Models\DynamicWebConfiguration;
 
 class AdminController extends Controller
 {
+	function getJs(Request $request, string $jsFile)
+	{
+		$filePath = public_path('js/adm/' . basename($jsFile));
+		
+		if(!file_exists($filePath))
+			abort(404);
+		
+		return response()->file($filePath);
+	}
+	
 	// Moderator+
 	function dashboard()
 	{
@@ -16,6 +26,11 @@ class AdminController extends Controller
 	}
 	
 	// Admin+
+	function metricsVisualization()
+	{
+		return view('web.admin.metricsvisualization');
+	}
+	
     function arbiterDiag(Request $request, string $arbiterType = null)
 	{
 		return view('web.admin.arbiter.diag')->with([
@@ -38,5 +53,10 @@ class AdminController extends Controller
 		return view('web.admin.configuration')->with([
 			'values' => DynamicWebConfiguration::get()
 		]);
+	}
+	
+	function deployer()
+	{
+		return view('web.admin.deployer');
 	}
 }

@@ -67,8 +67,8 @@ class ThumbnailController extends Controller
 			
 			// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
 			// 			   Things like HTML assets should just have a generic "default" image.
-			if($model->assetTypeId == 1)
-				$model = Asset::where('id', $model->parentAsset)->first();
+			//if($model->assetTypeId == 1)
+			//	$model = Asset::where('id', $model->parentAsset)->first();
 		}
 		
 		

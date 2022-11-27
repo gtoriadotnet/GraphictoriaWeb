@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 
+use App\Models\AssetType;
+
+/* 
+TODO: XlXi: game performance priority system
+			where games can be chosen to have a higher
+			thread count on RCC.
+
+TODO: XlXi: game reccomendations, split words of title
+			SELECT articleID, COUNT(keyword) FROM keyword WHERE keyword IN (A, B, C) GROUP BY articleID ORDER BY COUNT(keyword) DESC
+*/
+
 class Asset extends Model
 {
     use HasFactory;
@@ -21,85 +32,7 @@ class Asset extends Model
 		'updated_at' => 'datetime',
     ];
 	
-	protected $assetTypes = [
-		/* 0 */  'Product',
-		/* 1 */  'Image',
-		/* 2 */  'T-Shirt',
-		/* 3 */  'Audio',
-		/* 4 */  'Mesh',
-		/* 5 */  'Lua',
-		/* 6 */  'HTML',
-		/* 7 */  'Text',
-		/* 8 */  'Hat',
-		/* 9 */  'Place',
-		/* 10 */ 'Model',
-		/* 11 */ 'Shirt',
-		/* 12 */ 'Pants',
-		/* 13 */ 'Decal',
-		/* 14 */ null, // Doesn't exist on Roblox.
-		/* 15 */ null, // Doesn't exist on Roblox.
-		/* 16 */ 'Avatar',
-		/* 17 */ 'Head',
-		/* 18 */ 'Face',
-		/* 19 */ 'Gear',
-		/* 20 */ null, // Doesn't exist on Roblox.
-		/* 21 */ 'Badge',
-		/* 22 */ 'Group Emblem',
-		/* 23 */ null, // Doesn't exist on Roblox.
-		/* 24 */ 'Animation',
-		/* 25 */ 'Arms',
-		/* 26 */ 'Legs',
-		/* 27 */ 'Torso',
-		/* 28 */ 'Right Arm',
-		/* 29 */ 'Left Arm',
-		/* 30 */ 'Left Leg',
-		/* 31 */ 'Right Leg',
-		/* 32 */ 'Package',
-		/* 33 */ 'YouTubeVideo',
-		/* 34 */ 'Game Pass',
-		/* 35 */ 'App',
-		/* 36 */ null, // Doesn't exist on Roblox.
-		/* 37 */ 'Code',
-		/* 38 */ 'Plugin',
-		/* 39 */ 'SolidModel',
-		/* 40 */ 'MeshPart',
-		/* 41 */ 'Hair Accessory',
-		/* 42 */ 'Face Accessory',
-		/* 43 */ 'Neck Accessory',
-		/* 44 */ 'Shoulder Accessory',
-		/* 45 */ 'Front Accessory',
-		/* 46 */ 'Back Accessory',
-		/* 47 */ 'Waist Accessory',
-		/* 48 */ 'Climb Animation',
-		/* 49 */ 'Death Animation',
-		/* 50 */ 'Fall Animation',
-		/* 51 */ 'Idle Animation',
-		/* 52 */ 'Jump Animation',
-		/* 53 */ 'Run Animation',
-		/* 54 */ 'Swim Animation',
-		/* 55 */ 'Walk Animation',
-		/* 56 */ 'Pose Animation',
-		/* 57 */ 'Ear Accessory',
-		/* 58 */ 'Eye Accessory',
-		/* 59 */ 'LocalizationTableManifest',
-		/* 60 */ 'LocalizationTableTranslation',
-		/* 61 */ 'Emote Animation',
-		/* 62 */ 'Video',
-		/* 63 */ 'TexturePack',
-		/* 64 */ 'T-Shirt Accessory',
-		/* 65 */ 'Shirt Accessory',
-		/* 66 */ 'Pants Accessory',
-		/* 67 */ 'Jacket Accessory',
-		/* 68 */ 'Sweater Accessory',
-		/* 69 */ 'Shorts Accessory',
-		/* 70 */ 'Left Shoe Accessory',
-		/* 71 */ 'Right Shoe Accessory',
-		/* 72 */ 'Dress Skirt Accessory',
-		/* 73 */ 'Font Family',
-		/* 74 */ 'Font Face',
-		/* 75 */ 'MeshHiddenSurfaceRemoval'
-	];
-	
+	/* TODO: XlXi: move to db */
 	protected $assetGenres = [
 		/* 0 */ 'All',
 		/* 1 */ 'Town And City',
@@ -119,6 +52,7 @@ class Asset extends Model
 		/* 15 */ 'RPG'
 	];
 	
+	/* TODO: XlXi: move to db */
 	protected $gearAssetGenres = [
 		/* 0 */ 'Melee Weapon',
 		/* 1 */ 'Ranged Weapon',
@@ -131,6 +65,11 @@ class Asset extends Model
 		/* 8 */ 'Personal Transport'
 	];
 	
+	public function assetType()
+    {
+        return $this->belongsTo(AssetType::class, 'assetTypeId');
+    }
+	
 	public function user()
     {
         return $this->belongsTo(User::class, 'creatorId');
@@ -138,85 +77,44 @@ class Asset extends Model
 	
 	public function parentAsset()
     {
-        return $this->belongsTo(User::class, 'parentAssetId');
+        return $this->belongsTo(Asset::class, 'parentAssetId');
     }
 	
-	public function typeString()
-	{
-		return $this->assetTypes[$this->assetTypeId];
-	}
+	public function universe()
+    {
+        return $this->belongsTo(Universe::class, 'universeId');
+    }
 	
 	public function latestVersion()
 	{
 		return $this->belongsTo(AssetVersion::class, 'assetVersionId');
 	}
 	
+	public function typeString()
+	{
+		return $this->assetType->name;
+	}
+	
 	public function isWearable()
 	{
-		switch($this->assetTypeId)
-		{
-			case 2: // T-Shirt
-			case 8: // Hat
-			case 11: // Shirt
-			case 12: // Pants
-			case 17: // Head
-			case 18: // Face
-			case 19: // Gear
-			case 25: // Arms
-			case 26: // Legs
-			case 27: // Torso
-			case 28: // Right Arm
-			case 29: // Left Arm
-			case 30: // Left Leg
-			case 31: // Right Leg
-			case 32: // Package
-				return true;
-		}
-		
-		return false;
+		return $this->assetType->wearable;
 	}
 	
 	public function isRenderable()
 	{
-		switch($this->assetTypeId)
-		{
-			case 2: // T-Shirt
-			case 4: // Mesh
-			case 8: // Hat
-			case 9: // Place
-			case 10: // Model
-			case 11: // Shirt
-			case 12: // Pants
-			case 13: // Decal
-			case 17: // Head
-			case 18: // Face
-			case 19: // Gear
-			case 25: // Arms
-			case 26: // Legs
-			case 27: // Torso
-			case 28: // Right Arm
-			case 29: // Left Arm
-			case 30: // Left Leg
-			case 31: // Right Leg
-			case 32: // Package
-				return true;
-		}
-		
-		return false;
+		return $this->assetType->renderable;
 	}
 	
 	public function canRender3D()
 	{
-		switch($this->assetTypeId)
-		{
-			case 9: // Place
-			case 10: // Model
-			case 13: // Decal
-			case 18: // Face
-				return false;
-		}
-		
-		return $this->isRenderable();
+		return $this->assetType->renderable3d;
+	}
+	
+	// XlXi: copyable() is when an asset is freely available for download
+	//		 on /asset regardless of whether or not its on sale or owned.
+	public function copyable()
+	{
+		return $this->assetType->copyable;
 	}
 	
 	public function getThumbnail()
@@ -225,12 +123,12 @@ class Asset extends Model
 		
 		// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
 		// 			   Things like HTML assets should just have a generic "default" image.
-		if($this->assetTypeId == 1) // Image
-			$renderId = $this->parentAsset->id;
+		//if($this->assetTypeId == 1) // Image
+		//	$renderId = $this->parentAsset->id;
 		
 		$thumbnail = Http::get(route('thumbnails.v1.asset', ['id' => $renderId, 'type' => '2d']));
 		if($thumbnail->json('status') == 'loading')
-			return 'https://gtoria.local/images/busy/asset.png';
+			return ($this->assetTypeId == 9 ? 'https://gtoria.local/images/busy/game.png' : 'https://gtoria.local/images/busy/asset.png');
 		
 		return $thumbnail->json('data');
 	}

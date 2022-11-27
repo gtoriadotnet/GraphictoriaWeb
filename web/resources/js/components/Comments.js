@@ -10,8 +10,6 @@ import Twemoji from 'react-twemoji';
 import { buildGenericApiUrl } from '../util/HTTP.js';
 import Loader from './Loader';
 
-const commentsId = 'gt-comments'; // XlXi: Keep this in sync with the Item page.
-
 axios.defaults.withCredentials = true;
 
 class Comments extends Component {

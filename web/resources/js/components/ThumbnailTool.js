@@ -119,7 +119,7 @@ class ThumbnailTool extends Component {
 			
 			this.setState({ initialLoading: false });
 			
-			if(localStorage.getItem('gt-use-3d-thumbnails') === 'true')
+			if(this.renderable3d && localStorage.getItem('gt-use-3d-thumbnails') === 'true')
 				this.toggle3D();
 		}
 	}
@@ -207,9 +207,11 @@ class ThumbnailTool extends Component {
 							:
 							<ProgressiveImage
 								src={ this.thumbnail2d }
-								placeholderImg={ buildGenericApiUrl('www', 'images/busy/asset.png') }
+								placeholderImg={ buildGenericApiUrl('www', (this.props.placeholder == null ? 'images/busy/asset.png' : this.props.placeholder)) }
 								alt={ this.assetName }
 								className='img-fluid'
+								width={ this.props.width }
+								height={ this.props.height }
 							/>
 						)
 					}

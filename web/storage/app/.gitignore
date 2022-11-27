@@ -2,4 +2,6 @@
 !public/
 !grid/
 !layouts/
+!setup/
+!setuptmp/
 !.gitignore

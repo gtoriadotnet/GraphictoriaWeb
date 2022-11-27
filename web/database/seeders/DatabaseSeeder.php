@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
 			WebConfigurationSeeder::class,
+			AssetTypeSeeder::class,
 			UsageCounterSeeder::class,
 			RolesetSeeder::class
 			//FFlagSeeder::class

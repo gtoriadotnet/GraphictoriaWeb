@@ -24,6 +24,10 @@ return new class extends Migration
 			$table->boolean('approved')->default(false);
 			$table->boolean('moderated')->default(false);
 			
+			$table->unsignedBigInteger('favorites')->default(0);
+			$table->unsignedBigInteger('upVotes')->default(0);
+			$table->unsignedBigInteger('downVotes')->default(0);
+			
 			$table->unsignedBigInteger('priceInTokens')->default(15);
 			$table->unsignedBigInteger('sales')->default(0);
 			$table->boolean('onSale')->default(false);
@@ -32,6 +36,14 @@ return new class extends Migration
 			$table->unsignedSmallInteger('assetAttributeId')->nullable();
 			$table->unsignedBigInteger('assetVersionId')->comment('The most recent version id for the asset. This is used internally as asset version 0 when using the /asset api.');
 			
+			$table->unsignedBigInteger('universeId')->nullable();
+			$table->unsignedBigInteger('onlinePlayers')->default(0);
+			$table->unsignedBigInteger('visits')->default(0);
+			$table->unsignedBigInteger('maxPlayers')->default(10);
+			$table->unsignedTinyInteger('chatStyleEnum')->default(2);
+			$table->boolean('uncopylocked')->default(false);
+			
+			$table->string('iconHash')->nullable();
 			$table->string('thumbnail2DHash')->nullable();
 			$table->string('thumbnail3DHash')->nullable();
 			

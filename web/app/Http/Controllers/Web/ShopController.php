@@ -16,10 +16,14 @@ class ShopController extends Controller
 	
 	public function showAsset(Request $request, Asset $asset, string $assetName = null)
 	{
-		if ($asset->moderated)
+		$assetSlug = Str::slug($asset->name, '-');
+		
+		if($asset->moderated)
 			abort(404);
 		
-		$assetSlug = Str::slug($asset->name, '-');
+		if($asset->assetTypeId == 9) // Place
+			return redirect()->route('games.asset', ['asset' => $asset->id, 'assetName' => $assetSlug]);
+		
 		if ($assetName != $assetSlug)
 			return redirect()->route('shop.asset', ['asset' => $asset->id, 'assetName' => $assetSlug]);
 		

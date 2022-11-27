@@ -25,6 +25,7 @@
 	
 	<list name="Administration" color="primary" roleset="Administrator">
 		<category name="Service">
+			<link name="Metrics Visualization" route="admin.metricsvisualization" />
 			<link name="Arbiter Diag" route="admin.diag" parameters="games" />
 			<link name="Banner Editor" route="admin.dashboard" />
 		</category>
@@ -67,6 +68,7 @@
 	
 	<list name="Owner" color="danger" roleset="Owner">
 		<category name="Service">
+			<link name="Metrics Visualization" route="admin.metricsvisualization" />
 			<link name="Arbiter Management" route="admin.arbitermanagement" />
 			<link name="Arbiter Diag" route="admin.diag" />
 			<link name="Configuration Editor" route="admin.configuration" />
@@ -74,6 +76,7 @@
 		</category>
 		
 		<category name="Manage">
+			<link name="App Deployer" route="admin.deployer" />
 			<link name="Watchdog Creator Whitelist" route="admin.dashboard" />
 			<link name="ContentFilter Whitelist" route="admin.dashboard" />
 			<link name="Manage Staff" route="admin.dashboard" />

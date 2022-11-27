@@ -19,7 +19,7 @@ Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 
 Route::group(['as' => 'games.', 'prefix' => 'games'], function() {
 	Route::get('/', 'GamesController@index')->name('index');
-	//Route::get('/{asset}/{assetName:slug?}', 'GamesController@showGame')->name('game');
+	Route::get('/{asset}/{assetName:slug?}', 'GamesController@showGame')->name('asset');
 });
 
 Route::middleware('auth')->group(function () {
@@ -28,12 +28,18 @@ Route::middleware('auth')->group(function () {
 	});
 });
 
+Route::group(['as' => 'admin.'], function() {
+	Route::get('/js/adm/{jsFile}', 'AdminController@getJs')->middleware('roleset:moderator');
+});
+
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 	Route::middleware('roleset:moderator')->group(function () {
 		Route::get('/', 'AdminController@dashboard')->name('dashboard');
 	});
 	
 	Route::middleware('roleset:administrator')->group(function () {
+		Route::get('/metrics', 'AdminController@metricsVisualization')->name('metricsvisualization');
+		
 		Route::get('/arbiter-diag/{arbiterType?}', 'AdminController@arbiterDiag')->name('diag');
 	});
 	
@@ -41,6 +47,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 		Route::get('/arbiter-management/{arbiterType?}/{jobId?}', 'AdminController@arbiterManagement')->name('arbitermanagement');
 		
 		Route::get('/configuration', 'AdminController@configuration')->name('configuration');
+		
+		Route::get('/deploy', 'AdminController@deployer')->name('deployer');
 	});
 });
 

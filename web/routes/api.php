@@ -7,10 +7,25 @@ Route::get('/ping', function() {
 })->middleware('lastseen');
 
 Route::middleware('auth')->group(function () {
+	Route::group(['as' => 'client.', 'prefix' => 'auth'], function() {
+		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+			Route::get('/generate-token', 'ClientController@generateAuthTicket')->name('generatetoken')->middleware('throttle:40,10');
+		});
+	});
+	
 	Route::group(['as' => 'feed.', 'prefix' => 'feed'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 			Route::get('/list-json', 'FeedController@listJson')->name('list');
 			Route::post('/share', 'FeedController@share')->name('share')->middleware('throttle:3,2');
+		});
+	});
+	
+	Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
+		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+			Route::middleware('roleset:owner')->group(function () {
+				Route::get('/deploy', 'AdminController@deploy')->name('deploy');
+				Route::post('/deploy/{version}', 'AdminController@deployVersion')->name('deploy');
+			});
 		});
 	});
 });
@@ -25,6 +40,12 @@ Route::group(['as' => 'comments.', 'prefix' => 'comments'], function() {
 Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 	Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 		Route::get('/list-json', 'ShopController@listJson')->name('list');
+	});
+});
+
+Route::group(['as' => 'games.', 'prefix' => 'games'], function() {
+	Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+		Route::get('/list-json', 'GamesController@listJson')->name('list');
 	});
 });
 

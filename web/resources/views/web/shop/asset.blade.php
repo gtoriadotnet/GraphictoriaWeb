@@ -59,7 +59,7 @@
 						<div id="gt-thumbnail"
 							class="border position-relative graphictoria-asset-thumbnail"
 							data-asset-thumbnail-2d="{{ $asset->getThumbnail() }}"
-							data-asset-thumbnail-3d="{{ route('thumbnails.v1.asset', ['id' => $asset->id]) }}"
+							data-asset-thumbnail-3d="{{ route('thumbnails.v1.asset', ['id' => $asset->id, 'type' => '3d']) }}"
 							data-asset-name="{{ $asset->name }}"
 							data-asset-id="{{ $asset->id }}"
 							@if($asset->isWearable() && Auth::check())
