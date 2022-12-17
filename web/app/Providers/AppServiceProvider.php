@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use Illuminate\Routing\Route as IlluminateRoute;
+use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+
+use App\Validators\CaseInsensitiveUriValidator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 		URL::forceScheme('https');
+		
+		$validators = IlluminateRoute::getValidators();
+		$validators[] = new CaseInsensitiveUriValidator;
+		IlluminateRoute::$validators = array_filter($validators, function($validator) { 
+			return get_class($validator) != UriValidator::class;
+		});
 		
 		Blade::directive('owner', function() {
             return '<?php if(Auth::check() && Auth::user()->hasRoleset(\'Owner\')): ?>';

@@ -124,12 +124,12 @@ class GridHelper
 	
 	public static function gameArbiter()
 	{
-		return sprintf('http://%s:64989', self::getArbiter('Game'));
+		return sprintf('http://%s:9999', self::getArbiter('Game'));
 	}
 	
 	public static function thumbnailArbiter()
 	{
-		return sprintf('http://%s:64989', self::getArbiter('Thumbnail'));
+		return sprintf('http://%s:9999', self::getArbiter('Thumbnail'));
 	}
 	
 	public static function gameArbiterMonitor()

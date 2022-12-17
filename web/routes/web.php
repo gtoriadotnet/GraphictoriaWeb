@@ -99,6 +99,13 @@ Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 	});
 });
 
-Route::group(['as' => 'client.'], function() {
-	Route::get('/asset', 'ClientController@asset')->name('asset');
+
+Route::withoutMiddleware(['csrf'])->group(function () {
+	Route::group(['as' => 'client.'], function() {
+		Route::get('/asset', 'ClientController@asset')->name('asset');
+		
+		Route::group(['as' => 'game.', 'prefix' => 'game'], function() {
+			Route::post('/PlaceLauncher', 'ClientGameController@placeLauncher')->name('placelauncher');
+		});
+	});
 });

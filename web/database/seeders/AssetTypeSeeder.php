@@ -405,6 +405,26 @@ class AssetTypeSeeder extends Seeder
 		[
 			'name' => 'MeshHiddenSurfaceRemoval',
 			'locked' => true
+		],
+		[
+			'name' => 'Eyebrow Accessory',
+			'locked' => true
+		],
+		[
+			'name' => 'Eyelash Accessory',
+			'locked' => true
+		],
+		[
+			'name' => 'Mood Animation',
+			'locked' => true
+		],
+		[
+			'name' => 'Dynamic Head',
+			'locked' => true
+		],
+		[
+			'name' => 'CodeSnippet',
+			'locked' => true
 		]
 	];
 	

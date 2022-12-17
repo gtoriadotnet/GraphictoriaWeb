@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Carbon\Carbon;
 use COM;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -42,8 +43,10 @@ class AppDeployment implements ShouldQueue
         $this->deployment->step = 2; // Unpacking files.
 		$this->deployment->save();
 		
-		$workingDirectory = storage_path(sprintf('app/setuptmp/%s', $this->deployment->version));
-		Storage::makeDirectory($workingDirectory);
+		$workingDirectoryStorage = sprintf('setuptmp/%s', $this->deployment->version);
+		$workingDirectory = storage_path(sprintf('app/%s', $workingDirectoryStorage));
+		
+		Storage::makeDirectory($workingDirectoryStorage);
 		
 		$appArchive = '';
 		$appName = '';
@@ -52,7 +55,7 @@ class AppDeployment implements ShouldQueue
 		switch($this->deployment->app)
 		{
 			case 'client':
-				$appArchive = 'GraphictoriaApp.zip';
+				$appArchive = 'Graphictoria.zip';
 				$appName = 'GraphictoriaPlayer.exe';
 				$bootstrapperName = 'GraphictoriaPlayerLauncher.exe';
 				$bootstrapperVersionName = 'BootstrapperVersion.txt';
@@ -82,7 +85,7 @@ class AppDeployment implements ShouldQueue
 		// XlXi: this will not work on linux.
 		$fso = new COM("Scripting.FileSystemObject");
 		$appVersion = $fso->GetFileVersion(sprintf('%s/%s', $workingDirectory, $appName));
-		$bootstrapperVersion = $fso->GetFileVersion($bootstrapperLocation);
+		$bootstrapperVersion = str_replace('.', ', ', $fso->GetFileVersion($bootstrapperLocation));
 		
 		$hashConfig = DynamicWebConfiguration::where('name', sprintf('%sUploadVersion', $this->deployment->app))->first();
 		$versionConfig = DynamicWebConfiguration::where('name', sprintf('%sDeployVersion', $this->deployment->app))->first();
@@ -99,7 +102,7 @@ class AppDeployment implements ShouldQueue
 		$this->deployment->save();
 		
 		Storage::copy(sprintf('setuptmp/%s-%s', $this->deployment->version, $bootstrapperName), sprintf('setup/%s', $bootstrapperName));
-		Storage::put(sprintf('setup/%s-%s', $this->deployment->version, $bootstrapperVersionName), str_replace('.', ', ', $bootstrapperVersion));
+		Storage::put(sprintf('setup/%s-%s', $this->deployment->version, $bootstrapperVersionName), $bootstrapperVersion);
 		Storage::put(sprintf('setup/%s-gtManifest.txt', $this->deployment->version), '');
 		
 		$files = Storage::files('setuptmp');
@@ -111,15 +114,33 @@ class AppDeployment implements ShouldQueue
 				Storage::move($file, sprintf('setup/%s', $fileName));
 		}
 		
-		Storage::deleteDirectory(sprintf('setuptmp/%s', $this->deployment->version));
+		Storage::deleteDirectory($workingDirectoryStorage);
 		
 		$this->deployment->step = 5; // Success.
 		$this->deployment->save();
+		
+		$this->writeDeploy('Done!');
     }
 	
 	public function failed($exception)
 	{
 		$this->deployment->error = $exception->getMessage();
 		$this->deployment->save();
+		
+		$this->writeDeploy('Error!');
+	}
+	
+	protected function writeDeploy(string $message)
+	{
+		$string = sprintf(
+			'New %s %s at %s, file version: %s...%s',
+			ucfirst($this->deployment->app),
+			$this->deployment->version,
+			Carbon::now()->isoFormat('l LTS'),
+			DynamicWebConfiguration::where('name', sprintf('%sLauncherDeployVersion', $this->deployment->app))->first()->value,
+			$message
+		);
+		
+		Storage::append('setup/DeployHistory.txt', $string . "\r\n\r\n", null);
 	}
 }

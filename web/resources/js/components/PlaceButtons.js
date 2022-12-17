@@ -31,13 +31,20 @@ class PlaceLoadingModal extends Component {
 		this.Modal = new Bootstrap.Modal(this.ModalRef.current);
 		this.Modal.show();
 		
+		let gone = false;
 		this.ModalRef.current.addEventListener('hidden.bs.modal', (event) => {
+			gone = true;
 			this.props.setModal(null);
 		});
 		
 		setTimeout(function(){
 			this.setState({showDownloadScreen: true});
-		}.bind(this), 10000)
+		}.bind(this), 10000);
+		
+		setTimeout(function(){
+			if(gone == false)
+				this.props.setModal(null);
+		}.bind(this), 20000);
 	}
 	
 	componentWillUnmount() {
@@ -175,7 +182,7 @@ class PlaceButtons extends Component {
 								+ ':1'
 								+ '+launchmode:play'
 								+ '+gameinfo:' + res.data
-								+ '+placelauncherurl:' + encodeURIComponent(buildGenericApiUrl('www', `Game/PlaceLauncher?request=RequestGame&placeId=&${this.placeId}&isPlayTogetherGame=false`));
+								+ '+placelauncherurl:' + encodeURIComponent(buildGenericApiUrl('www', `Game/PlaceLauncher?request=RequestGame&placeId=${this.placeId}&isPlayTogetherGame=false`));
 			})
 			.catch(function(error) {
 				this.setModal(<PlaceLoadingErrorModal setModal={ this.setModal } message={ error.message } />);

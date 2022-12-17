@@ -36,7 +36,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Http\Middleware\VerifyCsrfToken::class,
+            'csrf',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 			
 			// XlXi: Yeah no, the double session protector was stupid.
@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'roleset' => \App\Http\Middleware\Roleset::class,
         'banned' => \App\Http\Middleware\CheckBan::class,
         'lastseen' => \App\Http\Middleware\LastSeenMiddleware::class,
+        'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 }

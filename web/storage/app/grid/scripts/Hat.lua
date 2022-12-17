@@ -9,8 +9,6 @@ local Lighting = game:GetService("Lighting")
 Lighting.ClockTime = 13
 Lighting.GeographicLatitude = -5
 
-for _, object in pairs(game:GetObjects(assetUrl)) do
-	object.Parent = workspace
-end
+game:Load(assetUrl)
 
 return game:GetService("ThumbnailGenerator"):Click(fileExtension, x, y, --[[hideSky = ]] true, --[[crop = ]] true)
