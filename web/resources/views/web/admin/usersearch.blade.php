@@ -9,6 +9,7 @@
 
 @push('content')
 	<div class="container-md">
+		<x-admin.navigation.user-search />
 		<h4>Find User</h4>
 		@if(isset($error))
 			<div class="alert alert-danger virtubrick-alert virtubrick-error-popup">{{ $error }}</div>
@@ -49,8 +50,7 @@
 							@endphp
 							<tr class="align-middle">
 								<th scope="col">
-									{{-- TODO: XlXi: Switch to user admin page when it exists. --}}
-									<a href="{{ $user->getProfileUrl() }}" class="text-decoration-none">
+									<a href="{{ route('admin.useradmin', ['ID' => $user->id]) }}" class="text-decoration-none">
 										<x-user-circle :user="$user" :size=40 />
 									</a>
 								</th>

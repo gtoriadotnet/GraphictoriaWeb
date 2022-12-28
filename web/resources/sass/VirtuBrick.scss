@@ -471,38 +471,42 @@ html {
 	
 	&-top {
 		html.vbrick-dark & {
-			border-top: $gray-700;
+			border-top: 1px solid $gray-700;
 		}
 		html.vbrick-light & {
-			border-top: $border-color;
+			border-top: 1px solid $border-color;
 		}
 	}
 	
 	&-end {
 		html.vbrick-dark & {
-			border-right: $gray-700;
+			border-right: 1px solid $gray-700;
 		}
 		html.vbrick-light & {
-			border-right: $border-color;
+			border-right: 1px solid $border-color;
 		}
 	}
 	
 	&-bottom {
 		html.vbrick-dark & {
-			border-bottom: $gray-700;
+			border-bottom: 1px solid $gray-700;
 		}
 		html.vbrick-light & {
-			border-bottom: $border-color;
+			border-bottom: 1px solid $border-color;
 		}
 	}
 	
 	&-start {
 		html.vbrick-dark & {
-			border-left: $gray-700;
+			border-left: 1px solid $gray-700;
 		}
 		html.vbrick-light & {
-			border-left: $border-color;
+			border-left: 1px solid $border-color;
 		}
+	}
+	
+	&-0 {
+		border: 0!important;
 	}
 	
 	&-top-0 {

@@ -46,8 +46,15 @@ Route::group(['as' => 'admin.'], function() {
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 	Route::middleware('roleset:moderator')->group(function () {
 		Route::get('/', 'AdminController@dashboard')->name('dashboard');
-		Route::get('/users', 'AdminController@userSearch')->name('usersearch');
-		Route::post('/users', 'AdminController@userSearchQuery')->name('usersearchquery');
+		
+		Route::group(['prefix' => 'users'], function() {
+			Route::get('/useradmin', 'AdminController@userAdmin')->name('useradmin');
+			Route::get('/find', 'AdminController@userSearch')->name('usersearch');
+			Route::post('/find', 'AdminController@userSearchQuery')->name('usersearchquery');
+			Route::get('/userlookuptool', 'AdminController@userLookup')->name('userlookup');
+			Route::post('/userlookuptool', 'AdminController@userLookupQuery')->name('userlookupquery');
+		});
+		
 		Route::get('/auto-uploader', 'AdminController@autoUpload')->name('autoupload');
 	});
 	

@@ -8,12 +8,7 @@
 
 @section('quick-admin')
 <li class="nav-item">
-	{{-- TODO: XlXi: Make this use route() --}}
-	<a href="{{ url('/admin') }}" class="nav-link py-0">User Admin</a>
-</li>
-<li class="nav-item">
-	{{-- TODO: XlXi: Make this use route() --}}
-	<a href="{{ url('/admin') }}" class="nav-link py-0">Moderate User</a>
+	<a href="{{ route('admin.useradmin', ['ID' => $user->id]) }}" class="nav-link py-0">User Admin</a>
 </li>
 @endsection
 

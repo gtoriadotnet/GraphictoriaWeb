@@ -14,7 +14,10 @@
 		
 		<category name="Groups">
 			<link name="Group Admin" route="admin.dashboard" />
-			<link name="Group Mass Reward" route="admin.dashboard" />
+		</category>
+		
+		<category name="Inventory Management">
+			<link name="Collectibles Audit" route="admin.dashboard" />
 		</category>
 		
 		<category name="Private Servers">
@@ -57,11 +60,14 @@
 			<link name="Mass Password Reset" route="admin.dashboard" />
 		</category>
 		
+		<category name="Groups">
+			<link name="Group Mass Reward" route="admin.dashboard" />
+		</category>
+		
 		<category name="Inventory Management">
 			<link name="Asset Scrub" route="admin.dashboard" />
 			<link name="Game Pass Scrub" route="admin.dashboard" />
 			<link name="Badge Scrub" route="admin.dashboard" />
-			<link name="Collectibles Audit" route="admin.dashboard" />
 		</category>
 		
 		<category name="Universe Status">

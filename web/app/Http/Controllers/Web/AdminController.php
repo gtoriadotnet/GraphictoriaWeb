@@ -29,13 +29,24 @@ class AdminController extends Controller
 		return view('web.admin.dashboard');
 	}
 	
+	// GET admin.useradmin
+	function userAdmin(Request $request)
+	{
+		$request->validate([
+			'ID' => ['required', 'int', 'exists:users,id']
+		]);
+		
+		$user = User::where('id', $request->get('ID'))->first();
+		return view('web.admin.useradmin')->with('user', $user);
+	}
+	
 	// GET admin.usersearch
 	function userSearch()
 	{
 		return view('web.admin.usersearch');
 	}
 	
-	// POST admin.usersearch
+	// POST admin.usersearchquery
 	function userSearchQuery(Request $request)
 	{
 		if($request->has('userid-button'))
@@ -68,6 +79,51 @@ class AdminController extends Controller
 		}
 		
 		return view('web.admin.usersearch')->with('error', 'Input validation failed.');
+	}
+	
+	// GET admin.userlookup
+	function userLookup()
+	{
+		return view('web.admin.userlookup');
+	}
+	
+	// POST admin.userlookupquery
+	function userLookupQuery(Request $request)
+	{
+		$request->validate([
+			'lookup' => ['required', 'string']
+		]);
+		
+		$users = [];
+		
+		foreach(preg_split('/\r\n|\r|\n/', $request->get('lookup')) as $username)
+		{
+			$user = User::where('username', $username);
+			
+			if($user->exists())
+			{
+				$user = $user->first();
+				array_push(
+					$users,
+					[
+						'found' => true,
+						'user' => $user
+					]
+				);
+			}
+			else
+			{
+				array_push(
+					$users,
+					[
+						'found' => false,
+						'username' => $username
+					]
+				);
+			}
+		}
+		
+		return view('web.admin.userlookup')->with('users', $users)->with('input', $request->get('lookup'));
 	}
 	
 	// GET admin.autoupload
