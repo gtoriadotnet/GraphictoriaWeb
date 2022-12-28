@@ -1,5 +1,4 @@
 // © XlXi 2021
-// Graphictoria 5
 
 @function tint-color($color, $percent){
   @return mix(white, $color, $percent);
@@ -12,7 +11,7 @@
 // Lumen 5.0.1
 // Bootswatch
 
-$theme: "graphictoria" !default;
+$theme: "virtubrick" !default;
 
 //
 // Color system
@@ -30,19 +29,20 @@ $gray-800: #333 !default;
 $gray-900: #222 !default;
 $black:    #000 !default;
 
-$gtblue:  #348aff !default;
-$blue:    #158cba !default;
-$indigo:  #6610f2 !default;
-$purple:  #6f42c1 !default;
-$pink:    #e83e8c !default;
-$red:     #ff4136 !default;
-$orange:  #fd7e14 !default;
-$yellow:  #ff851b !default;
-$green:   #28b62c !default;
-$teal:    #20c997 !default;
-$cyan:    #75caeb !default;
+$gtblue:      #348aff !default;
+$blue:        #158cba !default;
+$indigo:      #6610f2 !default;
+$purple:      #6f42c1 !default;
+$pink:        #e83e8c !default;
+$red:         #ff4136 !default;
+$orange:      #fd7e14 !default;
+$yellow:      #ff851b !default;
+$realyellow:  #ffde1b !default;
+$green:       #28b62c !default;
+$teal:        #20c997 !default;
+$cyan:        #75caeb !default;
 
-$graphictoria:  $gtblue !default;
+$virtubrick:  $gtblue !default;
 $primary:       $blue !default;
 $secondary:     $gray-200 !default;
 $success:       $green !default;

@@ -3,7 +3,7 @@
 @section('title', 'Not Implemented')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card title="NOT IMPLEMENTED">
 		<x-slot name="body">
 			todo

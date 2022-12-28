@@ -10,7 +10,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 'test'
     volumes:
-      - database-data:/graphictoria
+      - database-data:/virtubrick
 
 volumes:
   database-data:

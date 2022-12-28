@@ -55,15 +55,15 @@ class AppDeployment implements ShouldQueue
 		switch($this->deployment->app)
 		{
 			case 'client':
-				$appArchive = 'Graphictoria.zip';
-				$appName = 'GraphictoriaPlayer.exe';
-				$bootstrapperName = 'GraphictoriaPlayerLauncher.exe';
+				$appArchive = 'VirtuBrick.zip';
+				$appName = 'VirtuBrickPlayer.exe';
+				$bootstrapperName = 'VirtuBrickPlayerLauncher.exe';
 				$bootstrapperVersionName = 'BootstrapperVersion.txt';
 				break;
 			case 'studio':
-				$appArchive = 'GraphictoriaStudio.zip';
-				$appName = 'GraphictoriaStudio.exe';
-				$bootstrapperName = 'GraphictoriaStudioLauncherBeta.exe';
+				$appArchive = 'VirtuBrickStudio.zip';
+				$appName = 'VirtuBrickStudio.exe';
+				$bootstrapperName = 'VirtuBrickStudioLauncherBeta.exe';
 				$bootstrapperVersionName = 'BootstrapperQTStudioVersion.txt';
 				break;
 		}

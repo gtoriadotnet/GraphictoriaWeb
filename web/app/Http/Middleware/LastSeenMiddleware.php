@@ -7,6 +7,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\UserIp;
+
 class LastSeenMiddleware
 {
     /**
@@ -23,6 +25,8 @@ class LastSeenMiddleware
 			$user->last_seen = Carbon::now();
 			$user->timestamps = false;
 			$user->save();
+			
+			$user->saveIp($request->ip());
 		}
 		
         return $next($request);

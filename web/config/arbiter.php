@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Graphictoria Arbiter Configuration
+    | VirtuBrick Arbiter Configuration
     |--------------------------------------------------------------------------
     |
     | This file holds various IP configurations for the games relay/thumbnail

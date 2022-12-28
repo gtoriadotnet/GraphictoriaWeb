@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -51,6 +50,7 @@ const Scene = ({json}) => {
 		
 		camera.position.set(thumbnailCameraPosition.x, thumbnailCameraPosition.y, thumbnailCameraPosition.z);
 		camera.lookAt(pointToLookat);
+		camera.translateZ(0.5);
 		
 		// lighting
 		// FIXME: XlXi: if you toggle 3d on and off it'll create these twice
@@ -119,7 +119,7 @@ class ThumbnailTool extends Component {
 			
 			this.setState({ initialLoading: false });
 			
-			if(this.renderable3d && localStorage.getItem('gt-use-3d-thumbnails') === 'true')
+			if(this.renderable3d && localStorage.getItem('vb-use-3d-thumbnails') === 'true')
 				this.toggle3D();
 		}
 	}
@@ -169,7 +169,7 @@ class ThumbnailTool extends Component {
 		let is3d = !this.state.is3d;
 		
 		this.setState({ loading: true, is3d: is3d, seed3d: Math.random() });
-		localStorage.setItem('gt-use-3d-thumbnails', is3d);
+		localStorage.setItem('vb-use-3d-thumbnails', is3d);
 		
 		if(is3d) {
 			this.loadThumbnail(`thumbnails/v1/asset?id=${this.assetId}&type=3D`, true);

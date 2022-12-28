@@ -22,45 +22,45 @@
 		@moderator
 			<style>
 				@media (min-width: 768px) {
-					.graphictoria-admin-nav > .nav-item:not(:first-child) {
+					.virtubrick-admin-nav > .nav-item:not(:first-child) {
 						border-left: 1px solid #666;
 					}
 				}
 				
 				@media (max-width: 768px) {
-					.graphictoria-admin-nav {
+					.virtubrick-admin-nav {
 						flex-direction: unset;
 						flex-wrap: wrap;
 					}
-					.graphictoria-admin-nav > .nav-item {
+					.virtubrick-admin-nav > .nav-item {
 						padding: 0 8px 0 8px;
 					}
 				}
 				
-				.graphictoria-admin-nav > .nav-item > a,
-				.graphictoria-admin-nav > .nav-item > p,
-				.graphictoria-admin-nav > .nav-item > span
+				.virtubrick-admin-nav > .nav-item > a,
+				.virtubrick-admin-nav > .nav-item > p,
+				.virtubrick-admin-nav > .nav-item > span
 				{
 					color: #ccc;
 				}
 				
-				.graphictoria-admin-nav > .nav-item > a:hover {
+				.virtubrick-admin-nav > .nav-item > a:hover {
 					color: #eee;
 				}
 				
-				.graphictoria-admin-usagebar {
+				.virtubrick-admin-usagebar {
 					width: 100px;
 					height: 10px;
 				}
 			</style>
 			<div class="navbar navbar-dark bg-dark border-0 py-1">
 				<div class="container-md navbar-expand-md text-light">
-					<span class="badge rounded-pill bg-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Graphictoria Quick Administration and Management Bar">QAaMB</span>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#graphictoria-admin-nav" aria-controls="graphictoria-admin-nav" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 14px;">
+					<span class="badge rounded-pill bg-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quick Administration and Management Bar">QAaMB</span>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#virtubrick-admin-nav" aria-controls="virtubrick-admin-nav" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 14px;">
 						<span>Toggle</span>
 					</button>
-					<div class="collapse navbar-collapse" id="graphictoria-admin-nav">
-						<ul class="navbar-nav graphictoria-admin-nav ms-auto">
+					<div class="collapse navbar-collapse" id="virtubrick-admin-nav">
+						<ul class="navbar-nav virtubrick-admin-nav ms-auto">
 							@yield('quick-admin')
 							<li class="nav-item">
 								<a href="{{ route('admin.dashboard') }}" class="nav-link py-0"><i class="fa-solid fa-gavel"></i></a>
@@ -86,25 +86,25 @@
 		@endmoderator
 	@endlive
 	<div
-		class="navbar graphictoria-navbar navbar-expand-md shadow-sm"
+		class="navbar virtubrick-navbar navbar-expand-md shadow-sm"
 	>
 		<div class="container-md">
 			@live
 				<a class="navbar-brand" href="/">
-					<img src="{{ asset('/images/logo.png') }}" alt="Graphictoria" width="43" height="43" draggable="false"/>
+					<img src="{{ asset('/images/logo.png') }}" alt="{{ config('app.name') }}" width="43" height="43" draggable="false"/>
 				</a>
 			@else
 				<i class="navbar-brand">
-					<img src="{{ asset('/images/logo.png') }}" alt="Graphictoria" width="43" height="43" draggable="false"/>
+					<img src="{{ asset('/images/logo.png') }}" alt="{{ config('app.name') }}" width="43" height="43" draggable="false"/>
 				</i>
 			@endlive
 			@live
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#graphictoria-nav" aria-controls="graphictoria-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#virtubrick-nav" aria-controls="virtubrick-nav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 			@endlive
 			@live
-				<div class="collapse navbar-collapse" id="graphictoria-nav">
+				<div class="collapse navbar-collapse" id="virtubrick-nav">
 			@endlive
 				<ul class="navbar-nav me-auto">
 					@live
@@ -117,8 +117,8 @@
 							</li>
 						@endforeach
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="graphictoria-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">More</a>
-							<ul class="dropdown-menu graphictoria-nav-dropdown" area-labelledby="graphictoria-nav-dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="virtubrick-nav-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">More</a>
+							<ul class="dropdown-menu virtubrick-nav-dropdown" area-labelledby="virtubrick-nav-dropdown">
 								@auth
 									<li><a @class(['dropdown-item', 'active'=>str_starts_with(Request::path(), 'my/create')]) href="{{ url('/my/create') }}">Create</a></li>
 								@endauth
@@ -126,7 +126,7 @@
 								<li><a @class(['dropdown-item', 'active'=>str_starts_with(Request::path(), 'users')]) href="{{ url('/users') }}">Users</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="https://discord.gg/q666a2sF6d" target="_blank" rel="noreferrer">Discord</a></li>
-								<li><a class="dropdown-item" href="https://blog.gtoria.net" target="_blank" rel="noreferrer">Blog</a></li>
+								<li><a class="dropdown-item" href="https://blog.virtubrick.net" target="_blank" rel="noreferrer">Blog</a></li>
 							</ul>
 						</li>
 					@else
@@ -137,7 +137,7 @@
 				</ul>
 				@live
 					@auth
-						<div id="graphictoria-nav-searchbar" class="graphictoria-search"></div>
+						<div id="virtubrick-nav-searchbar" class="virtubrick-search"></div>
 						<ul class="navbar-nav ms-auto me-2">
 							<li class="nav-item">
 								<a @class(['nav-link', 'active'=>str_starts_with(Request::path(), 'my/friends')]) href="{{ url('/my/friends') }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Friends">
@@ -166,17 +166,14 @@
 							</li>
 						</ul>
 						<div class="d-md-flex">
-							<p class="my-auto me-2 graphictoria-tokens" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You have {{ number_format(Auth::user()->tokens) }} tokens. Your next reward is in {{ Auth::user()->next_reward->diffForHumans(['syntax' => Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.">
+							<p class="my-auto me-2 virtubrick-tokens" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You have {{ number_format(Auth::user()->tokens) }} tokens. Your next reward is in {{ Auth::user()->next_reward->diffForHumans(['syntax' => Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.">
 								{{ \App\Helpers\NumberHelper::Abbreviate(Auth::user()->tokens) }}
 							</p>
 							<div class="dropdown">
-								<a class="nav-link dropdown-toggle graphictoria-user-dropdown px-0 px-md-3" href="#" id="graphictoria-user-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">
-									<span class="d-flex align-items-center">
-										<img src="{{ asset('images/testing/headshot.png') }}" class="img-fluid border me-1 graphictora-user-circle" width="37" height="37">
-										<p>{{ Auth::user()->username }}</p>
-									</span>
+								<a class="nav-link dropdown-toggle virtubrick-user-dropdown px-0 px-md-3" href="#" id="virtubrick-user-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">
+									<x-user-circle :user="Auth::user()" :statusIndicator=false />
 								</a>
-								<ul class="dropdown-menu graphictoria-user-dropdown" area-labelledby="graphictoria-user-dropdown">
+								<ul class="dropdown-menu virtubrick-user-dropdown" area-labelledby="virtubrick-user-dropdown">
 									<li><a class="dropdown-item" href="{{ Auth::user()->getProfileUrl() }}">Profile</a></li>
 									<li><a class="dropdown-item" href="{{ url('/todo123') }}">Character</a></li>
 									<li><a class="dropdown-item" href="{{ url('/my/settings') }}">Settings</a></li>
@@ -190,28 +187,35 @@
 					@endauth
 				@endlive
 			@live
-				{{-- graphictoria-nav --}}
+				{{-- virtubrick-nav --}}
 				</div>
 			@endlive
 		</div>
 	</div>
 </div>
 <div
-	class="graphictoria-nav-margin"
+	class="virtubrick-nav-margin"
 	@moderator
 	style="padding-top:32px"
 	@endmoderator
 ></div>
 @foreach(App\Models\Banner::all() as $banner)
-	<div @class(['alert', 'alert-' . $banner->style, 'graphictoria-alert', 'alert-dismissible' => $banner->dismissable])>
+	<div @class(['alert', 'alert-' . $banner->style, 'virtubrick-alert', 'alert-dismissible' => $banner->dismissable])>
 		<p class="mb-0">{{ \App\Helpers\MarkdownHelper::parse($banner->message) }}</p>
 		@if($banner->dismissable)
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		@endif
 	</div>
 @endforeach
+@live
+	@if(config('app.testenv'))
+		<div class="alert alert-yellow virtubrick-alert">
+			<p class="mb-0 text-dark">You have found the VirtuBrick testing site! (<a href="{{ route('testing.info') }}" class="text-decoration-none">More Info</a>).</p>
+		</div>
+	@endif
+@endlive
 <noscript>
 <div class="container my-2">
-<div class="alert alert-danger graphictoria-alert graphictoria-error-popup mx-5">A large majority of this website requires Javascript to work properly. Please enable Javascript or download a Javascript compatible browser.</div>
+<div class="alert alert-danger virtubrick-alert virtubrick-error-popup mx-5">This website requires Javascript to work properly. Please enable Javascript or download a Javascript compatible browser.</div>
 </div>
 </noscript>

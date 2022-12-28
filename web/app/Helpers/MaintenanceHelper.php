@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Graphictoria 2022
+	XlXi 2022
 	Maintenance helper
 */
 
@@ -14,8 +14,8 @@ class MaintenanceHelper
 {
 	public static function isDown()
 	{
-		if(GridHelper::hasAllAccess())
-			return true;
+		if(GridHelper::isIpWhitelisted())
+			return false;
 		
 		if(!file_exists(storage_path('framework/down')))
 			return false;
@@ -30,9 +30,9 @@ class MaintenanceHelper
 		$request = request();
 		
         return isset($data['secret']) &&
-                $request->cookie('gt_constraint') &&
+                $request->cookie('vb_constraint') &&
                 MaintenanceModeBypassCookie::isValid(
-                    $request->cookie('gt_constraint'),
+                    $request->cookie('vb_constraint'),
                     $data['secret']
                 );
     }

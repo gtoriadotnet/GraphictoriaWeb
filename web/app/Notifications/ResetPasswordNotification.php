@@ -44,7 +44,7 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-		$title = 'Graphictoria Password Reset';
+		$title = config('app.name') . ' Password Reset';
 		
         return (new MailMessage)
 					->subject($title)

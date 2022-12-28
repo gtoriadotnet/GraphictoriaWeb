@@ -2,7 +2,7 @@
 
 @section('extra-headers')
 <style>
-	.gt-admin-navtitle {
+	.vb-admin-navtitle {
 		font-weight: 700!important; /* fw-bold class */
 		
 		padding-bottom: 0.5rem!important; /* py-2 class */
@@ -11,41 +11,41 @@
 		padding-left: 1rem!important; /* ps-3 class */
 	}
 	
-	.gt-admin-card:not(:last-child) {
+	.vb-admin-card:not(:last-child) {
 		margin-bottom: 1rem!important;
 	}
 	
 	/* Light Mode Specific */
-	html.gtoria-light .gt-admin-navtitle {
+	html.vbrick-light .vb-admin-navtitle {
 		background: #00000005;
 	}
 	
-	html.gtoria-light .gt-admin-navtitle {
+	html.vbrick-light .vb-admin-navtitle {
 		border-bottom: 1px solid #00000020;
 	}
 	
-	html.gtoria-light .gt-admin-navtitle:not(:first-of-type) {
+	html.vbrick-light .vb-admin-navtitle:not(:first-of-type) {
 		border-top: 1px solid #00000020;
 	}
 	
-	html.gtoria-light .gt-admin-nav > li > .nav-link:hover {
+	html.vbrick-light .vb-admin-nav > li > .nav-link:hover {
 		background: #00000010;
 	}
 	
 	/* Dark Mode Specific */
-	html.gtoria-dark .gt-admin-navtitle {
+	html.vbrick-dark .vb-admin-navtitle {
 		background: #ffffff05;
 	}
 	
-	html.gtoria-dark .gt-admin-navtitle {
+	html.vbrick-dark .vb-admin-navtitle {
 		border-bottom: 1px solid #ffffff20;
 	}
 	
-	html.gtoria-dark .gt-admin-navtitle:not(:first-of-type) {
+	html.vbrick-dark .vb-admin-navtitle:not(:first-of-type) {
 		border-top: 1px solid #ffffff20;
 	}
 	
-	html.gtoria-dark .gt-admin-nav > li > .nav-link:hover {
+	html.vbrick-dark .vb-admin-nav > li > .nav-link:hover {
 		background: #ffffff10;
 	}
 </style>

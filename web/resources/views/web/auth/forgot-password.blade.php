@@ -9,7 +9,7 @@
 @section('title', 'Forgot Password')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card>
 		<x-slot name="title">
 			<i class="fa-solid fa-magnifying-glass"></i> FORGOT PASSWORD
@@ -18,13 +18,13 @@
 			<div class="p-2 mb-2 d-flex flex-column justify-content-center">
 				@if ($errors->any())
 					<div class="px-3 mb-10">
-						<div class="alert alert-danger graphictoria-alert graphictoria-error-popup">{{ $errors->first() }}</div>
+						<div class="alert alert-danger virtubrick-alert virtubrick-error-popup">{{ $errors->first() }}</div>
 					</div>
 				@endif
 				
 				@if(session('status'))
 					<div class="px-3 mb-10">
-						<div class="alert alert-success graphictoria-alert graphictoria-error-popup">{{ session('status') }}</div>
+						<div class="alert alert-success virtubrick-alert virtubrick-error-popup">{{ session('status') }}</div>
 					</div>
 				@endif
 				

@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -176,14 +175,14 @@ class ShopCategories extends Component {
 	
 	render() {
 		return (
-			<div className="graphictoria-shop-categories">
+			<div className="virtubrick-shop-categories">
 				<h5>Category</h5>
 				<ShopCategoryButton id="all" label="All Items" getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} />
 				<ul className="list-unstyled ps-0">
 					{
 						Object.keys(shopCategories).map((categoryName, index) =>
 							<li className="mb-1">
-								<a className="text-decoration-none fw-normal align-items-center graphictoria-list-dropdown" data-bs-toggle="collapse" data-bs-target={`#${makeCategoryId(categoryName, 'collapse')}`} aria-expanded={(index === 0 ? 'true' : 'false')} href="#">{ categoryName }</a>
+								<a className="text-decoration-none fw-normal align-items-center virtubrick-list-dropdown" data-bs-toggle="collapse" data-bs-target={`#${makeCategoryId(categoryName, 'collapse')}`} aria-expanded={(index === 0 ? 'true' : 'false')} href="#">{ categoryName }</a>
 								<div className={classNames({'collapse': true, 'show': (index === 0)})} id={makeCategoryId(categoryName, 'collapse')}>
 									<ul className="btn-toggle-nav list-unstyled fw-normal small">
 										<li><ShopCategoryButton id={makeCategoryId(`all-${categoryName}`, 'type')} label={`All ${categoryName}`} categoryName={categoryName} getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} /></li>
@@ -216,7 +215,7 @@ class ShopItemCard extends Component {
 		
 		return (
 			<a
-				className="graphictoria-item-card"
+				className="virtubrick-item-card"
 				href={ item.Url }
 				onMouseEnter={() => this.setState({hovered: true})}
 				onMouseLeave={() => this.setState({hovered: false})}
@@ -231,14 +230,14 @@ class ShopItemCard extends Component {
 					<div className="p-2">
 						<p>{ item.Name }</p>
 						{ item.OnSale ?
-						<p className="graphictoria-tokens text-truncate">{commaSeparate(item.Price)}</p>
+						<p className="virtubrick-tokens text-truncate">{commaSeparate(item.Price)}</p>
 						: <p className="text-muted">Offsale</p>
 						}
 					</div>
 				</span>
 				{
 					this.state.hovered ?
-					<span className="graphictoria-item-details">
+					<span className="virtubrick-item-details">
 						<div className="card px-2">
 							<p className="text-truncate">
 								<span className="text-muted">Creator: </span><a href={ item.Creator.Url } className="text-decoration-none fw-normal">{ item.Creator.Name }</a>
@@ -364,7 +363,7 @@ class Shop extends Component {
 							}
 							{
 								!this.state.pageLoaded ?
-								<div className="graphictoria-shop-overlay">
+								<div className="virtubrick-shop-overlay">
 									<Loader />
 								</div>
 								:
@@ -389,7 +388,7 @@ class Shop extends Component {
 								<li className="list-inline-item">
 									<button className="btn btn-secondary" disabled={(this.state.pageNumber <= 1) ? true : null}><i className="fa-solid fa-angle-left"></i></button>
 								</li>
-								<li className="list-inline-item graphictoria-paginator">
+								<li className="list-inline-item virtubrick-paginator">
 									<span>Page&nbsp;</span>
 									<input type="text" value={ this.state.pageNumber || '' } className="form-control" disabled={this.state.pageLoaded ? null : true} />
 									<span>&nbsp;of { this.state.pageCount || '???' }</span>

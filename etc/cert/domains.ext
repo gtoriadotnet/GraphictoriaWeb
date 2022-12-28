@@ -4,6 +4,6 @@ keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
 subjectAltName = @alt_names
 [alt_names]
 DNS.1 = localhost
-DNS.2 = gtoria.local
-DNS.3 = *.gtoria.local
-DNS.4 = *.*.gtoria.local
+DNS.2 = virtubrick.local
+DNS.3 = *.virtubrick.local
+DNS.4 = *.*.virtubrick.local

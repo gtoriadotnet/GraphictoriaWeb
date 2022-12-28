@@ -3,10 +3,10 @@
 @section('title', 'Forbidden')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card title="FORBIDDEN">
 		<x-slot name="body">
-			You don't have permission to view this page. If you believe this is an error, contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a>!
+			You don't have permission to view this page. If you believe this is an error, contact us at <a href="mailto:support@virtubrick.net" class="fw-bold text-decoration-none">support@virtubrick.net</a>!
 		</x-slot>
 		<x-slot name="footer">
 			<div class="mt-2">

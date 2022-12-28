@@ -49,7 +49,7 @@ class CommentsController extends Controller
 			// TODO: XlXi: user profile link
 			$poster = [
 				'name' => $comment->user->username,
-				'thumbnail' => 'https://www.gtoria.local/images/testing/headshot.png',
+				'thumbnail' => 'https://www.virtubrick.local/images/testing/headshot.png',
 				'url' => $comment->user->getProfileUrl()
 			];
 			

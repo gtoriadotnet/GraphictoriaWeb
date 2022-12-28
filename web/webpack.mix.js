@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -17,12 +16,12 @@ mix.js('resources/js/app.js', 'public/js')
 	.js('resources/js/pages/AppDeployer.js', 'public/js/adm')
 	.js('resources/js/pages/SiteConfiguration.js', 'public/js/adm')
     .react()
-    .sass('resources/sass/Graphictoria.scss', 'public/css')
+    .sass('resources/sass/VirtuBrick.scss', 'public/css')
 	.banner({
         banner: (function () {
             return [
                 '/*!',
-				' * Graphictoria 5 (https://gtoria.net)',
+				` * VirtuBrick`,
 				` * Copyright © XlXi ${new Date().getFullYear()}`,
 				' *',
 				` * BUILD TIMESTAMP: ${new Date().toUTCString()}`,

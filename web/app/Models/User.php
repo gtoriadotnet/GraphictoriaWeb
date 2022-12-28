@@ -48,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'next_reward' => 'datetime',
+        'created_at' => 'datetime',
         'last_seen' => 'datetime',
     ];
 	
@@ -91,12 +92,44 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->created_at->isoFormat('ll');
 	}
 	
+	public function getCensoredEmail()
+	{
+		$email = $this->email;
+		
+		$bits = explode('@', $email);
+		$name = implode('@', array_slice($bits, 0, count($bits) - 1));
+		$length = floor(strlen($name) / 2);
+		
+		return substr($name, 0, $length) . str_repeat('*', $length) . "@" . end($bits);
+	}
+	
 	// XlXi: TODO: Replace this with detailed presence
 	//		       like what game the user is in or
 	//			   what place they're editing.
 	public function isOnline()
 	{
 		return ($this->last_seen >= Carbon::now()->subMinutes(2));
+	}
+	
+	public function getRolesets()
+	{
+		return UserRoleset::where('User_id', $this->id);
+	}
+	
+	public function saveIp($ip)
+	{
+		$ipExists = UserIp::where('userId', $this->id)
+							->where('ipAddress', $ip)
+							->exists();
+		if(!$ipExists)
+		{
+			return UserIp::create([
+				'userId' => $this->id,
+				'ipAddress' => $ip
+			]);
+		}
+		
+		return false;
 	}
 	
 	public function _hasRolesetInternal($roleName)

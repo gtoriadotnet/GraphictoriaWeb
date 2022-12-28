@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -104,7 +103,7 @@ class Feed extends Component {
 					{
 						this.state.error != ''
 						?
-						<div className="alert alert-danger graphictoria-alert graphictoria-error-popup m-2 mb-0">{ this.state.error }</div>
+						<div className="alert alert-danger virtubrick-alert virtubrick-error-popup m-2 mb-0">{ this.state.error }</div>
 						:
 						null
 					}
@@ -126,7 +125,7 @@ class Feed extends Component {
 											<div className="me-2">
 												<a href={ poster.url }>
 													{ poster.type == 'User' ?
-														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="border graphictora-feed-user-circle" /> :
+														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="border virtubrick-feed-user-circle" /> :
 														<img src={ poster.thumbnail } alt={ poster.name } width="50" height="50" className="img-fluid" />
 													}
 												</a>

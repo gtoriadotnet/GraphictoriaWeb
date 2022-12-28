@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -12,9 +11,9 @@ import Comments from '../components/Comments';
 import ThumbnailTool from '../components/ThumbnailTool';
 import PlaceButtons from '../components/PlaceButtons';
 
-const thumbnailId = 'gt-thumbnail';
-const buttonsId = 'gt-place-buttons';
-const commentsId = 'gt-comments';
+const thumbnailId = 'vb-thumbnail';
+const buttonsId = 'vb-place-buttons';
+const commentsId = 'vb-comments';
 
 $(document).ready(function() {
 	if (document.getElementById(thumbnailId)) {

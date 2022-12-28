@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -15,7 +14,7 @@ import SearchBar from './SearchBar';
 
 axios.defaults.withCredentials = true;
 
-const searchBarId = 'graphictoria-nav-searchbar';
+const searchBarId = 'virtubrick-nav-searchbar';
 
 $(document).ready(function() {
 	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

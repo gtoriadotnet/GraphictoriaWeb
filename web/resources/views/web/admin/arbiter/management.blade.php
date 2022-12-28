@@ -17,8 +17,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="card p-3 mt-1" id="gt-arbiter-jobs" style="min-height:80px;">
-		<div class="graphictoria-shop-overlay">
+	<div class="card p-3 mt-1" id="vb-arbiter-jobs" style="min-height:80px;">
+		<div class="virtubrick-shop-overlay">
 			<x-loader />
 		</div>
 	</div>

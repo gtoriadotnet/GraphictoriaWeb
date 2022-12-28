@@ -19,7 +19,7 @@ class TestController extends Controller
 		// mrgrey = https://www.roblox.com/asset/?id=1785197
 		
 		$test = new SoapService('Thumbnail');
-		$result = $test->OpenJob(GridHelper::JobTemplate('test', 10, 0, 0, 'test render', 'place', ['http://www.roblox.com/asset/?id=444204653', 'PNG', 1920, 1080, 'https://www.gtoria.local/', 169618721]));
+		$result = $test->OpenJob(GridHelper::JobTemplate('test', 10, 0, 0, 'test render', 'place', ['http://www.roblox.com/asset/?id=444204653', 'PNG', 1920, 1080, 'https://www.virtubrick.local/', 169618721]));
 		
 		return response(base64_decode($result->OpenJobExResult->LuaValue[0]->value))
 				->header('Content-Type', 'image/png');

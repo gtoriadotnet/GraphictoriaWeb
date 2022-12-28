@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div id="gt-shop-main" class="container-lg my-2 d-flex flex-column">
+<div id="vb-shop-main" class="container-lg my-2 d-flex flex-column">
 	<h4 class="my-auto">Shop</h4>
 	<x-loader />
 </div>

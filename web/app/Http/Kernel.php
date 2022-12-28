@@ -23,7 +23,6 @@ class Kernel extends HttpKernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 		\Illuminate\Session\Middleware\StartSession::class,
 		\Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
@@ -39,6 +38,8 @@ class Kernel extends HttpKernel
             'csrf',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 			
+			\App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+			
 			// XlXi: Yeah no, the double session protector was stupid.
 			//\App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
 			\App\Http\Middleware\DailyReward::class,
@@ -46,6 +47,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+			\App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+			
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

@@ -3,6 +3,17 @@
 use App\Models\Asset;
 use App\Models\User;
 
+if (config('app.testenv'))
+{
+	Route::group(['as' => 'testing.', 'prefix' => 'testing'], function() {
+		Route::get('/info', 'TestSiteController@info')->name('info');
+	});
+}
+
+Route::group(['as' => 'maintenance.', 'prefix' => 'maintenance'], function() {
+	Route::get('/', 'MaintenanceController@index')->name('index');
+});
+
 Route::group(['as' => 'user.', 'prefix' => 'users'], function() {
 	Route::get('/{user}/profile', 'ProfileController@index')->name('profile');
 });
@@ -35,6 +46,9 @@ Route::group(['as' => 'admin.'], function() {
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 	Route::middleware('roleset:moderator')->group(function () {
 		Route::get('/', 'AdminController@dashboard')->name('dashboard');
+		Route::get('/users', 'AdminController@userSearch')->name('usersearch');
+		Route::post('/users', 'AdminController@userSearchQuery')->name('usersearchquery');
+		Route::get('/auto-uploader', 'AdminController@autoUpload')->name('autoupload');
 	});
 	
 	Route::middleware('roleset:administrator')->group(function () {

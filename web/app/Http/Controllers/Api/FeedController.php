@@ -41,7 +41,7 @@ class FeedController extends Controller
 				$poster = [
 					'type' => 'User',
 					'name' => $user->username,
-					'thumbnail' => 'https://www.gtoria.local/images/testing/headshot.png',
+					'thumbnail' => 'https://www.virtubrick.local/images/testing/headshot.png',
 					'url' => $user->getProfileUrl()
 				];
 			}

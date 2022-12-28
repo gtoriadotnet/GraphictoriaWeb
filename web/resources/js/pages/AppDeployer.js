@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -10,7 +9,7 @@ import { render } from 'react-dom';
 
 import Deployer from '../components/Deployer';
 
-const deployerId = 'gt-deployer';
+const deployerId = 'vb-deployer';
 
 $(document).ready(function() {
 	if (document.getElementById(deployerId)) {

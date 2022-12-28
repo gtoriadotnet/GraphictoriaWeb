@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="container m-auto">
-	<x-card class="graphictoria-moderation-card">
+	<x-card class="virtubrick-moderation-card">
 		<x-slot name="title">
 			MODERATION NOTICE
 		</x-slot>
@@ -23,7 +23,7 @@
 			</div>
 		</x-slot>
 		<x-slot name="footer">
-			<p>By checking the "I Agree" checkbox below, you agree to abide by Graphictoria's Terms of Service. Your account will be permantently suspended if you continue breaking the Terms of Service.</p>
+			<p>By checking the "I Agree" checkbox below, you agree to abide by {{ config('app.name') }}'s Terms of Service. Your account will be permantently suspended if you continue breaking the Terms of Service.</p>
 			<form>
 				<div class="my-2">
 					<input class="form-check-input" type="checkbox" value="" id="agree" name="agree">
@@ -35,7 +35,7 @@
 			</form>
 			
 			<p>You will be able to reactivate your account in <b>0 Seconds</b>.</p>
-			<p class="text-muted">If you believe you have been unfairly moderated, please contact us at contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a> and we'll be happy to help.</p>
+			<p class="text-muted">If you believe you have been unfairly moderated, please contact us at contact us at <a href="mailto:support@virtubrick.net" class="fw-bold text-decoration-none">support@virtubrick.net</a> and we'll be happy to help.</p>
 		</x-slot>
 	</x-card>
 </div>

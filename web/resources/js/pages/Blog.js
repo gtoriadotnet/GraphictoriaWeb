@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -7,8 +6,8 @@ import $ from 'jquery';
 import * as Bootstrap from 'bootstrap';
 import React from 'react';
 
-const navId = 'gt-blog-nav';
-const hideClass = 'graphictoria-blognav-hide';
+const navId = 'vb-blog-nav';
+const hideClass = 'virtubrick-blognav-hide';
 
 function scrollChanged() {
 	const nav = document.getElementById(navId);

@@ -1,13 +1,10 @@
 // © XlXi 2021
-// Graphictoria 5
 
 @use "sass:math";
 
 // Lumen 5.0.1
 // Bootswatch
 
-@import "Variables";
-@import "~bootstrap/scss/bootstrap";
 @import "./scss/fontawesome.scss";
 @import "./scss/brands.scss";
 @import "./scss/duotone.scss";
@@ -15,6 +12,14 @@
 @import "./scss/regular.scss";
 @import "./scss/solid.scss";
 @import "./scss/thin.scss";
+
+@import "Variables";
+@import "Bootstrap";
+
+// XlXi: Edit utilities API.
+// Border is removed because of how stupidly it's handled by Bootstrap. It completely breaks our dark theme.
+$utilities: map-remove($utilities, "border", "border-top", "border-end", "border-bottom", "border-start");
+@import "~bootstrap/scss/utilities/api";
 
 // Variables
 
@@ -40,7 +45,7 @@ img.twemoji {
 
 // Shop
 
-.graphictoria-tokens {
+.virtubrick-tokens {
     background: 0 1px/contain no-repeat url("/images/symbols/token.svg");
     color: #e59800!important;
     font-weight: bold;
@@ -72,22 +77,22 @@ img.twemoji {
 	}
 }
 
-.graphictoria-asset-thumbnail {
+.virtubrick-asset-thumbnail {
 	width: 420px;
 	height: 420px;
 }
 
-.graphictoria-game-thumbnail {
+.virtubrick-game-thumbnail {
 	width: 640px;
 	height: 360px;
 }
 
-.graphictoria-smaller-page {
+.virtubrick-smaller-page {
 	max-width: 1096px;
     margin: 0 auto 0 auto;
 }
 
-.graphictoria-list-dropdown::after {
+.virtubrick-list-dropdown::after {
 	@include caret-down();
 
 	content: "";
@@ -96,7 +101,7 @@ img.twemoji {
     vertical-align: 0.255em;
 }
 
-.graphictoria-item-card {
+.virtubrick-item-card {
 	text-decoration: none!important;
 	font-weight: 400!important;
 	display: inline-block;
@@ -124,7 +129,7 @@ img.twemoji {
 	color: inherit!important;
 }
 
-.graphictoria-item-details {
+.virtubrick-item-details {
 	position: relative;
 	display: flex;
 	
@@ -144,12 +149,12 @@ img.twemoji {
 	}
 }
 
-.graphictoria-item-card > span > img {
+.virtubrick-item-card > span > img {
 	background: url("/Images/Item-Image-Vignette.png");
 	background-size: cover;
 }
 
-.graphictoria-game-card {
+.virtubrick-game-card {
 	@media (max-width: 576px) {
 		width: math.div(100%, 2)
 	}
@@ -171,7 +176,7 @@ img.twemoji {
 	}
 }
 
-.graphictoria-shop-overlay {
+.virtubrick-shop-overlay {
 	position: absolute;
     width: 100%;
     height: 100%;
@@ -182,19 +187,19 @@ img.twemoji {
 	z-index: 10;
 }
 
-.graphictoria-shop-overlay > .gtoria-loader {
+.virtubrick-shop-overlay > .vbrick-loader {
 	margin: auto;
 }
 
-.graphictoria-shop-categories {
+.virtubrick-shop-categories {
 	border: 0;
 	
 	@media (min-width: 768px) {
-		html.gtoria-light & {
+		html.vbrick-light & {
 			border-right: 2px solid #dee2e6!important;
 		}
 		
-		html.gtoria-dark & {
+		html.vbrick-dark & {
 			border-right: 2px solid #333!important;
 		}
 		
@@ -206,19 +211,19 @@ img.twemoji {
 
 // Maintenance
 
-.gtoria-maintenance-background {
+.vbrick-maintenance-background {
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: -9999;
 }
   
-.gtoria-maintenance-form {
-  html.gtoria-light & {
+.vbrick-maintenance-form {
+  html.vbrick-light & {
   	background: radial-gradient($gray-100 5%, transparent 65%);
   }
   
-  html.gtoria-dark & {
+  html.vbrick-dark & {
   	background: radial-gradient(shade-color($gray-900, 30%) 5%, transparent 65%);
   }
   
@@ -242,7 +247,7 @@ img.twemoji {
 }
 
 .modal-content {
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 		background-color: #222 !important;
 	}
 }
@@ -257,11 +262,11 @@ img.twemoji {
 
 // Loader
 
-.gtoria-loader-center {
+.vbrick-loader-center {
 	margin: auto;
 }
 
-.gtoria-loader {
+.vbrick-loader {
   display: inline-block;
   position: relative;
   margin: auto auto 0 auto;
@@ -269,43 +274,43 @@ img.twemoji {
   height: 80px;
 }
 
-.gtoria-loader div {
+.vbrick-loader div {
   position: absolute;
   top: 33px;
   width: 13px;
   height: 13px;
   border-radius: 50%;
   
-  html.gtoria-light & {
+  html.vbrick-light & {
   	background-color: $dark;
   }
   
-  html.gtoria-dark & {
+  html.vbrick-dark & {
   	background-color: $light;
   }
 }
 
-.gtoria-loader div:nth-child(1) {
+.vbrick-loader div:nth-child(1) {
   left: 8px;
-  animation: gtoria-ld-p1 0.5s infinite;
+  animation: vbrick-ld-p1 0.5s infinite;
 }
 
-.gtoria-loader div:nth-child(2) {
+.vbrick-loader div:nth-child(2) {
   left: 8px;
-  animation: gtoria-ld-p2 0.5s infinite;
+  animation: vbrick-ld-p2 0.5s infinite;
 }
 
-.gtoria-loader div:nth-child(3) {
+.vbrick-loader div:nth-child(3) {
   left: 32px;
-  animation: gtoria-ld-p2 0.5s infinite;
+  animation: vbrick-ld-p2 0.5s infinite;
 }
 
-.gtoria-loader div:nth-child(4) {
+.vbrick-loader div:nth-child(4) {
   left: 56px;
-  animation: gtoria-ld-p3 0.5s infinite;
+  animation: vbrick-ld-p3 0.5s infinite;
 }
 
-@keyframes gtoria-ld-p1 {
+@keyframes vbrick-ld-p1 {
   0% {
     transform: scale(0);
   }
@@ -314,7 +319,7 @@ img.twemoji {
   }
 }
 
-@keyframes gtoria-ld-p3 {
+@keyframes vbrick-ld-p3 {
   0% {
     transform: scale(1);
   }
@@ -323,7 +328,7 @@ img.twemoji {
   }
 }
 
-@keyframes gtoria-ld-p2 {
+@keyframes vbrick-ld-p2 {
   0% {
     transform: translate(0, 0);
   }
@@ -334,31 +339,31 @@ img.twemoji {
 
 // Background
 
-html, body, #gtoria-root {
+html, body, #vbrick-root {
   height: 100%;
   background: transparent;
   color: inherit;
 }
 
 html {
-  &.gtoria-light {
+  &.vbrick-light {
 	background-color: $gray-100;
 	color: $gray-900;
   }
   
-  &.gtoria-dark {
+  &.vbrick-dark {
 	background-color: shade-color($gray-900, 30%);
 	color: $gray-100;
   }
 }
 
-#gtoria-root {
+#vbrick-root {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.graphictoria-home {
+.virtubrick-home {
   background-image: url("/Images/Backgrounds/Home.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -367,7 +372,7 @@ html {
   display: flex;
 }
 
-.graphictoria-home-about {
+.virtubrick-home-about {
   background-image: url("/Images/Backgrounds/About.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -375,7 +380,7 @@ html {
   min-height: 500px;
 }
 
-.graphictoria-home-about-card {
+.virtubrick-home-about-card {
   color: #fff;
   background: #000000ad;
   border-radius: 5px;
@@ -385,21 +390,21 @@ html {
   border-width: 0 0 2px;
 }
 
-.graphictoria-nojs {
+.virtubrick-nojs {
   background-image: url("/Images/Backgrounds/NoJs.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.graphictoria-admin {
+.virtubrick-admin {
   background-image: url("/Images/Backgrounds/stars.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.graphictoria-blog {
+.virtubrick-blog {
 	/* XlXi: I LOVE CSS I LOVE CSS I LOVE CSS I LOVE CSS I LOVE CSS I LOVE CSS */
 	background-image: url("/Images/Backgrounds/Blog.png")!important;
 	background-size: cover!important;
@@ -411,27 +416,27 @@ html {
 
 // Home Page
 
-.graphictoria-homepage-header {
+.virtubrick-homepage-header {
 	font-size: 4rem;
 	font-weight: bold;
 }
 
-.graphictoria-homepage-fine-print {
+.virtubrick-homepage-fine-print {
 	font-size: .6rem;
 	opacity: 70%;
 }
 
-.graphictoria-small-aligned-text {
+.virtubrick-small-aligned-text {
 	font-size: .6rem;
     vertical-align: middle;
 }
 
-.graphictoria-home-shadow {
+.virtubrick-home-shadow {
 	text-shadow: 0 0 4px $gray-700;
 }
 
 // Character
-.gt-charimg {
+.vb-charimg {
 	max-height: 300px;
 	max-width: 300px;
 	@media (max-width: 768px) {
@@ -440,13 +445,13 @@ html {
 	}
 }
 
-.graphictora-user-circle {
+.virtubrick-user-circle {
 	border-radius: 50%;
 	background: url("/Images/User-Image-Vignette.png");
 	background-size: cover;
 }
 
-.graphictora-feed-user-circle {
+.virtubrick-feed-user-circle {
 	border-radius: 50%;
 	background: url("/Images/User-Image-Vignette.png");
 	background-size: cover;
@@ -457,11 +462,75 @@ html {
 // Border
 
 .border {
-	html.gtoria-dark & {
-		border-color: $gray-700!important;
+	html.vbrick-dark & {
+		border: 1px solid $gray-700;
 	}
-	html.gtoria-light & {
-		border-color: $border-color!important;
+	html.vbrick-light & {
+		border: 1px solid $border-color;
+	}
+	
+	&-top {
+		html.vbrick-dark & {
+			border-top: $gray-700;
+		}
+		html.vbrick-light & {
+			border-top: $border-color;
+		}
+	}
+	
+	&-end {
+		html.vbrick-dark & {
+			border-right: $gray-700;
+		}
+		html.vbrick-light & {
+			border-right: $border-color;
+		}
+	}
+	
+	&-bottom {
+		html.vbrick-dark & {
+			border-bottom: $gray-700;
+		}
+		html.vbrick-light & {
+			border-bottom: $border-color;
+		}
+	}
+	
+	&-start {
+		html.vbrick-dark & {
+			border-left: $gray-700;
+		}
+		html.vbrick-light & {
+			border-left: $border-color;
+		}
+	}
+	
+	&-top-0 {
+		border-top: 0!important;
+	}
+	
+	&-end-0 {
+		border-end: 0!important;
+	}
+	
+	&-bottom-0 {
+		border-bottom: 0!important;
+	}
+	
+	&-start-0 {
+		border-start: 0!important;
+	}
+	
+	&-vb-online-website {
+		border-color: #22acff!important;
+	}
+	
+	&-vb-in-game {
+		border-color: #00d926!important;
+	}
+	
+	&-vb-in-studio {
+		border-color: #ff8f00!important;
 	}
 }
 
@@ -477,11 +546,11 @@ html {
   }
 }
 
-.bg-graphictoria {
-  background-color: $graphictoria;
+.bg-virtubrick {
+  background-color: $virtubrick;
 }
 
-.graphictoria-navbar {
+.virtubrick-navbar {
   background-color: $white;
   border-color: shade-color($white, 10%);
   border-style: solid;
@@ -490,7 +559,7 @@ html {
   padding-top: 4px;
   padding-bottom: 4px;
   
-  html.gtoria-light & {
+  html.vbrick-light & {
     background-color: $white;
     border-color: shade-color($white, 10%);
 	
@@ -543,7 +612,7 @@ html {
     }
   }
   
-  html.gtoria-dark & {
+  html.vbrick-dark & {
     background-color: $gray-900;
     border-color: tint-color($gray-900, 10%);
 	
@@ -596,32 +665,32 @@ html {
   }
 }
 
-.graphictoria-blognav {
+.virtubrick-blognav {
 	transition: background 100ms, border-color 100ms;
 	transition-timing-function: ease-out;
 }
 
-.graphictoria-blognav-hide {
+.virtubrick-blognav-hide {
 	background: #ffffff00!important;
 	border-color: #ffffff00!important;
 }
 
-.graphictoria-nav-margin {
+.virtubrick-nav-margin {
   margin-top: 63px;
 }
 
-.graphictoria-nav-splitter {
+.virtubrick-nav-splitter {
   margin-top: 16px;
   margin-bottom: 16px !important;
 }
 
-.graphictoria-user-dropdown::after {
+.virtubrick-user-dropdown::after {
 	position: absolute;
 	top: 50%;
     right: 0;
 }
 
-.graphictoria-search, #graphictoria-search-dropdown {
+.virtubrick-search, #virtubrick-search-dropdown {
   position: absolute;
   @media (max-width: 992px) {
     display: none;
@@ -636,11 +705,11 @@ html {
   }
 } 
 
-.graphictoria-search {
+.virtubrick-search {
   font-family: "FontAwesome", $font-family-sans-serif;
 }
 
-.graphictoria-search-dropdown-truncate {
+.virtubrick-search-dropdown-truncate {
   @media (min-width: 992px) {
     max-width: 5.375rem;
   }
@@ -651,21 +720,21 @@ html {
   margin-bottom: -0.35rem;
 }
 
-#graphictoria-search-dropdown > .dropdown-menu {
+#virtubrick-search-dropdown > .dropdown-menu {
   width: 100%;
   left: 0;
 }
 
 // Cards
 
-.graphictoria-small-card {
+.virtubrick-small-card {
   @media (min-width: 992px) {
     max-width: 50%;
 	margin: auto;
   }
 }
 
-.graphictoria-moderation-card {
+.virtubrick-moderation-card {
   @media (min-width: 992px) {
     max-width: 70%;
 	margin: auto;
@@ -674,7 +743,7 @@ html {
 
 .card {
   @include shadow();
-  html.gtoria-dark & {
+  html.vbrick-dark & {
     background-color: #222;
   }
 }
@@ -686,7 +755,7 @@ html {
    overflow-y: auto !important;
 }
 
-.graphictoria-center-vh {
+.virtubrick-center-vh {
    margin-top: auto;
    margin-left: auto;
    margin-right: auto;
@@ -731,7 +800,7 @@ html {
 
   &-secondary {
     border-color: shade-color($secondary, 10%);
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 	  color: $white;
 	  background-color: $dark;
 	  border-color: shade-color($dark, 10%);
@@ -787,11 +856,11 @@ html {
 	background: transparent;
 	border: 0;
 	
-	html.gtoria-light & {
+	html.vbrick-light & {
 		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
 	}
 	
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
 	}
 	
@@ -810,11 +879,11 @@ html {
 	background: transparent;
 	border: 0;
 	
-	html.gtoria-light & {
+	html.vbrick-light & {
 		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
 	}
 	
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
 	}
 	
@@ -833,11 +902,11 @@ html {
 	background: transparent;
 	border: 0;
 	
-	html.gtoria-light & {
+	html.vbrick-light & {
 		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
 	}
 	
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
 	}
 	
@@ -876,7 +945,7 @@ html {
 }
 
 input {
-  html.gtoria-dark & {
+  html.vbrick-dark & {
     background-color: $gray-800;
 	color: $gray-100;
 	border-color: $gray-700;
@@ -948,13 +1017,13 @@ input {
   border-top-width: 1px;
   @include box-shadow(none);
   
-  html.gtoria-dark & {
+  html.vbrick-dark & {
     color: $gray-100;
     background-color: $gray-800;
     border-color: $gray-700;
   }
   
-  html.gtoria-light & {
+  html.vbrick-light & {
     color: $gray-500;
     background-color: $white;
     border-color: $gray-400;
@@ -962,7 +1031,7 @@ input {
 }
 
 .dropdown-item {
-  html.gtoria-dark & {
+  html.vbrick-dark & {
     color: $gray-100;
 	
 	&:not(.disabled):hover {
@@ -971,7 +1040,7 @@ input {
   }
 }
 
-.graphictoria-nav-dropdown {
+.virtubrick-nav-dropdown {
   margin-top: 11px !important;
   border-top: 0;
   border-radius: 0 0 0.25rem 0.25rem;
@@ -1041,11 +1110,11 @@ input {
   }
 }
 
-.graphictoria-paginator * {
+.virtubrick-paginator * {
 	display: inline-block;
 }
 
-.graphictoria-paginator > input {
+.virtubrick-paginator > input {
 	width: 35px;
 	text-align: center;
 	padding: 0;
@@ -1098,6 +1167,11 @@ input {
     background-color: $warning;
     border-color: shade-color($warning, 10%);
   }
+  
+  &-yellow {
+    background-color: $realyellow;
+    border-color: shade-color($realyellow, 10%);
+  }
 
   &-dark {
     background-color: $dark;
@@ -1125,7 +1199,7 @@ input {
   }
 }
 
-.graphictoria-alert {
+.virtubrick-alert {
 	border-radius: 0;
 	text-align: center;
 	margin-bottom: 0;
@@ -1133,7 +1207,7 @@ input {
     padding-bottom: 0.35rem;
 }
 
-.graphictoria-alert > .btn-close {
+.virtubrick-alert > .btn-close {
 	padding-top: 0.75rem;
 	padding-bottom: 0.75rem;
 }
@@ -1222,10 +1296,10 @@ a.list-group-item {
 
 // Footer
 .footer {
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 		background-color: $gray-900 !important;
 	}
-	html.gtoria-light & {
+	html.vbrick-light & {
 		background-color: $white !important;
 	}
 }
@@ -1433,7 +1507,7 @@ p {
   align-items: center !important;
 }
 
-.graphictoria-error-popup {
+.virtubrick-error-popup {
   margin-bottom: 10px;
   border-radius: 10px;
   
@@ -1447,12 +1521,12 @@ p {
 }
 
 // Voting
-.graphictoria-vote-bar {
+.virtubrick-vote-bar {
 	// border
-	html.gtoria-dark & {
+	html.vbrick-dark & {
 		border-color: $gray-700;
 	}
-	html.gtoria-light & {
+	html.vbrick-light & {
 		border-color: $border-color;
 	}
 	
@@ -1470,4 +1544,45 @@ p {
 	
 	position: relative;
 	height: 10px;
+}
+
+// Tables
+table {
+	html.vbrick-light & {
+		color: rgba(var(--bs-black-rgb),var(--bs-text-opacity));
+	}
+	
+	html.vbrick-dark & {
+		color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
+	}
+}
+
+.table>:not(:first-child) {
+	html.vbrick-dark & {
+		border-top: 1px solid $gray-700;
+	}
+	html.vbrick-light & {
+		border-top: 1px solid $border-color;
+	}
+}
+
+table > tbody > tr > th {
+	font-weight: normal;
+}
+
+.virtubrick-table {
+	margin-bottom: 0;
+}
+
+.virtubrick-table > tbody > tr:last-child > th {
+	border: unset;
+}
+
+.virtubrick-table > thead {
+	html.vbrick-dark & {
+		background-color: #ffffff0f;
+	}
+	html.vbrick-light & {
+		background-color: #0000000f;
+	}
 }

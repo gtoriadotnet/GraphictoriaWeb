@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
 			//
-			// Domain: gtoria.net
+			// Domain: virtubrick.net
 			//
 			Route::domain(DomainHelper::TopLevelDomain())
                 ->middleware('web')
@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 			
 			//
-			// Domain: www.gtoria.net
+			// Domain: www.virtubrick.net
 			//
             Route::domain('www.' . DomainHelper::TopLevelDomain())
                 ->middleware('web')
@@ -48,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
 			
 			//
-			// Domain: www.gtoria.net
+			// Domain: www.virtubrick.net
 			//
             Route::domain('blog.' . DomainHelper::TopLevelDomain())
                 ->middleware('web')
@@ -57,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/blog.php'));
 			
 			//
-			// Domain: api.gtoria.net
+			// Domain: api.virtubrick.net
 			//
             Route::domain('api.' . DomainHelper::TopLevelDomain())
                 ->middleware('api')
@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api.php'));
 				
 			//
-			// Domain: cdn.gtoria.net
+			// Domain: cdn.virtubrick.net
 			//
             Route::domain('cdn.' . DomainHelper::TopLevelDomain())
                 ->middleware('api')
@@ -73,7 +73,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/cdn.php'));
 			
 			//
-			// Domain: setup.gtoria.net
+			// Domain: setup.virtubrick.net
 			//
             Route::domain('setup.' . DomainHelper::TopLevelDomain())
                 ->middleware('api')

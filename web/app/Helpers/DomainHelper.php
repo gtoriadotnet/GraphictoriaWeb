@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Graphictoria 2022
+	XlXi 2022
 	Domain helper.
 */
 

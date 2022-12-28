@@ -18,7 +18,7 @@ return new class extends Migration
 			$table->string('version');
 			$table->string('app');
 			$table->string('type');
-			$table->int('step')->default(0);
+			$table->integer('step')->default(0);
 			$table->string('error')->nullable();
             $table->timestamps();
         });

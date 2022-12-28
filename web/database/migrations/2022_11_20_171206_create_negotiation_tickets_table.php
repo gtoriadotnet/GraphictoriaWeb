@@ -18,6 +18,7 @@ return new class extends Migration
 			$table->string('ticket');
 			$table->unsignedBigInteger('userId');
 			$table->boolean('used')->default(false);
+			$table->boolean('maintenanceBypass')->default(false);
             $table->timestamps();
         });
     }

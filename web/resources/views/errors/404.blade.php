@@ -7,10 +7,10 @@ $errorTitles = ['OH NOES!!!', 'BZZT', 'ERROR', 'UH OH.'];
 @section('title', 'Not Found')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card title="{{ $errorTitles[array_rand($errorTitles)] }}">
 		<x-slot name="body">
-			We've looked far and wide and weren't able to find the page you were looking for. If you believe this is an error, contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a>!
+			We've looked far and wide and weren't able to find the page you were looking for. If you believe this is an error, contact us at <a href="mailto:support@virtubrick.net" class="fw-bold text-decoration-none">support@virtubrick.net</a>!
 		</x-slot>
 		<x-slot name="footer">
 			<div class="mt-2">

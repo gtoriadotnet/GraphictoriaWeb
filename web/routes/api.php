@@ -6,6 +6,12 @@ Route::get('/ping', function() {
 	return response('');
 })->middleware('lastseen');
 
+Route::group(['as' => 'maintenance.', 'prefix' => 'maintenance'], function() {
+	Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+		Route::post('/bypass', 'MaintenanceController@bypass')->name('bypass')->middleware('throttle:100,30');
+	});
+});
+
 Route::middleware('auth')->group(function () {
 	Route::group(['as' => 'client.', 'prefix' => 'auth'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {

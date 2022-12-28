@@ -50,8 +50,8 @@ class AppDeploymentFilenameRule implements Rule
 		{
 			array_push($files, ...[
 				'playerpdb.zip',
-				'graphictoria.zip',
-				'graphictoriaplayerlauncher.exe'
+				'virtubrick.zip',
+				'virtubrickplayerlauncher.exe'
 			]);
 		}
 		elseif($this->appType == 'studio')
@@ -61,8 +61,8 @@ class AppDeploymentFilenameRule implements Rule
 				'imageformats.zip',
 				'content-scripts.zip',
 				'studiopdb.zip',
-				'graphictoriastudio.zip',
-				'graphictoriastudiolauncherbeta.exe'
+				'virtubrickstudio.zip',
+				'virtubrickstudiolauncherbeta.exe'
 			]);
 		}
 		

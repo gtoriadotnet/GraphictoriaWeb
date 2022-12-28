@@ -2,8 +2,7 @@
 <root>
 	<list name="Moderation" color="success" roleset="Moderator">
 		<category name="User Admin">
-			<link name="Find User" route="admin.dashboard" />
-			<link name="Find Payment" route="admin.dashboard" />
+			<link name="Find User" route="admin.usersearch" />
 			<link name="User Asset Transfer" route="admin.dashboard" />
 			<link name="Asset Transfer" route="admin.dashboard" />
 			<link name="User Assets" route="admin.dashboard" />
@@ -20,6 +19,10 @@
 		
 		<category name="Private Servers">
 			<link name="Private Server Transactions" route="admin.dashboard" />
+		</category>
+		
+		<category name="Catalog">
+			<link name="Auto Uploader" route="admin.autoupload" />
 		</category>
 	</list>
 	

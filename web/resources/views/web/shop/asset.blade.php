@@ -38,7 +38,7 @@
 	@if(!$asset->approved)
 		<div class="alert alert-danger text-center"><strong>This asset is pending approval.</strong> It will not appear in-game and cannot be voted on or purchased at this time.</div>
 	@endif
-	<div id="gt-item" class="graphictoria-smaller-page"
+	<div id="vb-item" class="virtubrick-smaller-page"
 		@auth
 			data-asset-id="{{ $asset->id }}"
 			data-asset-name="{{ $asset->name }}"
@@ -56,8 +56,8 @@
 			<div class="card-body">
 				<div class="d-flex">
 					<div class="pe-4">
-						<div id="gt-thumbnail"
-							class="border position-relative graphictoria-asset-thumbnail"
+						<div id="vb-thumbnail"
+							class="border position-relative virtubrick-asset-thumbnail"
 							data-asset-thumbnail-2d="{{ $asset->getThumbnail() }}"
 							data-asset-thumbnail-3d="{{ route('thumbnails.v1.asset', ['id' => $asset->id, 'type' => '3d']) }}"
 							data-asset-name="{{ $asset->name }}"
@@ -83,12 +83,12 @@
 							</div>
 							<div class="col-9 d-flex">
 								@if( $asset->onSale )
-									<h4 class="my-auto graphictoria-tokens">
+									<h4 class="my-auto virtubrick-tokens">
 										{{ number_format($asset->priceInTokens) }}
 									</h4>
 								@endif
 								@auth
-									<div id="gt-purchase-button" class="ms-auto">
+									<div id="vb-purchase-button" class="ms-auto">
 										<button class="px-5 btn btn-lg btn-success" disabled>Buy</button>
 									</div>
 								@endauth
@@ -136,7 +136,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="gt-comments"
+		<div id="vb-comments"
 			data-can-comment="{{ intval(Auth::check()) }}"
 			data-asset-id="{{ $asset->id }}"
 		></div>

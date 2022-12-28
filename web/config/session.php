@@ -128,7 +128,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        'GTSession'
+        'VBSession'
     ),
 
     /*

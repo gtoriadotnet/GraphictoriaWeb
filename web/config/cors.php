@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*.gtoria.net','*.gtoria.local'],
+    'allowed_origins' => ['*.virtubrick.net','*.virtubrick.local'],
 
     'allowed_origins_patterns' => [],
 

@@ -12,7 +12,7 @@
 @section('title', 'Register')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card>
 		<x-slot name="title">
 			<i class="fas fa-user-circle"></i> REGISTER
@@ -20,13 +20,13 @@
 		<x-slot name="body">
 			<div class="p-sm-2 d-flex flex-column justify-content-center">
 				<div class="px-3 mb-10">
-					<div class="alert alert-warning graphictoria-alert graphictoria-error-popup">
+					<div class="alert alert-warning virtubrick-alert virtubrick-error-popup">
 						<p class="mb-0">Make sure your password is unique!</p>
 					</div>
 				</div>
 				@if ($errors->any())
 					<div class="px-3 mb-10">
-						<div class="alert alert-danger graphictoria-alert graphictoria-error-popup">{{ $errors->first() }}</div>
+						<div class="alert alert-danger virtubrick-alert virtubrick-error-popup">{{ $errors->first() }}</div>
 					</div>
 				@endif
 				

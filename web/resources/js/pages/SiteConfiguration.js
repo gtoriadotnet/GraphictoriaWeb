@@ -1,11 +1,10 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
 import $ from 'jquery';
 
-const configId = 'gt-config-values';
+const configId = 'vb-config-values';
 
 $(document).ready(function() {
 	if (document.getElementById(configId)) {

@@ -1,1 +1,1 @@
-<div class="gtoria-loader"><div></div><div></div><div></div><div></div></div>
+<div class="vbrick-loader"><div></div><div></div><div></div><div></div></div>

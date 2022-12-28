@@ -37,6 +37,14 @@ class AppServiceProvider extends ServiceProvider
 			return get_class($validator) != UriValidator::class;
 		});
 		
+		Blade::directive('nonav', function() {
+            return '<?php $noNav=true; ?>';
+        });
+		
+		Blade::directive('nofooter', function() {
+            return '<?php $noFooter=true; ?>';
+        });
+		
 		Blade::directive('owner', function() {
             return '<?php if(Auth::check() && Auth::user()->hasRoleset(\'Owner\')): ?>';
         });

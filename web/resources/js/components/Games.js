@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -34,7 +33,7 @@ class GameItemCard extends Component {
 	render() {
 		return (
 			<a
-				className="graphictoria-item-card graphictoria-game-card"
+				className="virtubrick-item-card virtubrick-game-card"
 				href={ this.props.item.Url }
 				onMouseEnter={() => this.setState({hovered: true})}
 				onMouseLeave={() => this.setState({hovered: false})}
@@ -47,7 +46,7 @@ class GameItemCard extends Component {
 						className='img-fluid'
 					/>
 					<div className="p-2">
-						<p>{ this.props.item.Name }</p>
+						<p className="text-truncate">{ this.props.item.Name }</p>
 						<p className="text-muted small">{commaSeparate(this.props.item.Playing)} Playing</p>
 						<div className="d-flex mt-1">
 							<i className={classNames({
@@ -58,7 +57,7 @@ class GameItemCard extends Component {
 							<div className={classNames({
 								'my-auto': true,
 								'mx-1': true,
-								'graphictoria-vote-bar': true,
+								'virtubrick-vote-bar': true,
 								'rounded-1': true,
 								'border': true,
 								'border-light': true,
@@ -85,7 +84,7 @@ class GameItemCard extends Component {
 				</span>
 				{
 					this.state.hovered ?
-					<span className="graphictoria-item-details">
+					<span className="virtubrick-item-details">
 						<div className="card px-2">
 							<hr className="m-0" />
 							<p className="text-truncate my-1">
@@ -157,7 +156,7 @@ class Games extends Component {
 					}
 					{
 						!this.state.pageLoaded ?
-						<div className="graphictoria-shop-overlay">
+						<div className="virtubrick-shop-overlay">
 							<Loader />
 						</div>
 						:
@@ -181,7 +180,7 @@ class Games extends Component {
 							<li className="list-inline-item">
 								<button className="btn btn-secondary" disabled={(this.state.pageNumber <= 1) ? true : null}><i className="fa-solid fa-angle-left"></i></button>
 							</li>
-							<li className="list-inline-item graphictoria-paginator">
+							<li className="list-inline-item virtubrick-paginator">
 								<span>Page&nbsp;</span>
 								<input type="text" value={ this.state.pageNumber || '' } className="form-control" disabled={this.state.pageLoaded ? null : true} />
 								<span>&nbsp;of { this.state.pageCount || '???' }</span>

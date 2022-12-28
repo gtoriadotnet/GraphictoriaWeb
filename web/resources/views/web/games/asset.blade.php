@@ -15,7 +15,7 @@
 
 @section('content')
 <div class="container mx-auto py-5">
-	<div id="gt-item" class="graphictoria-smaller-page"
+	<div id="vb-item" class="virtubrick-smaller-page"
 		@auth
 			data-asset-id="{{ $asset->id }}"
 			data-asset-name="{{ $asset->name }}"
@@ -45,8 +45,8 @@
 			<div class="card-body">
 				<div class="d-flex">
 					<div class="pe-4">
-						<div id="gt-thumbnail"
-							class="border position-relative graphictoria-game-thumbnail"
+						<div id="vb-thumbnail"
+							class="border position-relative virtubrick-game-thumbnail"
 							data-asset-thumbnail-2d="{{ $asset->getThumbnail() }}"
 							data-asset-name="{{ $asset->name }}"
 							data-asset-id="{{ $asset->id }}"
@@ -60,7 +60,7 @@
 						<hr />
 						{{-- TODO: XlXi: Request playability from api --}}
 						{{-- TODO: XlXi: Get like/dislike ratio from a voting api --}}
-						<div id="gt-place-buttons"
+						<div id="vb-place-buttons"
 							class="d-flex flex-column mt-auto"
 							data-place-id="{{ $asset->id }}"
 						>
@@ -80,7 +80,7 @@
 										<i class="fa-regular fa-thumbs-up"></i> 0
 									</span>
 								</button>
-								<div class="my-auto flex-fill graphictoria-vote-bar rounded-1 border border-light position-relative flex-fill bg-light">
+								<div class="my-auto flex-fill virtubrick-vote-bar rounded-1 border border-light position-relative flex-fill bg-light">
 									<div class="rounded-1 position-absolute bg-dark" style="width: 0%; height: 8px;"></div>
 								</div>
 								<button class="text-decoration-none fw-normal p-1 btn-downvote">
@@ -133,11 +133,11 @@
 				<hr class="mb-2" />
 				<div class="d-flex">
 					{{-- TODO: XlXi: convert this to a route --}}
-					<a href="https://www.gtoria.local/report/asset/notfinishedtodo" target="_blank" class="text-decoration-none link-danger ms-auto">Report <i class="fa-solid fa-circle-exclamation"></i></a>
+					<a href="https://www.virtubrick.local/report/asset/notfinishedtodo" target="_blank" class="text-decoration-none link-danger ms-auto">Report <i class="fa-solid fa-circle-exclamation"></i></a>
 				</div>
 			</div>
 		</div>
-		<div id="gt-comments"
+		<div id="vb-comments"
 			data-can-comment="{{ intval(Auth::check()) }}"
 			data-asset-id="{{ $asset->id }}"
 		></div>

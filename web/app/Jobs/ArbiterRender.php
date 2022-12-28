@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use claviska\SimpleImage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -83,10 +84,10 @@ class ArbiterRender implements ShouldQueue
     {
 		// TODO: XlXi: User avatar/closeup render support.
 		$arguments = [
-			url(sprintf('/asset?id=%d', $this->assetId)), // TODO: XlXi: Move url() to route() once the route actually exists.
+			route('client.asset', ['id' => $this->assetId]),
 			($this->is3D ? 'OBJ' : 'PNG'),
-			840, // Width
-			840, // Height
+			420*4, // Width    // XlXi: These get scaled down by 4.
+			420*4, // Height   // XlXi: These get scaled down by 4.
 			url('/') . '/'
 		];
 		switch($this->type) {
@@ -177,7 +178,13 @@ class ArbiterRender implements ShouldQueue
 			
 			$this->tracker->targetObj->set3DHash(CdnHelper::SaveContent(json_encode($result), 'text/plain'));
 		} else {
-			$this->tracker->targetObj->set2DHash(CdnHelper::SaveContentB64($result, 'image/png'));
+			$image = new SimpleImage();
+			$image = $image
+				->fromString(base64_decode($result))
+				->resize($arguments[2]/4, $arguments[3]/4)
+				->toString();
+			
+			$this->tracker->targetObj->set2DHash(CdnHelper::SaveContentB64(base64_encode($image), 'image/png'));
 		}
 		
 		$this->tracker->delete();

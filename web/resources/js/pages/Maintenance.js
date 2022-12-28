@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -22,7 +21,7 @@ const randomEuler = () => [Math.random() * Math.PI, Math.random() * Math.PI, Mat
 const randomData = Array.from({ length: 2000 }, (r = 200) => ({ random: Math.random(), position: randomVector(r), rotation: randomEuler() }));
 
 function Scene() {
-	const { nodes, materials } = useGLTF('/models/graphictoriapart.glb');
+	const { nodes, materials } = useGLTF('/models/virtubrickpart.glb');
 	
 	return (
 		<>
@@ -71,8 +70,8 @@ function Camera({ ...props }){
 let ButtonHistory = []
 
 function attemptBypass() {
-	axios.post(buildGenericApiUrl('apis', 'v1/maintenance/bypass'), {
-			'password': $('#gt_mt_buttons > input').val(),
+	axios.post(buildGenericApiUrl('api', 'maintenance/v1/bypass'), {
+			'password': $('#vbrick_mt_buttons > input').val(),
 			'buttons': ButtonHistory.slice(-40)
 		})
 		.then((response) => {
@@ -87,11 +86,11 @@ $(document).ready(function() {
 				<Scene />
 			</Suspense>
 		</Canvas>),
-		document.getElementsByClassName('gtoria-maintenance-background')[0]
+		document.getElementsByClassName('vbrick-maintenance-background')[0]
 	);
 	
-	$('#gt_mt_buttons').on('click', 'button', function() {
-		let ButtonId = parseInt(this.getAttribute('name').substr(8)); //gt_mtbtnX
+	$('#vbrick_mt_buttons').on('click', 'button', function() {
+		let ButtonId = parseInt(this.getAttribute('name').substr(8)); //vb_mtbtnX
 		
 		ButtonHistory.push(ButtonId);
 		attemptBypass();

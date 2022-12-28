@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -69,16 +68,16 @@ const SearchBar = () => {
 	
 	return (
 		<>
-			<input type="text" ref={inputRef} className="form-control d-lg-flex" placeholder="Search" aria-label="Search" aria-describedby="graphictoria-nav-search-button" onChange={ changeEvent => setSearchQuery(changeEvent.target.value) } value={ searchQuery }/>
+			<input type="text" ref={inputRef} className="form-control d-lg-flex" placeholder="Search" aria-label="Search" aria-describedby="virtubrick-nav-search-button" onChange={ changeEvent => setSearchQuery(changeEvent.target.value) } value={ searchQuery }/>
 			
 			{
 				searchQuery.length !== 0 ?
-				<div ref={dropdownRef} id="graphictoria-search-dropdown">
-					<ul className="dropdown-menu show" area-labelledby="graphictoria-search-dropdown">
+				<div ref={dropdownRef} id="virtubrick-search-dropdown">
+					<ul className="dropdown-menu show" area-labelledby="virtubrick-search-dropdown">
 						{
 							dropdownLinks.map(({ area, urlbase }, index) => 
 								<li key={index}>
-									<a className="dropdown-item py-2" onClick={ () => setSearchQuery('') } href={ urlbase + encodeURIComponent(searchQuery) }>Search <b className="text-truncate graphictoria-search-dropdown-truncate">{searchQuery}</b> in {area}</a>
+									<a className="dropdown-item py-2" onClick={ () => setSearchQuery('') } href={ urlbase + encodeURIComponent(searchQuery) }>Search <b className="text-truncate virtubrick-search-dropdown-truncate">{searchQuery}</b> in {area}</a>
 								</li>
 							)
 						}

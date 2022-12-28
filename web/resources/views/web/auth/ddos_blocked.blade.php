@@ -25,7 +25,7 @@
 				<div class="mt-3">
 					@if ($errors->any())
 						<div class="px-3 mb-10">
-							<div class="alert alert-danger graphictoria-alert graphictoria-error-popup">{{ $errors->first() }}</div>
+							<div class="alert alert-danger virtubrick-alert virtubrick-error-popup">{{ $errors->first() }}</div>
 						</div>
 					@endif
 					
@@ -44,7 +44,7 @@
 			</div>
 		</x-slot>
 		<x-slot name="footer">
-			<p class="text-muted">If this page continues to show up after you solve the captcha, please contact us at contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a> and we'll be happy to help.</p>
+			<p class="text-muted">If this page continues to show up after you solve the captcha, please contact us at contact us at <a href="mailto:support@virtubrick.net" class="fw-bold text-decoration-none">support@virtubrick.net</a> and we'll be happy to help.</p>
 		</x-slot>
 	</x-card>
 </div>

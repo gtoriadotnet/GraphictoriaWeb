@@ -2,7 +2,7 @@
 	'name'
 ])
 
-<span class="gt-admin-navtitle">{{ $name }}</span>
-<ul class="gt-admin-nav nav flex-column">
+<span class="vb-admin-navtitle">{{ $name }}</span>
+<ul class="vb-admin-nav nav flex-column">
 	{{ $slot }}
 </ul>

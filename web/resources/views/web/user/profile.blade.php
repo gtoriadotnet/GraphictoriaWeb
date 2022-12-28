@@ -18,12 +18,12 @@
 @endsection
 
 @section('content')
-<div class="container-lg my-4 graphictoria-smaller-page">
+<div class="container-lg my-4 virtubrick-smaller-page">
 	{{-- User pane --}}
 	<div class="card p-2">
 		<div class="d-flex">
 			<div class="pe-3">
-				<img class="img-fluid border graphictora-user-circle m-1" src="{{ asset('/images/testing/headshot.png') }}" alt="User avatar of {{ $user->username }}" width="120px" />
+				<img class="img-fluid border virtubrick-user-circle m-1" src="{{ asset('/images/testing/headshot.png') }}" alt="User avatar of {{ $user->username }}" width="120px" />
 			</div>
 			<div class="flex-fill d-flex flex-column p-2">
 				{{-- TODO: XlXi: Advanced presence --}}
@@ -54,7 +54,7 @@
 		<hr class="my-2" />
 		<div class="d-flex">
 			{{-- TODO: XlXi: convert this to a route --}}
-			<a href="https://www.gtoria.local/report/user/notfinishedtodo" target="_blank" class="text-decoration-none link-danger ms-auto">Report <i class="fa-solid fa-circle-exclamation"></i></a>
+			<a href="https://www.virtubrick.local/report/user/notfinishedtodo" target="_blank" class="text-decoration-none link-danger ms-auto">Report <i class="fa-solid fa-circle-exclamation"></i></a>
 		</div>
 	</div>
 	

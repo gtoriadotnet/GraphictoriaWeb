@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -10,7 +9,7 @@ import { render } from 'react-dom';
 
 import Feed from '../components/Feed';
 
-const feedId = 'gt-dash-feed';
+const feedId = 'vb-dash-feed';
 
 $(document).ready(function() {
 	if (document.getElementById(feedId)) {

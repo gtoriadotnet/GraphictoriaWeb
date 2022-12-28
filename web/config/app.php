@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Graphictoria'),
+    'name' => env('APP_NAME', 'VirtuBrick'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://gtoria.net'),
+    'url' => env('APP_URL', 'http://virtubrick.net'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -212,5 +212,16 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+	
+	/*
+    |--------------------------------------------------------------------------
+    | Testing Environment Mode
+    |--------------------------------------------------------------------------
+    |
+    | When test environment mode is enabled, the site will display a
+	| banner explaining that it's not the real site.
+    |
+    */
 
+    'testenv' => (bool) env('IS_TEST_ENVIRONMENT', true),
 ];

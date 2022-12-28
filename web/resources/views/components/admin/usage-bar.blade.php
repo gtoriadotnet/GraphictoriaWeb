@@ -2,7 +2,7 @@
 	'stat'
 ])
 
-<div class="my-auto rounded-1 bg-secondary border border-light right-0 me-1 position-relative graphictoria-admin-usagebar">
+<div class="my-auto rounded-1 bg-secondary border border-light right-0 me-1 position-relative virtubrick-admin-usagebar">
 	@php
 		$usage_bar_color = 'bg-primary';
 		$usage_bar_usage = $stat * 100;
@@ -15,7 +15,7 @@
 			$usage_bar_color = 'bg-danger';  // Red
 	@endphp
 	<div
-		class="{{ $usage_bar_color }} rounded-1 position-absolute graphictoria-admin-usagebar"
+		class="{{ $usage_bar_color }} rounded-1 position-absolute virtubrick-admin-usagebar"
 		style="width:{{ $usage_bar_usage }}%!important;height:8px!important;"
 	></div>
 </div>

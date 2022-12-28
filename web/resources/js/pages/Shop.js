@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -10,7 +9,7 @@ import { render } from 'react-dom';
 
 import Shop from '../components/Shop';
 
-const shopId = 'gt-shop-main';
+const shopId = 'vb-shop-main';
 
 $(document).ready(function() {
 	if (document.getElementById(shopId)) {

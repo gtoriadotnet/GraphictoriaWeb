@@ -2,7 +2,7 @@
 
 @push('extra-headers')
 <style>
-	.graphictoria-graph-card {
+	.virtubrick-graph-card {
 		width: 300px!important;
 		height: 200px!important;
 		margin: 5px;
@@ -27,20 +27,20 @@
 		</div>
 	</div>
 	<div class="d-flex flex-wrap">
-		<x-minicard class="graphictoria-graph-card">
+		<x-minicard class="virtubrick-graph-card">
 			<x-slot name="title">
 				Active Jobs
 			</x-slot>
 			<x-slot name="body">
-				<div class="graphictoria-shop-overlay">
+				<div class="virtubrick-shop-overlay">
 					<x-loader />
 				</div>
 			</x-slot>
 		</x-minicard>
 	</div>
 	<h4 class="mt-2">Soap Exceptions</h4>
-	<div class="card p-3" id="gt-soap-exceptions" style="min-height:80px;">
-		<div class="graphictoria-shop-overlay">
+	<div class="card p-3" id="vb-soap-exceptions" style="min-height:80px;">
+		<div class="virtubrick-shop-overlay">
 			<x-loader />
 		</div>
 	</div>

@@ -3,10 +3,10 @@
 @section('title', 'Internal Server Error')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card title="INTERNAL SERVER ERROR">
 		<x-slot name="body">
-			Oops, we ran into an issue while trying to process your request, please try again later in a few minutes. If the issue persists after a few minutes, please contact us at <a href="mailto:support@gtoria.net" class="fw-bold text-decoration-none">support@gtoria.net</a>.
+			Oops, we ran into an issue while trying to process your request, please try again later in a few minutes. If the issue persists after a few minutes, please contact us at <a href="mailto:support@virtubrick.net" class="fw-bold text-decoration-none">support@virtubrick.net</a>.
 		</x-slot>
 		<x-slot name="footer">
 			<div class="mt-2">

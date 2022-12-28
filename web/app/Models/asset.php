@@ -128,7 +128,7 @@ class Asset extends Model
 		
 		$thumbnail = Http::get(route('thumbnails.v1.asset', ['id' => $renderId, 'type' => '2d']));
 		if($thumbnail->json('status') == 'loading')
-			return ($this->assetTypeId == 9 ? 'https://gtoria.local/images/busy/game.png' : 'https://gtoria.local/images/busy/asset.png');
+			return ($this->assetTypeId == 9 ? 'https://virtubrick.local/images/busy/game.png' : 'https://virtubrick.local/images/busy/asset.png');
 		
 		return $thumbnail->json('data');
 	}

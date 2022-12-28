@@ -1,6 +1,6 @@
 @extends('layouts.email')
 
-@section('title', 'Graphictoria Password Reset')
+@section('title', config('app.name') . ' Password Reset')
 
 @section('content')
 <h4>Hello, <b>{{ $user }}</b>!</h4>

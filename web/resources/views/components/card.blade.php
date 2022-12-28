@@ -1,5 +1,5 @@
 @php
-	$classes = ['card', 'graphictoria-small-card', 'shadow-sm'];
+	$classes = ['card', 'virtubrick-small-card', 'shadow-sm'];
 	
 	if(isset($attributes['class']))
 		$classes = array_merge($classes, explode(' ', $attributes['class']));

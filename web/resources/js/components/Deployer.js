@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -175,7 +174,7 @@ class RevertDeploymentCard extends Component {
 			<DeploymentCard name={ this.props.name } index={ this.props.index } removeDeployment={ this.props.removeDeployment }>
 				<h5 className="mb-0">Revert Deployment</h5>
 				<p className="text-muted">Select a previous deployment below to roll back the { this.props.index } version.</p>
-				<select className="form-select mt-2" id="gt-revert-deployment" disabled={ this.state.loading }>
+				<select className="form-select mt-2" id="vb-revert-deployment" disabled={ this.state.loading }>
 					<option selected>{ this.state.loading ? 'Loading...' : 'None Selected' }</option>
 					{
 						this.state.deployments.map((deployment, index) => (
@@ -232,8 +231,8 @@ class PushDeploymentCard extends Component {
 			case 'client':
 				this.neededFiles = this.neededFiles.concat([
 					'PlayerPdb.zip',
-					'Graphictoria.zip',
-					'GraphictoriaPlayerLauncher.exe'
+					'VirtuBrick.zip',
+					'VirtuBrickPlayerLauncher.exe'
 				]);
 				break;
 			case 'studio':
@@ -242,8 +241,8 @@ class PushDeploymentCard extends Component {
 					'imageformats.zip',
 					'content-scripts.zip',
 					'StudioPdb.zip',
-					'GraphictoriaStudio.zip',
-					'GraphictoriaStudioLauncherBeta.exe'
+					'VirtuBrickStudio.zip',
+					'VirtuBrickStudioLauncherBeta.exe'
 				]);
 				break;
 		}
@@ -377,7 +376,7 @@ class PushDeploymentCard extends Component {
 								}
 								
 								return (
-									<div className="graphictoria-item-card graphictoria-game-card">
+									<div className="virtubrick-item-card virtubrick-game-card">
 										<div className="card m-2" data-bs-toggle="tooltip" data-bs-placement="top" title={ file.name }>
 											<div className="bg-light d-flex p-3">
 												<i className={classNames(fileIconClasses)}></i>
@@ -424,13 +423,13 @@ class PushDeploymentCard extends Component {
 						<h5 className="mb-0 mt-3">Optional Configuration</h5>
 						<p className="text-muted mb-3">Only change if you've updated the security settings on the client/rcc. Shutting down game servers will delay deployment by 10 minutes.</p>
 						<div className="form-check form-switch">
-							<input className="form-check-input" type="checkbox" role="switch" id="gt-shut-down-servers" />
-							<label className="form-check-label" htmlFor="gt-shut-down-servers">Shut down game servers.</label>
+							<input className="form-check-input" type="checkbox" role="switch" id="vb-shut-down-servers" />
+							<label className="form-check-label" htmlFor="vb-shut-down-servers">Shut down game servers.</label>
 						</div>
-						<label htmlFor="gt-rcc-security-key" className="form-label mt-2">Update RCC Security Key</label>
-						<input type="text" id="gt-rcc-security-key" className="form-control" placeholder="New RCC Security Key" onChange={ changeEvent => this.setOptions('rccAccessKey', changeEvent.target.value) } />
-						<label htmlFor="gt-rcc-security-key" className="form-label mt-2">Update Version Compatibility Salt</label>
-						<input type="text" id="gt-rcc-security-key" className="form-control" placeholder="New Version Compatibility Salt" onChange={ changeEvent => this.setOptions('versionCompatiblityFuzzyKey', changeEvent.target.value) } />
+						<label htmlFor="vb-rcc-security-key" className="form-label mt-2">Update RCC Security Key</label>
+						<input type="text" id="vb-rcc-security-key" className="form-control" placeholder="New RCC Security Key" onChange={ changeEvent => this.setOptions('rccAccessKey', changeEvent.target.value) } />
+						<label htmlFor="vb-rcc-security-key" className="form-label mt-2">Update Version Compatibility Salt</label>
+						<input type="text" id="vb-rcc-security-key" className="form-control" placeholder="New Version Compatibility Salt" onChange={ changeEvent => this.setOptions('versionCompatiblityFuzzyKey', changeEvent.target.value) } />
 					</>
 					:
 					null
@@ -592,10 +591,10 @@ class Deployer extends Component {
 				<h5>Deployment Options</h5>
 				<div className="d-block">
 					<div className="btn-group mb-1">
-						<input type="radio" className="btn-check" name="gt-deployment-type" id="gt-deployment-deploy" autoComplete="off" onChange={ (e)=>this.trySetDeployType(e, 'deploy') } checked={ this.state.deployType == 'deploy' } />
-						<label className="btn btn-sm btn-outline-primary" htmlFor="gt-deployment-deploy">Deploy</label>
-						<input type="radio" className="btn-check" name="gt-deployment-type" id="gt-deployment-revert" autoComplete="off" onChange={ (e)=>this.trySetDeployType(e, 'revert') } checked={ this.state.deployType == 'revert' } />
-						<label className="btn btn-sm btn-outline-primary" htmlFor="gt-deployment-revert">Revert</label>
+						<input type="radio" className="btn-check" name="vb-deployment-type" id="vb-deployment-deploy" autoComplete="off" onChange={ (e)=>this.trySetDeployType(e, 'deploy') } checked={ this.state.deployType == 'deploy' } />
+						<label className="btn btn-sm btn-outline-primary" htmlFor="vb-deployment-deploy">Deploy</label>
+						<input type="radio" className="btn-check" name="vb-deployment-type" id="vb-deployment-revert" autoComplete="off" onChange={ (e)=>this.trySetDeployType(e, 'revert') } checked={ this.state.deployType == 'revert' } />
+						<label className="btn btn-sm btn-outline-primary" htmlFor="vb-deployment-revert">Revert</label>
 					</div>
 					<br />
 					<button className="btn btn-sm btn-success" onClick={ ()=>this.createDeployment('client') } disabled={ this.deploymentExists('client') }>Deploy Client</button>
@@ -604,7 +603,7 @@ class Deployer extends Component {
 				<hr />
 				{
 					this.state.showTypeSwitchError ?
-					<div className="alert alert-danger graphictoria-alert graphictoria-error-popup">Remove your { this.state.deployType == 'deploy' ? 'deployments' : 'reversions' } to change the uploader type.</div>
+					<div className="alert alert-danger virtubrick-alert virtubrick-error-popup">Remove your { this.state.deployType == 'deploy' ? 'deployments' : 'reversions' } to change the uploader type.</div>
 					:
 					null
 				}

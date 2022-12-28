@@ -10,7 +10,7 @@
 @section('title', 'Login')
 
 @section('content')
-<div class="container graphictoria-center-vh">
+<div class="container virtubrick-center-vh">
 	<x-card>
 		<x-slot name="title">
 			<i class="fas fa-user-circle"></i> SIGN IN
@@ -20,13 +20,13 @@
 				<div class="col-md-8 mb-2 d-flex flex-column justify-content-center">
 					@if ($errors->any())
 						<div class="px-3 mb-10">
-							<div class="alert alert-danger graphictoria-alert graphictoria-error-popup">{{ $errors->first() }}</div>
+							<div class="alert alert-danger virtubrick-alert virtubrick-error-popup">{{ $errors->first() }}</div>
 						</div>
 					@endif
 					
 					@if(session('status'))
 						<div class="px-3 mb-10">
-							<div class="alert alert-success graphictoria-alert graphictoria-error-popup">{{ session('status') }}</div>
+							<div class="alert alert-success virtubrick-alert virtubrick-error-popup">{{ session('status') }}</div>
 						</div>
 					@endif
 					
@@ -47,7 +47,7 @@
 					<a href="{{ route('auth.password.forgot') }}" class="text-decoration-none fw-normal center">Forgot your password?</a>
 				</div>
 				<div class="col">
-					<h5>New to Graphictoria?</h5>
+					<h5>New to {{ config('app.name') }}?</h5>
 					<p>Creating an account takes less than a minute, and you can join a community of 10k+ users for <b>completely free</b>.<br/><a href="{{ route('auth.register.index') }}" class="btn btn-sm btn-success mt-2">Sign Up</a></p>
 				</div>
 			</div>

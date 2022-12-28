@@ -1,5 +1,4 @@
 /*
-	Graphictoria 5 (https://gtoria.net)
 	Copyright © XlXi 2022
 */
 
@@ -14,7 +13,7 @@ import Loader from './Loader';
 
 axios.defaults.withCredentials = true;
 
-const playerProtocol = 'graphictoria-player';
+const playerProtocol = 'virtubrick-player';
 
 class PlaceLoadingModal extends Component {
 	constructor(props) {
@@ -70,14 +69,14 @@ class PlaceLoadingModal extends Component {
 							{
 								this.state.showDownloadScreen ?
 								<>
-									<h5>Download Graphictoria</h5>
-									<p>Download Graphictoria to get access to thousands of community-driven games.</p>
-									<a href={ buildGenericApiUrl('setup', 'GraphictoriaPlayerLauncher.exe') } target="_blank" className="btn btn-success mt-3">Download</a>
+									<h5>Download VirtuBrick</h5>
+									<p>Download VirtuBrick to get access to thousands of community-driven games.</p>
+									<a href={ buildGenericApiUrl('setup', 'VirtuBrickPlayerLauncher.exe') } target="_blank" className="btn btn-success mt-3">Download</a>
 								</>
 								:
 								<>
 									<Loader />
-									<p>Starting Graphictoria</p>
+									<p>Starting VirtuBrick</p>
 								</>
 							}
 						</div>
@@ -118,7 +117,7 @@ class PlaceLoadingErrorModal extends Component {
 					<div className="modal-content text-center">
 						<div className="modal-body d-flex flex-column pb-4">
 							<button type="button" className="ms-auto btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							<h5>An error occurred while starting Graphictoria.</h5>
+							<h5>An error occurred while starting VirtuBrick.</h5>
 							<p>Error Detail: { this.props.message }</p>
 						</div>
 					</div>
@@ -167,7 +166,7 @@ class PlaceButtons extends Component {
 		
 		let protocol = playerProtocol;
 		let domainSplit = getCurrentDomain().split('.');
-		if(getCurrentDomain() == 'gtoria.local')
+		if(getCurrentDomain() == 'virtubrick.local')
 		{
 			protocol += '-dev';
 		}
@@ -187,7 +186,7 @@ class PlaceButtons extends Component {
 			.catch(function(error) {
 				this.setModal(<PlaceLoadingErrorModal setModal={ this.setModal } message={ error.message } />);
 				
-				//alert('Error while starting Graphictoria: ' + error.message);
+				//alert('Error while starting VirtuBrick: ' + error.message);
 			}.bind(this));
 	}
 	
