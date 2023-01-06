@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use App\Helpers\AssetHelper;
+use App\Helpers\GridHelper;
 use App\Helpers\ValidationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\AppDeployment;
@@ -134,5 +136,48 @@ class AdminController extends Controller
 		$deployment->save();
 		
 		AppDeployment::dispatch($deployment);
+	}
+	
+	// RCC Only
+	function uploadRobloxAsset(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'contentId' => ['required', 'int']
+		]);
+		
+		if($validator->fails())
+			return ValidationHelper::generateValidatorError($validator);
+		
+		if(!GridHelper::hasAllAccess())
+		{
+			$validator->errors()->add('contentId', 'This API can only be called by the web service.');
+			return ValidationHelper::generateValidatorError($validator);
+		}
+		
+		$valid = $validator->valid();
+		$asset = AssetHelper::uploadRobloxAsset($valid['contentId'], true);
+		
+		return route('client.asset', ['id' => $asset->id]);
+	}
+	
+	function uploadAsset(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'contentId' => ['required', 'int']
+		]);
+		
+		if($validator->fails())
+			return ValidationHelper::generateValidatorError($validator);
+		
+		if(!GridHelper::hasAllAccess())
+		{
+			$validator->errors()->add('contentId', 'This API can only be called by the web service.');
+			return ValidationHelper::generateValidatorError($validator);
+		}
+		
+		$valid = $validator->valid();
+		$asset = AssetHelper::uploadCustomRobloxAsset($valid['contentId'], true, base64_encode($request->getContent()));
+		
+		return route('client.asset', ['id' => $asset->id]);
 	}
 }

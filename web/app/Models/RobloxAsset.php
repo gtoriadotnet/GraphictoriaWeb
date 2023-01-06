@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssetVersion extends Model
+class RobloxAsset extends Model
 {
     use HasFactory;
 	
@@ -15,13 +15,12 @@ class AssetVersion extends Model
      * @var array
      */
     protected $fillable = [
-		'parentAsset',
-		'localVersion',
-		'contentURL'
+		'localAssetId',
+		'robloxAssetId'
 	];
 	
 	public function asset()
     {
-        return $this->belongsTo(Asset::class, 'parentAsset');
+        return $this->belongsTo(Asset::class, 'localAssetId');
     }
 }

@@ -32,6 +32,10 @@ Route::middleware('auth')->group(function () {
 				Route::get('/deploy', 'AdminController@deploy')->name('deploy');
 				Route::post('/deploy/{version}', 'AdminController@deployVersion')->name('deploy');
 			});
+			
+			// RCC Only
+			Route::get('/upload-rbx-asset', 'AdminController@uploadRobloxAsset')->withoutMiddleware('auth')->name('uploadrbxasset');
+			Route::post('/upload-asset', 'AdminController@uploadAsset')->withoutMiddleware('auth')->name('uploadAsset');
 		});
 	});
 });

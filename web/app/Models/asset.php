@@ -32,6 +32,26 @@ class Asset extends Model
 		'updated_at' => 'datetime',
     ];
 	
+	/**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+		'creatorId',
+		'name',
+		'description',
+		'parentAssetId',
+		'approved',
+		'priceInTokens',
+		'onSale',
+		'assetTypeId',
+		'assetVersionId',
+		'universeId',
+		'maxPlayers',
+		'chatStyleEnum'
+	];
+	
 	/* TODO: XlXi: move to db */
 	protected $assetGenres = [
 		/* 0 */ 'All',
@@ -120,11 +140,6 @@ class Asset extends Model
 	public function getThumbnail()
 	{
 		$renderId = $this->id;
-		
-		// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
-		// 			   Things like HTML assets should just have a generic "default" image.
-		//if($this->assetTypeId == 1) // Image
-		//	$renderId = $this->parentAsset->id;
 		
 		$thumbnail = Http::get(route('thumbnails.v1.asset', ['id' => $renderId, 'type' => '2d']));
 		if($thumbnail->json('status') == 'loading')

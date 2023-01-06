@@ -12,6 +12,7 @@ use App\Helpers\ValidationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetVersion;
+use App\Models\RobloxAsset;
 
 class ClientController extends Controller
 {
@@ -56,7 +57,13 @@ class ClientController extends Controller
 		$validator = Validator::make($reqData, $this->{$validatorRuleSet}());
 		
 		if($validator->fails())
-			return ValidationHelper::generateValidatorError($validator);
+		{
+			$rbxAsset = RobloxAsset::where('robloxAssetId', $request->get('id'))->first();
+			if($rbxAsset)
+				return redirect()->route('client.asset', ['id' => $rbxAsset->localAssetId]);
+			
+			return redirect('https://assetdelivery.roblox.com/v1/asset?id=' . ($request->get('id') ?: 0));//return ValidationHelper::generateValidatorError($validator);
+		}
 		
 		$valid = $validator->valid();
 		$asset = null;

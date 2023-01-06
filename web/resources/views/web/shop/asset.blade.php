@@ -126,7 +126,7 @@
 							</div>
 							<div class="col-9">
 								@if ( $asset->description )
-									<p>{{ $asset->description }}</p>
+									<p>{!! nl2br(e($asset->description)) !!}</p>
 								@else
 									<p class="text-muted">This item has no description.</p>
 								@endif

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
+use App\Helpers\GridHelper;
 use App\Helpers\ValidationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\ArbiterRender;
@@ -21,8 +22,7 @@ class ThumbnailController extends Controller
 			'id' => [
 				'required',
 				Rule::exists('App\Models\Asset', 'id')->where(function($query) {
-					return $query->where('moderated', false)
-									->where('approved', true);
+					return $query->where('moderated', false);
 				})
 			],
 			'type' => 'regex:/(3D|2D)/i'
@@ -60,15 +60,19 @@ class ThumbnailController extends Controller
 			
 			$valid['position'] = strtolower($valid['position']);
 		} elseif($renderType == 'Asset') {
+			if($model->moderated)
+				return response(['status' => 'success', 'data' => '/thumbs/DeletedThumbnail.png']);
+			
+			if(!$model->approved)
+				return response(['status' => 'success', 'data' => '/thumbs/PendingThumbnail.png']);
+			
+			if(!$model->assetType->renderable)
+				return response(['status' => 'success', 'data' => '/thumbs/UnavailableThumbnail.png']);
+			
 			if(!$model->{$valid['type'] == '3d' ? 'canRender3D' : 'isRenderable'}()) {
 				$validator->errors()->add('id', 'This asset cannot be rendered.');
 				return ValidationHelper::generateValidatorError($validator);
 			}
-			
-			// TODO: XlXi: Turn this into a switch case and fill in the rest of the unrenderables.
-			// 			   Things like HTML assets should just have a generic "default" image.
-			//if($model->assetTypeId == 1)
-			//	$model = Asset::where('id', $model->parentAsset)->first();
 		}
 		
 		

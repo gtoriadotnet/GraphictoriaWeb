@@ -90,6 +90,7 @@ class ArbiterRender implements ShouldQueue
 			420*4, // Height   // XlXi: These get scaled down by 4.
 			url('/') . '/'
 		];
+		
 		switch($this->type) {
 			case 'Head':
 			case 'Shirt':

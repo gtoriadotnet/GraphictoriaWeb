@@ -113,6 +113,29 @@ class GridHelper
 		return $job;
 	}
 	
+	private static function getThumbDisk()
+	{
+		return Storage::build([
+			'driver' => 'local',
+			'root' => storage_path('app/grid/thumbnails'),
+		]);
+	}
+	
+	public static function getDefaultThumbnail($fileName)
+	{
+		$disk = $self::getThumbDisk();
+		
+		if(!$disk->exists($fileName))
+			throw new Exception('Unable to locate template file.');
+		
+		return $disk->get($fileName);
+	}
+	
+	public static function getUnknownThumbnail()
+	{
+		return $self::getDefaultThumbnail('UnknownThumbnail.png');
+	}
+	
 	public static function getArbiter($name)
 	{
 		$query = DynamicWebConfiguration::where('name', sprintf('%sArbiterIP', $name))->first();

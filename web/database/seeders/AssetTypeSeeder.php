@@ -24,7 +24,6 @@ class AssetTypeSeeder extends Seeder
 		[
 			'name' => 'T-Shirt',
 			'renderable' => true,
-			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
 			'wearable' => true
@@ -108,8 +107,6 @@ class AssetTypeSeeder extends Seeder
 		],
 		[
 			'name' => 'Face',
-			'renderable' => true,
-			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
 			'wearable' => true
@@ -235,8 +232,7 @@ class AssetTypeSeeder extends Seeder
 		[
 			'name' => 'MeshPart',
 			'renderable' => true,
-			'renderable3d' => true,
-			'locked' => true
+			'renderable3d' => true
 		],
 		[
 			'name' => 'Hair Accessory',

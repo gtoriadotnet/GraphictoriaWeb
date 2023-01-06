@@ -224,4 +224,16 @@ return [
     */
 
     'testenv' => (bool) env('IS_TEST_ENVIRONMENT', true),
+	
+	/*
+    |--------------------------------------------------------------------------
+    | Roblox Cookie
+    |--------------------------------------------------------------------------
+    |
+    | Allows the site to access marketplace service APIs without rate
+	| limiting.
+    |
+    */
+
+    'robloxcookie' => env('ROBLOX_COOKIE', ''),
 ];

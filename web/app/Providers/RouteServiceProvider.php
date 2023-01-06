@@ -63,6 +63,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
 				->namespace('App\Http\Controllers\Api')
                 ->group(base_path('routes/api.php'));
+			
+			//
+			// Domain: clientsettings.api.virtubrick.net
+			//
+            Route::domain('clientsettings.api.' . DomainHelper::TopLevelDomain())
+                ->middleware('api')
+				->namespace('App\Http\Controllers\ClientSettings')
+                ->group(base_path('routes/clientsettings.php'));
 				
 			//
 			// Domain: cdn.virtubrick.net

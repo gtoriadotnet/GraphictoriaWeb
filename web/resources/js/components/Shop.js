@@ -228,7 +228,7 @@ class ShopItemCard extends Component {
 						className='img-fluid'
 					/>
 					<div className="p-2">
-						<p>{ item.Name }</p>
+						<p className="text-truncate">{ item.Name }</p>
 						{ item.OnSale ?
 						<p className="virtubrick-tokens text-truncate">{commaSeparate(item.Price)}</p>
 						: <p className="text-muted">Offsale</p>
