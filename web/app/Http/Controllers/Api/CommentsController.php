@@ -46,7 +46,6 @@ class CommentsController extends Controller
 		];
 		
 		foreach($comments as $comment) {
-			// TODO: XlXi: user profile link
 			$poster = [
 				'name' => $comment->user->username,
 				'thumbnail' => 'https://www.virtubrick.local/images/testing/headshot.png',

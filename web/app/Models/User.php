@@ -132,6 +132,21 @@ class User extends Authenticatable implements MustVerifyEmail
 		return false;
 	}
 	
+	public function hasActivePunishment()
+	{
+		return Punishment::activeFor($this->id)->exists();
+	}
+	
+	public function getPunishment()
+	{
+		return Punishment::activeFor($this->id)->first();
+	}
+	
+	public function punishments()
+	{
+		return $this->hasMany(Punishment::class, 'user_id');
+	}
+	
 	public function _hasRolesetInternal($roleName)
 	{
 		$roleset = Roleset::where('Name', $roleName)->first();

@@ -74,13 +74,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 });
 
 Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
-	Route::group(['as' => 'protection.', 'prefix' => 'request-blocked'], function() {
-		Route::get('/', 'DoubleSessionBlockController@index')->name('index');
-		Route::post('/', 'DoubleSessionBlockController@store')->name('bypass');
-	});
+	//Route::group(['as' => 'protection.', 'prefix' => 'request-blocked'], function() {
+	//	Route::get('/', 'DoubleSessionBlockController@index')->name('index');
+	//	Route::post('/', 'DoubleSessionBlockController@store')->name('bypass');
+	//});
 	
-	Route::get('/moderation-notice', 'UserModerationController@index')->middleware(['auth', 'banned'])->name('moderation.notice');
-
 	Route::middleware('guest')->group(function () {
 		Route::group(['as' => 'register.', 'prefix' => 'register'], function() {
 			Route::get('/', 'RegisteredUserController@index')->name('index');
@@ -120,6 +118,12 @@ Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 	});
 });
 
+Route::group(['as' => 'punishment.', 'prefix' => 'membership'], function() {
+	Route::middleware('auth')->group(function () {
+		Route::get('/not-approved', 'ModerationController@notice')->name('notice');
+		Route::post('/not-approved', 'ModerationController@reactivate')->name('reactivate');
+	});
+});
 
 Route::withoutMiddleware(['csrf'])->group(function () {
 	Route::group(['as' => 'client.'], function() {
@@ -129,4 +133,8 @@ Route::withoutMiddleware(['csrf'])->group(function () {
 			Route::post('/PlaceLauncher', 'ClientGameController@placeLauncher')->name('placelauncher');
 		});
 	});
+});
+
+Route::fallback(function() {
+	return view('errors.404');
 });

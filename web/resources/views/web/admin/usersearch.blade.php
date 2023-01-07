@@ -56,7 +56,7 @@
 								</th>
 								<th scope="col">{{ $user->id }}</th>
 								<th scope="col">{{ Auth::user()->hasRoleset('Owner') ? $user->email : $user->getCensoredEmail() }}</th>
-								<th scope="col"><p class="text-success">OK (TODO)</p></th>
+								<th scope="col"><x-admin.moderation-status :user="$user" /></th>
 								<th scope="col">
 									@if($rolesetCount > 0)
 										@php

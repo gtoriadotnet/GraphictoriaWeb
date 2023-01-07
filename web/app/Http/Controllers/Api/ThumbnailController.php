@@ -31,11 +31,10 @@ class ThumbnailController extends Controller
 	
 	private function userValidationRules()
 	{
-		// TODO: Fail validation if user is moderated.
 		return [
 			'id' => [
 				'required',
-				Rule::exists('App\Models\User', 'id')
+				Rule::exists('App\Models\User', 'id'),
 			],
 			'position' => ['sometimes', 'regex:/(Full|Bust)/i'],
 			'type' => 'regex:/(3D|2D)/i'
@@ -55,7 +54,13 @@ class ThumbnailController extends Controller
 		$valid['type'] = strtolower($valid['type']);
 		
 		if($renderType == 'User') {
-			if($valid['position'] == null)
+			if($model->hasActivePunishment() && $model->getPunishment()->isDeletion())
+			{
+				$validator->errors()->add('id', 'User is moderated');
+				return ValidationHelper::generateValidatorError($validator);
+			}
+			
+			if(!array_key_exists('position', $valid))
 				$valid['position'] = 'Full';
 			
 			$valid['position'] = strtolower($valid['position']);
@@ -109,9 +114,9 @@ class ThumbnailController extends Controller
 		return $this->handleRender($request, 'Asset');
 	}
 	
-	public function renderUser()
+	public function renderUser(Request $request)
 	{
-		return handleRender($request, 'User');
+		return $this->handleRender($request, 'User');
 	}
 	
 	public function tryAsset()

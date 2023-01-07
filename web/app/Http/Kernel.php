@@ -25,7 +25,7 @@ class Kernel extends HttpKernel
 		\Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class
     ];
 
     /**
@@ -43,14 +43,15 @@ class Kernel extends HttpKernel
 			// XlXi: Yeah no, the double session protector was stupid.
 			//\App\Http\Middleware\DoubleSessionProtector::class, // Prevents DDoS attacks.
 			\App\Http\Middleware\DailyReward::class,
-			\App\Http\Middleware\LastSeenMiddleware::class
+			\App\Http\Middleware\LastSeenMiddleware::class,
+			\App\Http\Middleware\UserPunishmentMiddleware::class
         ],
 
         'api' => [
-			\App\Http\Middleware\PreventRequestsDuringMaintenance::class,
-			
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+			
+			\App\Http\Middleware\UserPunishmentMiddleware::class
         ],
     ];
 
@@ -74,7 +75,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 		
         'roleset' => \App\Http\Middleware\Roleset::class,
-        'banned' => \App\Http\Middleware\CheckBan::class,
         'lastseen' => \App\Http\Middleware\LastSeenMiddleware::class,
         'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
     ];

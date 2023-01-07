@@ -150,7 +150,9 @@ class ShopCategoryButton extends Component {
 	}
 	
 	handleClick() {
-		this.props.navigateCategory(this.props.id, this.data);
+		this.props.setPage(1, true, () => {
+			this.props.navigateCategory(this.props.id, this.data);
+		});
 	}
 	
 	render() {
@@ -177,7 +179,7 @@ class ShopCategories extends Component {
 		return (
 			<div className="virtubrick-shop-categories">
 				<h5>Category</h5>
-				<ShopCategoryButton id="all" label="All Items" getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} />
+				<ShopCategoryButton id="all" label="All Items" getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} setPage={this.props.setPage} />
 				<ul className="list-unstyled ps-0">
 					{
 						Object.keys(shopCategories).map((categoryName, index) =>
@@ -185,10 +187,10 @@ class ShopCategories extends Component {
 								<a className="text-decoration-none fw-normal align-items-center virtubrick-list-dropdown" data-bs-toggle="collapse" data-bs-target={`#${makeCategoryId(categoryName, 'collapse')}`} aria-expanded={(index === 0 ? 'true' : 'false')} href="#">{ categoryName }</a>
 								<div className={classNames({'collapse': true, 'show': (index === 0)})} id={makeCategoryId(categoryName, 'collapse')}>
 									<ul className="btn-toggle-nav list-unstyled fw-normal small">
-										<li><ShopCategoryButton id={makeCategoryId(`all-${categoryName}`, 'type')} label={`All ${categoryName}`} categoryName={categoryName} getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} /></li>
+										<li><ShopCategoryButton id={makeCategoryId(`all-${categoryName}`, 'type')} label={`All ${categoryName}`} categoryName={categoryName} getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} setPage={this.props.setPage} /></li>
 										{
 											shopCategories[categoryName].map(({label, assetTypeId, gearGenreId}, index) =>
-												<li><ShopCategoryButton id={makeCategoryId(`${label}-${categoryName}`, 'type')} label={label} categoryName={categoryName} getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} /></li>
+												<li><ShopCategoryButton id={makeCategoryId(`${label}-${categoryName}`, 'type')} label={label} categoryName={categoryName} getCategoryAssetTypeByLabel={this.props.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.props.getCategoryAssetTypeIds} navigateCategory={this.props.navigateCategory} shopState={this.props.shopState} setPage={this.props.setPage} /></li>
 											)
 										}
 									</ul>
@@ -271,10 +273,13 @@ class Shop extends Component {
 			pageLoaded: true,
 			pageNumber: null,
 			pageCount: null,
-			error: false
+			error: false,
+			dataMem: false
 		};
 		
 		this.navigateCategory = this.navigateCategory.bind(this);
+		this.incrementPage = this.incrementPage.bind(this);
+		this.setPage = this.setPage.bind(this);
 	}
 	
 	getCategoryAssetTypeIds(categoryName) {
@@ -304,13 +309,22 @@ class Shop extends Component {
 		return assetType;
 	}
 	
-	navigateCategory(categoryId, data) {
-		this.setState({selectedCategoryId: categoryId, pageLoaded: false});
+	navigateCategory(categoryId, dataraw) {
+		if(this.state.pageLoaded == false) return;
+		
+		this.setState({selectedCategoryId: categoryId, dataMem: dataraw, pageLoaded: false});
 		
 		let url = buildGenericApiUrl('api', 'shop/v1/list-json');
+		
+		if (this.state.pageNumber == null || this.state.pageNumber == 1)
+			this.setState({pageNumber: 1});
+		
 		let paramIterator = 0;
+		let data = {...dataraw, page: this.state.pageNumber};
 		Object.keys(data).filter(key => {
 			if (key == 'label')
+				return false;
+			else if (key == 'page' && (data[key] == null || data[key] == 1))
 				return false;
 			return true;
 		}).map(key => {
@@ -321,7 +335,7 @@ class Shop extends Component {
 			.then(res => {
 				const items = res.data;
 				
-				this.setState({ pageItems: items.data, pageCount: items.pages, pageNumber: 1, pageLoaded: true, error: false });
+				this.setState({ pageItems: items.data, pageCount: items.pages, pageLoaded: true, error: false });
 			}).catch(err => {
 				const data = err.response.data;
 				
@@ -332,6 +346,22 @@ class Shop extends Component {
 				this.setState({ pageItems: [], pageCount: 1, pageNumber: 1, pageLoaded: true, error: errorMessage });
 				this.inputBox.current.focus();
 			});
+	}
+	
+	incrementPage(amount) {
+		this.setPage(this.state.pageNumber + amount);
+	}
+	
+	setPage(page, bypass = false, callback) {
+		if(!bypass && this.state.pageLoaded == false) return;
+		
+		this.setState({pageNumber: page}, () => {
+			if(callback)
+				callback();
+			
+			if(!bypass)
+				this.navigateCategory(this.state.selectedCategoryId, this.state.dataMem);
+		});
 	}
 	
 	render() {
@@ -351,7 +381,7 @@ class Shop extends Component {
 				</div>
 				<div className="row">
 					<div className="col-md-2">
-						<ShopCategories getCategoryAssetTypeByLabel={this.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.getCategoryAssetTypeIds} navigateCategory={this.navigateCategory} shopState={this.state} />
+						<ShopCategories getCategoryAssetTypeByLabel={this.getCategoryAssetTypeByLabel} getCategoryAssetTypeIds={this.getCategoryAssetTypeIds} navigateCategory={this.navigateCategory} shopState={this.state} setPage={this.setPage} />
 					</div>
 					<div className="col-md-10 d-flex flex-column">
 						<div className="card p-3">
@@ -386,7 +416,7 @@ class Shop extends Component {
 							this.state.pageCount > 1 ?
 							<ul className="list-inline mx-auto mt-3">
 								<li className="list-inline-item">
-									<button className="btn btn-secondary" disabled={(this.state.pageNumber <= 1) ? true : null}><i className="fa-solid fa-angle-left"></i></button>
+									<button className="btn btn-secondary" disabled={(this.state.pageNumber <= 1) ? true : null} onClick={ () => this.incrementPage(-1) }><i className="fa-solid fa-angle-left"></i></button>
 								</li>
 								<li className="list-inline-item virtubrick-paginator">
 									<span>Page&nbsp;</span>
@@ -394,7 +424,7 @@ class Shop extends Component {
 									<span>&nbsp;of { this.state.pageCount || '???' }</span>
 								</li>
 								<li className="list-inline-item">
-									<button className="btn btn-secondary" disabled={(this.state.pageNumber >= this.state.pageCount) ? true : null}><i className="fa-solid fa-angle-right"></i></button>
+									<button className="btn btn-secondary" disabled={(this.state.pageNumber >= this.state.pageCount) ? true : null} onClick={ () => this.incrementPage(1) }><i className="fa-solid fa-angle-right"></i></button>
 								</li>
 							</ul>
 							:

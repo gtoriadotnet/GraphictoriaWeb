@@ -65,7 +65,7 @@ class ShopController extends Controller
 		
 		$assets = self::getAssets($valid['assetTypeId'], (isset($valid['gearGenreId']) ? $valid['gearGenreId'] : null));
 		$assets = $assets->orderByDesc('created_at')
-							->paginate(30);
+							->paginate(35);
 		
 		$data = [];
 		foreach($assets as $asset) {

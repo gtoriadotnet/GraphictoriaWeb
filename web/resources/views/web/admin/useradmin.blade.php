@@ -61,7 +61,7 @@
 					@endif
 					<x-admin.user-admin-label label="Username">{{ $user->username }}</x-admin.user-admin-label>
 					<x-admin.user-admin-label label="Previous User Names"><b>TODO</b></x-admin.user-admin-label>
-					<x-admin.user-admin-label label="Moderation Status"><span class="text-success">OK (TODO)</span></x-admin.user-admin-label>
+					<x-admin.user-admin-label label="Moderation Status"><x-admin.moderation-status :user="$user" /></x-admin.user-admin-label>
 					<x-admin.user-admin-label label="User Id">
 						<x-admin.user-search-input id="userid" definition="User ID" :value="$user->id" :nolabel=true />
 					</x-admin.user-admin-label>
@@ -74,7 +74,7 @@
 							<img src="{{ asset('/images/testing/avatar.png') }}" width="200" height="200" class="img-fluid vb-charimg" />
 						</div>
 						<div class="col-6">
-							<a href="#" class="text-decoration-none">User Homepage</a><br/>
+							<a href="{{ $user->getProfileUrl() }}" class="text-decoration-none">User Homepage</a><br/>
 							<a href="#" class="text-decoration-none">Moderate User</a>
 						</div>
 					</div>
@@ -90,16 +90,24 @@
 								<th scope="col">Moderator</th>
 								<th scope="col">Created</th>
 								<th scope="col">Expiration</th>
+								<th scope="col">Acknowledged</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<th scope="col">1</th>
-								<th scope="col">1 day, perm, etc...</th>
-								<th scope="col">Joe</th>
-								<th scope="col">1/2/3 4:5 6</th>
-								<th scope="col">1/2/3 4:5 6</th>
-							</tr>
+							@foreach($user->punishments as $punishment)
+								<tr>
+									<th scope="col">{{ $punishment->id }}</th>
+									<th scope="col">{{ $punishment->punishment_type->label }}</th>
+									<th scope="col">
+										<a href="{{ route('admin.useradmin', ['ID' => $punishment->moderator->id]) }}" class="text-decoration-none">
+											<x-user-circle :user="$punishment->moderator" :size=24 />
+										</a>
+									</th>
+									<th scope="col">{{ $punishment->reviewed() }}</th>
+									<th scope="col">{{ $punishment->expirationStr() }}</th>
+									<th scope="col">{{ $punishment->active ? 'No' : 'Yes' }}</th>
+								</tr>
+							@endforeach
 						</tbody>
 					</table>
 				</div>
