@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
 			AssetTypeSeeder::class,
 			UsageCounterSeeder::class,
 			RolesetSeeder::class,
-			PunishmentTypeSeeder::class
+			PunishmentTypeSeeder::class,
+			TransactionTypeSeeder::class
 			//FFlagSeeder::class
 		]);
     }

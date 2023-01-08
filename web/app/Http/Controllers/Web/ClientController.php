@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetVersion;
 use App\Models\RobloxAsset;
+use App\Models\UserAsset;
 
 class ClientController extends Controller
 {
@@ -43,16 +44,27 @@ class ClientController extends Controller
 		];
 	}
 	
+	function userAssetValidator()
+	{
+		return [
+			'userassetid' => [
+				'required',
+				Rule::exists('App\Models\UserAsset', 'id')
+			]
+		];
+	}
+	
     function asset(Request $request)
 	{
-		// TODO: XlXi: userAssetId (owned asset)
 		$reqData = array_change_key_case($request->all());
+		$isVersionIdRequest = array_key_exists('assetversionid', $reqData);
+		$isUserAssetIdRequest = array_key_exists('userassetid', $reqData);
 		
 		$validatorRuleSet = 'assetRegularValidator';
-		if(array_key_exists('assetversionid', $reqData))
+		if($isVersionIdRequest)
 			$validatorRuleSet = 'assetVersionValidator';
-		elseif(array_key_exists('userassetid', $reqData))
-			return response('todo');
+		elseif($isUserAssetIdRequest)
+			$validatorRuleSet = 'userAssetValidator';
 		
 		$validator = Validator::make($reqData, $this->{$validatorRuleSet}());
 		
@@ -68,20 +80,23 @@ class ClientController extends Controller
 		$valid = $validator->valid();
 		$asset = null;
 		
-		if(array_key_exists('assetversionid', $reqData)) {
+		if($isVersionIdRequest) {
 			$assetVersion = AssetVersion::where('id', $valid['assetversionid'])->first();
 			$asset = $assetVersion->asset;
 			
 			$valid['version'] = $assetVersion->localVersion;
+		} elseif($isUserAssetIdRequest) {
+			$userAsset = UserAsset::where('id', $valid['userassetid'])->first();
+			$asset = $userAsset->asset;
 		} else {
 			$asset = Asset::where('id', $valid['id'])->first();
-			
-			if(!array_key_exists('version', $valid))
-				$valid['version'] = 0;
 		}
 		
+		if(!$isVersionIdRequest && !array_key_exists('version', $valid))
+			$valid['version'] = 0;
+		
 		if($asset == null) {
-			$validator->errors()->add('version', 'Unknown asset version.');
+			$validator->errors()->add('version', 'Unknown asset' . ($isVersionIdRequest ? ' version' : null) . '.');
 			return ValidationHelper::generateValidatorError($validator);
 		}
 		

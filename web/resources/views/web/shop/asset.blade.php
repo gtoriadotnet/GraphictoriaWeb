@@ -35,6 +35,9 @@
 
 @section('content')
 <div class="container mx-auto py-5">
+	@if(isset($status))
+		<div class="alert alert-success text-center">{{ $status }}</div>
+	@endif
 	@if(!$asset->approved)
 		<div class="alert alert-danger text-center"><strong>This asset is pending approval.</strong> It will not appear in-game and cannot be voted on or purchased at this time.</div>
 	@endif
@@ -44,7 +47,9 @@
 			data-asset-name="{{ $asset->name }}"
 			data-asset-creator="{{ $asset->user->username }}"
 			data-asset-type="{{ $asset->typeString() }}"
+			data-asset-thumbnail-2d="{{ $asset->getThumbnail() }}"
 			data-asset-on-sale="{{ $asset->onSale }}"
+			data-owned="{{ Auth::user()->hasAsset($asset->id) ? '1' : '0' }}"
 			@if ($asset->onSale)
 				data-asset-price="{{ $asset->priceInTokens }}"
 				data-user-currency="{{ Auth::user()->tokens }}"
@@ -74,7 +79,17 @@
 					</div>
 					<div class="flex-fill">
 						<h3 class="mb-0">{{ $asset->name }}</h3>
-						<p>By <a class="text-decoration-none fw-normal" href="{{ $asset->user->getProfileUrl() }}">{{ $asset->user->username }}</a></p>
+						<p>
+							By <a class="text-decoration-none fw-normal" href="{{ $asset->user->getProfileUrl() }}">{{ $asset->user->username }}</a>
+							@if(Auth::user()->hasAsset($asset->id))
+								<span>
+									&nbsp;
+									&nbsp;
+									<i class="fa-solid fa-circle-check text-success"></i>
+									Item Owned
+								</span>
+							@endif
+						</p>
 						<hr />
 						{{-- TODO: XlXi: limiteds/trading --}}
 						<div class="row mt-2">

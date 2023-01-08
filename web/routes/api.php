@@ -50,6 +50,7 @@ Route::group(['as' => 'comments.', 'prefix' => 'comments'], function() {
 Route::group(['as' => 'shop.', 'prefix' => 'shop'], function() {
 	Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 		Route::get('/list-json', 'ShopController@listJson')->name('list');
+		Route::post('/purchase/{asset}', 'ShopController@purchase')->name('purchase');
 	});
 });
 

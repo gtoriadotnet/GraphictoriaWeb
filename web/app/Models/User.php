@@ -147,6 +147,25 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->hasMany(Punishment::class, 'user_id');
 	}
 	
+	public function hasAsset($assetId)
+	{
+		return UserAsset::where('asset_id', $assetId)
+						->where('owner_id', $this->id)
+						->exists();
+	}
+	
+	public function removeFunds($delta)
+	{
+		$this->tokens -= $delta;
+		$this->save();
+	}
+	
+	public function addFunds($delta)
+	{
+		$this->tokens += $delta;
+		$this->save();
+	}
+	
 	public function _hasRolesetInternal($roleName)
 	{
 		$roleset = Roleset::where('Name', $roleName)->first();

@@ -51,6 +51,8 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 			
+			\App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+			
 			\App\Http\Middleware\UserPunishmentMiddleware::class
         ],
     ];

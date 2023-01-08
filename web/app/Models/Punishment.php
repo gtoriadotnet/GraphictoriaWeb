@@ -72,7 +72,7 @@ class Punishment extends Model
 		if(!$this->expiration)
 			return 'Never';
 		
-		return $this->created_at->isoFormat('lll');
+		return $this->expiration->isoFormat('lll');
 	}
 	
 	public static function activeFor($userId)

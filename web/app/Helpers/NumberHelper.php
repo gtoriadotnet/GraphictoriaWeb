@@ -26,6 +26,6 @@ class NumberHelper
 				break;
 		}
 		
-		return number_format($number / $divisor, 0) . $shorthand;
+		return number_format(floor($number / $divisor), 0) . $shorthand;
 	}
 }

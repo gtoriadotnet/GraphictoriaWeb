@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container m-auto">
-	<div class="card p-3 virtubrick-moderation-card">
+	<div class="card p-3 my-4 virtubrick-moderation-card">
 		<h3>{{ $punishment->punishment_type->label }}</h3>
 		<p>
 			Your account has been {{ $punishment->isDeletion() ? 'closed ' : 'temporarily restricted' }} for violating our Terms of Service.

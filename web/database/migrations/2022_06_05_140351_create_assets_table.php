@@ -29,7 +29,6 @@ return new class extends Migration
 			$table->unsignedBigInteger('downVotes')->default(0);
 			
 			$table->unsignedBigInteger('priceInTokens')->default(15);
-			$table->unsignedBigInteger('sales')->default(0);
 			$table->boolean('onSale')->default(false);
 			
 			$table->unsignedSmallInteger('assetTypeId');
