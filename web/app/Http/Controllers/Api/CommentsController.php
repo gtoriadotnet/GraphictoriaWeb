@@ -48,7 +48,7 @@ class CommentsController extends Controller
 		foreach($comments as $comment) {
 			$poster = [
 				'name' => $comment->user->username,
-				'thumbnail' => 'https://www.virtubrick.local/images/testing/headshot.png',
+				'thumbnail' => $comment->user->getHeadshotImageUrl(),
 				'url' => $comment->user->getProfileUrl()
 			];
 			

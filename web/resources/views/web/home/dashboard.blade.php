@@ -12,7 +12,7 @@
 		<div class="col-md-3">
 			<h4>Hello, {{ Auth::user()->username }}!</h4>
 			<div class="card text-center">
-				<img src="{{ asset('/images/testing/avatar.png') }}" class="img-fluid vb-charimg" />
+				<img src="{{ Auth::user()->getImageUrl() }}" class="img-fluid vb-charimg" />
 			</div>
 			
 			<h4 class="mt-3">Blog</h4>

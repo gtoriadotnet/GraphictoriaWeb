@@ -166,19 +166,23 @@
 							</li>
 						</ul>
 						<div class="d-md-flex">
-							<p class="my-auto me-2 virtubrick-tokens" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You have {{ number_format(Auth::user()->tokens) }} tokens. Your next reward is in {{ Auth::user()->next_reward->diffForHumans(['syntax' => Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.">
-								{{ \App\Helpers\NumberHelper::Abbreviate(Auth::user()->tokens) }}
-							</p>
+							<a href="{{ route('user.transactions') }}" class="my-auto me-2 text-decoration-none">
+								<span>
+									<p class="virtubrick-tokens" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You have {{ number_format(Auth::user()->tokens) }} tokens. Your next reward is in {{ Auth::user()->next_reward->diffForHumans(['syntax' => Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}.">
+										{{ \App\Helpers\NumberHelper::Abbreviate(Auth::user()->tokens) }}
+									</p>
+								</span>
+							</a>
 							<div class="dropdown">
 								<a class="nav-link dropdown-toggle virtubrick-user-dropdown px-0 px-md-3" href="#" id="virtubrick-user-dropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">
 									<x-user-circle :user="Auth::user()" :statusIndicator=false />
 								</a>
 								<ul class="dropdown-menu virtubrick-user-dropdown" area-labelledby="virtubrick-user-dropdown">
 									<li><a class="dropdown-item" href="{{ Auth::user()->getProfileUrl() }}">Profile</a></li>
-									<li><a class="dropdown-item" href="{{ url('/todo123') }}">Character</a></li>
-									<li><a class="dropdown-item" href="{{ url('/my/settings') }}">Settings</a></li>
+									<li><a class="dropdown-item" href="{{ route('user.avatarEditor') }}">Character</a></li>
+									<li><a class="dropdown-item" href="{{ route('user.settings') }}">Settings</a></li>
 									<li><hr class="dropdown-divider"></li>
-									<li><a class="dropdown-item" href="{{ url('/logout') }}">Sign out</a></li>
+									<li><a class="dropdown-item" href="{{ route('auth.logout') }}">Sign out</a></li>
 								</ul>
 							</div>
 						</div>

@@ -83,6 +83,7 @@
 						@endforeach
 					</tbody>
 				</table>
+				{{ $users->links('pagination.virtubrick') }}
 			</div>
 		@endif
 	</div>

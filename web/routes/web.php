@@ -35,7 +35,14 @@ Route::group(['as' => 'games.', 'prefix' => 'games'], function() {
 
 Route::middleware('auth')->group(function () {
 	Route::group(['as' => 'user.', 'prefix' => 'my'], function() {
-		Route::get('/settings', 'SettingsController@index')->name('index');
+		Route::get('/settings', 'SettingsController@index')->name('settings');
+		Route::get('/avatar', 'AvatarController@index')->name('avatarEditor');
+		Route::get('/transactions', 'MoneyController@transactions')->name('transactions');
+	});
+	
+	Route::group(['as' => 'punishment.', 'prefix' => 'membership'], function() {
+		 Route::get('/not-approved', 'ModerationController@notice')->name('notice');
+		 Route::post('/not-approved', 'ModerationController@reactivate')->name('reactivate');
 	});
 });
 
@@ -50,7 +57,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 		Route::group(['prefix' => 'users'], function() {
 			Route::get('/useradmin', 'AdminController@userAdmin')->name('useradmin');
 			Route::get('/find', 'AdminController@userSearch')->name('usersearch');
-			Route::post('/find', 'AdminController@userSearchQuery')->name('usersearchquery');
 			Route::get('/userlookuptool', 'AdminController@userLookup')->name('userlookup');
 			Route::post('/userlookuptool', 'AdminController@userLookupQuery')->name('userlookupquery');
 		});
@@ -115,13 +121,6 @@ Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 		});
 		
 		Route::get('/logout', 'AuthenticatedSessionController@destroy')->name('logout');
-	});
-});
-
-Route::group(['as' => 'punishment.', 'prefix' => 'membership'], function() {
-	Route::middleware('auth')->group(function () {
-		Route::get('/not-approved', 'ModerationController@notice')->name('notice');
-		Route::post('/not-approved', 'ModerationController@reactivate')->name('reactivate');
 	});
 });
 

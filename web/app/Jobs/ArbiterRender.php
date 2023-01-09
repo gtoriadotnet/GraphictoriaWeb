@@ -92,6 +92,16 @@ class ArbiterRender implements ShouldQueue
 		];
 		
 		switch($this->type) {
+			case 'Bust':
+				$this->type = 'Closeup';
+				array_push($arguments, false); // Quadratic
+				array_push($arguments, 30); // Base Hat Zoom
+				array_push($arguments, 100); // Max Hat Zoom
+				array_push($arguments, 0); // Camera Offset X
+				array_push($arguments, 0); // Camera Offset Y
+			case 'Avatar':
+				$arguments[0] = url('test', ['id' => $this->assetId]); // TODO: this
+				break;
 			case 'Head':
 			case 'Shirt':
 			case 'Pants':
@@ -185,7 +195,10 @@ class ArbiterRender implements ShouldQueue
 				->resize($arguments[2]/4, $arguments[3]/4)
 				->toString();
 			
-			$this->tracker->targetObj->set2DHash(CdnHelper::SaveContentB64(base64_encode($image), 'image/png'));
+			if($this->type == 'Closeup')
+				$this->tracker->targetObj->setBustHash(CdnHelper::SaveContentB64(base64_encode($image), 'image/png'));
+			else
+				$this->tracker->targetObj->set2DHash(CdnHelper::SaveContentB64(base64_encode($image), 'image/png'));
 		}
 		
 		$this->tracker->delete();

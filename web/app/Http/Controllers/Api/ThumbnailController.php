@@ -41,7 +41,7 @@ class ThumbnailController extends Controller
 		];
 	}
 	
-	private function handleRender(Request $request, string $renderType)
+	private function handleRender(Request $request, string $renderType, bool $assetId = null)
 	{
 		$validator = Validator::make($request->all(), $this->{strtolower($renderType) . 'ValidationRules'}());
 		
@@ -64,6 +64,24 @@ class ThumbnailController extends Controller
 				$valid['position'] = 'Full';
 			
 			$valid['position'] = strtolower($valid['position']);
+			
+			if($valid['position'] != 'full' && $valid['type'] == '3d')
+			{
+				$validator->errors()->add('type', 'Cannot render non-full avatar as 3D.');
+				return ValidationHelper::generateValidatorError($validator);
+			}
+			
+			switch($valid['position'])
+			{
+				case 'full':
+					if($model->thumbnail2DHash && $valid['type'] == '2d')
+						return response(['status' => 'success', 'data' => route('content', $model->thumbnail2DHash)]);
+					break;
+				case 'bust':
+					if($model->thumbnailBustHash && $valid['type'] == '2d')
+						return response(['status' => 'success', 'data' => route('content', $model->thumbnailBustHash)]);
+					break;
+			}
 		} elseif($renderType == 'Asset') {
 			if($model->moderated)
 				return response(['status' => 'success', 'data' => '/thumbs/DeletedThumbnail.png']);
@@ -78,16 +96,17 @@ class ThumbnailController extends Controller
 				$validator->errors()->add('id', 'This asset cannot be rendered.');
 				return ValidationHelper::generateValidatorError($validator);
 			}
+			
+			if($model->thumbnail2DHash && $valid['type'] == '2d')
+				return response(['status' => 'success', 'data' => route('content', $model->thumbnail2DHash)]);
 		}
-		
-		
-		if($model->thumbnail2DHash && $valid['type'] == '2d')
-			return response(['status' => 'success', 'data' => route('content', $model->thumbnail2DHash)]);
 		
 		if($model->thumbnail3DHash && $valid['type'] == '3d')
 			return response(['status' => 'success', 'data' => route('content', $model->thumbnail3DHash)]);
 		
 		$trackerType = sprintf('%s%s', strtolower($renderType), $valid['type']);
+		if($renderType == 'User' && $valid['position'] == 'bust')
+			$trackerType .= 'bust';
 		$tracker = RenderTracker::where('type', $trackerType)
 								->where('target', $valid['id'])
 								->where('created_at', '>', Carbon::now()->subMinute());
@@ -101,7 +120,7 @@ class ThumbnailController extends Controller
 			ArbiterRender::dispatch(
 				$tracker,
 				$valid['type'] == '3d',
-				($renderType == 'User' ? $valid['position'] : $model->typeString()),
+				($renderType == 'User' ? $valid['position'] == 'full' ? 'Avatar' : 'Bust' : $model->typeString()),
 				$model->id
 			);
 		}
@@ -119,8 +138,22 @@ class ThumbnailController extends Controller
 		return $this->handleRender($request, 'User');
 	}
 	
-	public function tryAsset()
+	public function tryAsset(Request $request)
 	{
-		//
+		$validator = Validator::make($request->all(), [
+			'id' => [
+				'required',
+				Rule::exists('App\Models\Asset', 'id')->where(function($query) {
+					return $query->where('moderated', false);
+				})
+			]
+		]);
+		
+		if($validator->fails())
+			return ValidationHelper::generateValidatorError($validator);
+		
+		$valid = $validator->valid();
+		
+		return $this->handleRender($request, 'User', $valid['id']);
 	}
 }

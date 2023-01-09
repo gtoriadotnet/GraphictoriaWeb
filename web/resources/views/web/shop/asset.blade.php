@@ -81,7 +81,7 @@
 						<h3 class="mb-0">{{ $asset->name }}</h3>
 						<p>
 							By <a class="text-decoration-none fw-normal" href="{{ $asset->user->getProfileUrl() }}">{{ $asset->user->username }}</a>
-							@if(Auth::user()->hasAsset($asset->id))
+							@if(Auth::user() && Auth::user()->hasAsset($asset->id))
 								<span>
 									&nbsp;
 									&nbsp;

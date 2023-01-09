@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\Controller;
 use App\Models\Friend;
 use App\Models\Shout;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class FeedController extends Controller
 {
@@ -31,19 +32,12 @@ class FeedController extends Controller
 		];
 		
 		foreach($postsQuery as $post) {
-			// TODO: XlXi: icons/colors
 			// TODO: XlXi: groups
 			
 			$poster = [];
 			if($post['poster_type'] == 'user') {
 				$user = User::where('id', $post['poster_id'])->first();
-				
-				$poster = [
-					'type' => 'User',
-					'name' => $user->username,
-					'thumbnail' => 'https://www.virtubrick.local/images/testing/headshot.png',
-					'url' => $user->getProfileUrl()
-				];
+				$poster = $user->userToJson();
 			}
 			
 			/* */

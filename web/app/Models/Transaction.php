@@ -10,6 +10,16 @@ class Transaction extends Model
     use HasFactory;
 	
 	/**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'created_at' => 'datetime',
+		'updated_at' => 'datetime',
+    ];
+	
+	/**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -23,9 +33,25 @@ class Transaction extends Model
 		'seller_id'
 	];
 	
+	public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+	
+	public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+	
+	public function asset()
+    {
+        return $this->belongsTo(Asset::class, 'asset_id');
+    }
+	
 	protected static function createPurchase($transaction)
 	{
 		return self::create(array_merge($transaction, [
+			'delta' => -$transaction->delta,
 			'transaction_type_id' => TransactionType::where('name', 'Purchases')->first()->id
 		]));
 	}

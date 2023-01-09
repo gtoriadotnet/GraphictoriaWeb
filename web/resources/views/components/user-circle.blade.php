@@ -24,9 +24,8 @@
 @endphp
 
 <span class="d-flex align-items-center">
-	{{-- TODO: XlXi: User headshots --}}
 	<img
-		src="{{ asset('images/testing/headshot.png') }}"
+		src="{{ $user->getHeadshotImageUrl() }}"
 		@class($classes)
 		width="{{ $size }}"
 		height="{{ $size }}"

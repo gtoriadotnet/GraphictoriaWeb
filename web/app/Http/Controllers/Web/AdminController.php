@@ -41,44 +41,63 @@ class AdminController extends Controller
 	}
 	
 	// GET admin.usersearch
-	function userSearch()
+	function userSearch(Request $request)
 	{
+		$types = [
+			'userid' => 'UserId',
+			'username' => 'UserName',
+			'ipaddress' => 'IpAddress'
+		];
+		
+		foreach($types as $type => &$func)
+		{
+			if($type == $request->has($type))
+				return $this->{'userSearchQuery' . $func}($request);
+		}
+		
 		return view('web.admin.usersearch');
 	}
 	
 	// POST admin.usersearchquery
-	function userSearchQuery(Request $request)
+	function userSearchQueryUserId(Request $request)
 	{
-		if($request->has('userid-button'))
-		{
-			$request->validate([
-				'userid-search' => ['required', 'int']
-			]);
-			return view('web.admin.usersearch')->with('users', User::where('id', $request->get('userid-search'))->get());
-		}
+		$request->validate([
+			'userid' => ['required', 'int']
+		]);
 		
-		if($request->has('username-button'))
-		{
-			$request->validate([
-				'username-search' => ['required', 'string']
-			]);
-			return view('web.admin.usersearch')->with('users', User::where('username', 'like', '%' . $request->get('username-search') . '%')->get());
-		}
+		$users = User::where('id', $request->get('userid'))
+						->paginate(25)
+						->appends($request->all());
 		
-		if($request->has('ipaddress-button'))
-		{
-			$request->validate([
-				'ipaddress-search' => ['required', 'ip']
-			]);
-			
-			$result = UserIp::where('ipAddress', $request->get('ipaddress-search'))
-						->join('users', 'users.id', '=', 'user_ips.userId')
-						->orderBy('users.id', 'desc');
-			
-			return view('web.admin.usersearch')->with('users', $result->get())->with('isIpSearch', true);
-		}
+		return view('web.admin.usersearch')->with('users', $users);
+	}
+	
+	function userSearchQueryUserName(Request $request)
+	{
+		$request->validate([
+			'username' => ['required', 'string']
+		]);
 		
-		return view('web.admin.usersearch')->with('error', 'Input validation failed.');
+		$users = User::where('username', 'like', '%' . $request->get('username') . '%')
+						->paginate(25)
+						->appends($request->all());
+		
+		return view('web.admin.usersearch')->with('users', $users);
+	}
+	
+	function userSearchQueryIpAddress(Request $request)
+	{
+		$request->validate([
+			'ipaddress' => ['required', 'ip']
+		]);
+		
+		$users = UserIp::where('ipAddress', $request->get('ipaddress'))
+					->join('users', 'users.id', '=', 'user_ips.userId')
+					->orderBy('users.id', 'desc')
+					->paginate(25)
+					->appends($request->all());
+		
+		return view('web.admin.usersearch')->with('users', $users)->with('isIpSearch', true);
 	}
 	
 	// GET admin.userlookup

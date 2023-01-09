@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Notifications\ResetPasswordNotification;
@@ -164,6 +165,59 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		$this->tokens += $delta;
 		$this->save();
+	}
+	
+	public function getImageUrl()
+	{
+		$renderId = $this->id;
+		
+		$thumbnail = Http::get(route('thumbnails.v1.user', ['id' => $renderId, 'position' => 'full', 'type' => '2d']));
+		if($thumbnail->json('status') == 'loading')
+			return '/images/busy/user.png';
+		
+		return $thumbnail->json('data');
+	}
+	
+	public function getHeadshotImageUrl()
+	{
+		$renderId = $this->id;
+		
+		$thumbnail = Http::get(route('thumbnails.v1.user', ['id' => $renderId, 'position' => 'bust', 'type' => '2d']));
+		if($thumbnail->json('status') == 'loading')
+			return '/images/busy/user.png';
+		
+		return $thumbnail->json('data');
+	}
+	
+	public function set2DHash($hash)
+	{
+		$this->thumbnail2DHash = $hash;
+		$this->timestamps = false;
+		$this->save();
+	}
+	
+	public function setBustHash($hash)
+	{
+		$this->thumbnailBustHash = $hash;
+		$this->timestamps = false;
+		$this->save();
+	}
+	
+	public function set3DHash($hash)
+	{
+		$this->thumbnail3DHash = $hash;
+		$this->timestamps = false;
+		$this->save();
+	}
+	
+	public function userToJson()
+	{
+		return [
+			'type' => 'User',
+			'name' => $this->username,
+			'thumbnail' => $this->getHeadshotImageUrl(),
+			'url' => $this->getProfileUrl()
+		];
 	}
 	
 	public function _hasRolesetInternal($roleName)

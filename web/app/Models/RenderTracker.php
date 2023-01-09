@@ -21,7 +21,7 @@ class RenderTracker extends Model
 	
 	public function targetObj()
     {
-		if($this->type == 'user2d' || $this->type == 'user3d')
+		if($this->type == 'user2d' || $this->type == 'user2dbust' || $this->type == 'user3d')
 			return $this->belongsTo(User::class, 'target');
 		elseif($this->type == 'asset2d' || $this->type == 'asset3d')
 			return $this->belongsTo(Asset::class, 'target');

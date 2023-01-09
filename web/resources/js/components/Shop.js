@@ -127,6 +127,7 @@ class ShopCategoryButton extends Component {
 				let categoryAssetTypeIds = this.props.getCategoryAssetTypeIds(categoryName);
 				
 				switch(typeof(categoryAssetTypeIds.assetTypeId)) {
+					case 'string':
 					case 'number':
 						assetTypes[categoryAssetTypeIds.assetTypeId] = true;
 						break;
