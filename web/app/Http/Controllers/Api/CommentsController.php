@@ -46,11 +46,7 @@ class CommentsController extends Controller
 		];
 		
 		foreach($comments as $comment) {
-			$poster = [
-				'name' => $comment->user->username,
-				'thumbnail' => $comment->user->getHeadshotImageUrl(),
-				'url' => $comment->user->getProfileUrl()
-			];
+			$poster = $comment->user->userToJson();
 			
 			$postDate = $comment['updated_at'];
 			if(Carbon::now()->greaterThan($postDate->copy()->addDays(2)))
