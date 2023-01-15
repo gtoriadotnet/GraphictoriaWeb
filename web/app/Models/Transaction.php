@@ -51,7 +51,7 @@ class Transaction extends Model
 	protected static function createPurchase($transaction)
 	{
 		return self::create(array_merge($transaction, [
-			'delta' => -$transaction->delta,
+			'delta' => -$transaction['delta'],
 			'transaction_type_id' => TransactionType::where('name', 'Purchases')->first()->id
 		]));
 	}
@@ -69,14 +69,14 @@ class Transaction extends Model
 			'asset_id' => $asset->id,
 			'place_id' => $placeId,
 			'user_id' => $user->id,
-			'delta' => -$asset->priceInTokens,
+			'delta' => $asset->priceInTokens,
 			'seller_id' => $asset->creatorId
 		];
 		
 		// XlXi: Assets have a 30% tax.
 		return [
 			self::createPurchase($transaction),
-			self::createSale(array_merge($transaction, ['delta' => $transaction['delta'] * -(1-.3)]))
+			self::createSale(array_merge($transaction, ['delta' => $transaction['delta'] * (1-.3)]))
 		];
 	}
 }
