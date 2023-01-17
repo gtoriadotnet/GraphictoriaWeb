@@ -8,21 +8,35 @@ Route::get('/ping', function() {
 
 Route::group(['as' => 'maintenance.', 'prefix' => 'maintenance'], function() {
 	Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
-		Route::post('/bypass', 'MaintenanceController@bypass')->name('bypass')->middleware('throttle:100,30');
+		Route::post('/bypass', 'MaintenanceController@bypass')->name('bypass')->middleware('throttle:20,30,maintenance');
 	});
 });
 
 Route::middleware('auth')->group(function () {
 	Route::group(['as' => 'client.', 'prefix' => 'auth'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
-			Route::get('/generate-token', 'ClientController@generateAuthTicket')->name('generatetoken')->middleware('throttle:40,10');
+			Route::get('/generate-token', 'ClientController@generateAuthTicket')->name('generatetoken')->middleware('throttle:40,10,clientticket');
 		});
 	});
 	
 	Route::group(['as' => 'feed.', 'prefix' => 'feed'], function() {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 			Route::get('/list-json', 'FeedController@listJson')->name('list');
-			Route::post('/share', 'FeedController@share')->name('share')->middleware('throttle:3,2');
+			Route::post('/share', 'FeedController@share')->name('share')->middleware('throttle:3,2,comments');
+		});
+	});
+	
+	Route::group(['as' => 'avatar.', 'prefix' => 'avatar'], function() {
+		Route::middleware('throttle:100,10,renders')->group(function () {
+			Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
+				Route::get('/list', 'AvatarController@listAssets')->name('list');
+				Route::get('/wearing', 'AvatarController@listWearing')->name('listWearing');
+				Route::get('/body-color', 'AvatarController@getBodyColors')->name('getBodyColors');
+				Route::post('/wear', 'AvatarController@wearAsset')->name('wear');
+				Route::post('/unwear', 'AvatarController@removeAsset')->name('remove');
+				Route::post('/redraw', 'AvatarController@redrawUser')->name('redraw');
+				Route::post('/set-body-color', 'AvatarController@setBodyColor')->name('setBodyColor');
+			});
 		});
 	});
 	
@@ -43,7 +57,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['as' => 'comments.', 'prefix' => 'comments'], function() {
 	Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 		Route::get('/list-json', 'CommentsController@listJson')->name('list');
-		Route::post('/share', 'CommentsController@share')->name('share')->middleware(['auth', 'throttle:3,2']);
+		Route::post('/share', 'CommentsController@share')->name('share')->middleware(['auth', 'throttle:3,2,comments']);
 	});
 });
 

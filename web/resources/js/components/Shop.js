@@ -270,6 +270,7 @@ class Shop extends Component {
 		super(props);
 		this.state = {
 			selectedCategoryId: -1,
+			pageKey: 0,
 			pageItems: [],
 			pageLoaded: true,
 			pageNumber: null,
@@ -332,11 +333,12 @@ class Shop extends Component {
 			url += ((paramIterator++ == 0 ? '?' : '&') + `${key}=${data[key]}`);
 		});
 		
+		let newKey = this.state.pageKey + 1;
 		axios.get(url)
 			.then(res => {
 				const items = res.data;
 				
-				this.setState({ pageItems: items.data, pageCount: items.pages, pageLoaded: true, error: false });
+				this.setState({ pageKey: newKey, pageItems: items.data, pageCount: items.pages, pageLoaded: true, error: false });
 			}).catch(err => {
 				const data = err.response.data;
 				
@@ -344,7 +346,7 @@ class Shop extends Component {
 				if(data.errors)
 					errorMessage = data.errors[0].message;
 				
-				this.setState({ pageItems: [], pageCount: 1, pageNumber: 1, pageLoaded: true, error: errorMessage });
+				this.setState({ pageKey: newKey, pageItems: [], pageCount: 1, pageNumber: 1, pageLoaded: true, error: errorMessage });
 				this.inputBox.current.focus();
 			});
 	}
@@ -404,7 +406,7 @@ class Shop extends Component {
 								(this.state.pageItems.length == 0 && !this.state.error) ?
 								<p className="text-muted text-center">Nothing found.</p>
 								:
-								<div>
+								<div key={ this.state.pageKey }>
 									{
 										this.state.pageItems.map((item, index) =>
 											<ShopItemCard item={ item } key={ index } />

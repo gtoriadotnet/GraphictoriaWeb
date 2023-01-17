@@ -1,10 +1,11 @@
-// © XlXi 2021
+// © XlXi 2023
 
 @use "sass:math";
 
 // Lumen 5.0.1
 // Bootswatch
 
+@import "BrickColors";
 @import "./scss/fontawesome.scss";
 @import "./scss/brands.scss";
 @import "./scss/duotone.scss";
@@ -44,6 +45,22 @@ img.twemoji {
 }
 
 // Shop
+
+
+.vb-avatar-editor-card {
+	height: 300px;
+}
+
+.vb-wardrobe-nav > .nav-item > .nav-link {
+	padding-right: 0.5rem!important;
+	padding-left: 0.5rem!important;
+	padding-bottom: 0!important;
+    padding-top: 0!important;
+}
+
+.vb-wardrobe-nav > .nav-item > .nav-link:not(:last-child) {
+	margin-left: 0.25rem!important;
+}
 
 .virtubrick-tokens {
     background: 0 1px/contain no-repeat url("/images/symbols/token.svg");
@@ -154,6 +171,11 @@ img.twemoji {
 	background-size: cover;
 }
 
+.virtubrick-item-card > span > a > img {
+	background: url("/Images/Item-Image-Vignette.png");
+	background-size: cover;
+}
+
 .virtubrick-game-card {
 	@media (max-width: 576px) {
 		width: math.div(100%, 2)
@@ -173,6 +195,28 @@ img.twemoji {
 	
 	@media (min-width: 1200px) {
 		width: 176px;
+	}
+}
+
+.virtubrick-avatar-card {
+	@media (max-width: 576px) {
+		width: math.div(100%, 2)
+	}
+	
+	@media (min-width: 576px) {
+		width: math.div(100%, 3)
+	}
+	
+	@media (min-width: 768px) {
+		width: math.div(100%, 4)
+	}
+	
+	@media (min-width: 992px) {
+		width: math.div(100%, 5)
+	}
+	
+	@media (min-width: 1200px) {
+		width: 157px;
 	}
 }
 
@@ -535,6 +579,65 @@ html {
 	
 	&-vb-in-studio {
 		border-color: #ff8f00!important;
+	}
+}
+
+// Avatar
+
+.vb-character {
+	border: 1px solid $gray-500;
+	transition: background-color .1s;
+	margin: 0.125rem;
+	
+	&-head {
+		margin: 0.125rem auto;
+		width: 50px!important;
+		height: 50px!important;
+	}
+	
+	&-limb {
+		width: 50px!important;
+		height: 100px!important;
+	}
+	
+	&-torso {
+		width: 104px!important;
+		height: 100px!important;
+	}
+}
+
+$hex-size: 32px;
+$hex-margin: .04rem;
+$hex-calc: calc(1.732 * $hex-size + 4 * $hex-margin - 1px);
+
+.vb-hex {
+	display: flex;
+	text-align: left;
+	
+	&-container {
+		font-size: 0;
+		
+		& div {
+			width: $hex-size;
+			height: calc($hex-size * 1.1547);
+			margin: $hex-margin;
+			margin-bottom: calc($hex-margin - $hex-size * 0.2885);
+			display: inline-block;
+			font-size: initial;
+			clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+			border: 0;
+			cursor: pointer;
+		}
+		
+		&::before {
+			content: "";
+			width: calc($hex-size/2 + $hex-margin);
+			float: left;
+			height: 120%;
+			shape-outside: repeating-linear-gradient(     
+							#0000 0 calc($hex-calc - 3px),      
+							#000  0 $hex-calc);
+		}
 	}
 }
 

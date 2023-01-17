@@ -20,7 +20,7 @@ import Loader from './Loader';
 
 axios.defaults.withCredentials = true;
 
-const Scene = ({json}) => {
+function Scene({json}) {
 	const mtl = useLoader(MTLLoader, json.mtl);
 	const obj = useLoader(OBJLoader, json.obj, (loader) => {
 		mtl.preload();
@@ -29,7 +29,8 @@ const Scene = ({json}) => {
 	let controls = useRef();
 	let midPoint;
 	
-	useThree(({camera, scene}) => {
+	const {camera, scene} = useThree();
+	useEffect(() => {
 		let aabbMax = json.AABB.max;
 		let aabbMin = json.AABB.min;
 		aabbMax = new THREE.Vector3(aabbMax.x, aabbMax.y, aabbMax.z);
@@ -53,27 +54,24 @@ const Scene = ({json}) => {
 		camera.translateZ(0.5);
 		
 		// lighting
-		// FIXME: XlXi: if you toggle 3d on and off it'll create these twice
-		let ambient = new THREE.AmbientLight(0x878780);
+		const ambient = new THREE.AmbientLight(0x7F7F7F);
 		scene.add(ambient);
 		
-		let sunLight = new THREE.DirectionalLight(0xacacac);
-		sunLight.position.set(0.671597898, 0.671597898, -0.312909544).normalize();
+		const sunLight = new THREE.DirectionalLight(0xFFFFFF);
+		sunLight.position.set(-0.17786, 0.2563, -0.2787).normalize();
 		scene.add(sunLight);
 		
-		let backLight = new THREE.DirectionalLight(0x444444);
-		let backLightPos = new THREE.Vector3()
+		const backLight = new THREE.DirectionalLight(0xB3B3B8);
+		const backLightPos = new THREE.Vector3()
 			.copy(sunLight.position)
 			.negate()
 			.normalize(); // inverse of sun direction
 		backLight.position.set(backLightPos);
 		scene.add(backLight);
-	});
-	
-	useEffect(() => {
+		
 		controls.current.target = midPoint;
 		controls.current.update();
-	});
+	}, []);
 	
 	return (
 		<>
@@ -98,8 +96,9 @@ class ThumbnailTool extends Component {
 		super(props);
 		this.state = {
 			initialLoading: true,
-			loading: false,
+			loading: true,
 			is3d: false,
+			image2d: null,
 			seed3d: 0
 		};
 		
@@ -112,6 +111,7 @@ class ThumbnailTool extends Component {
 		let thumbnailElement = this.props.element;
 		if (thumbnailElement) {
 			this.thumbnail2d = thumbnailElement.getAttribute('data-asset-thumbnail-2d');
+			this.thumbnail3d = thumbnailElement.getAttribute('data-asset-thumbnail-3d');
 			this.assetId = thumbnailElement.getAttribute('data-asset-id');
 			this.assetName = thumbnailElement.getAttribute('data-asset-name');
 			this.wearable = Boolean(thumbnailElement.getAttribute('data-wearable'));
@@ -119,13 +119,29 @@ class ThumbnailTool extends Component {
 			
 			this.setState({ initialLoading: false });
 			
+			if(this.props.thumbLoadCallback)
+				this.props.thumbLoadCallback(true);
+			
 			if(this.renderable3d && localStorage.getItem('vb-use-3d-thumbnails') === 'true')
 				this.toggle3D();
+			else
+			{
+				if(this.thumbnail2d && this.thumbnail2d.match(/^https?:\/\/api\./gi))
+					this.loadThumbnail(this.thumbnail2d, false);
+				else
+					this.setState({ loading: false, image2d: this.thumbnail2d });
+			}
 		}
 	}
 	
+	componentDidUpdate(oldProps, oldState)
+	{
+		if(oldState.loading != this.state.loading && this.props.thumbLoadCallback)
+			this.props.thumbLoadCallback(this.state.loading);
+	}
+	
 	loadThumbnail(url, is3d) {
-		axios.get(buildGenericApiUrl('api', url))
+		axios.get(url)
 			.then(res => {
 				let data = res.data;
 				
@@ -149,7 +165,7 @@ class ThumbnailTool extends Component {
 								this.setState({ loading: false, json3d: res.data });
 							});
 					} else {
-						this.setState({ loading: false });
+						this.setState({ loading: false, image2d: data.data });
 					}
 				} else {
 					let lt = this.loadThumbnail;
@@ -162,7 +178,7 @@ class ThumbnailTool extends Component {
 		let is3d = !this.state.is3d;
 		
 		this.setState({ loading: true, is3d: is3d });
-		this.loadThumbnail(`thumbnails/v1/try-asset?id=${this.assetId}&type=${this.state.is3d ? '3D' : '2D'}`, is3d);
+		this.loadThumbnail(buildGenericApiUrl('api', `thumbnails/v1/try-asset?id=${this.assetId}&type=${this.state.is3d ? '3D' : '2D'}`), is3d);
 	}
 	
 	toggle3D() {
@@ -171,70 +187,74 @@ class ThumbnailTool extends Component {
 		this.setState({ loading: true, is3d: is3d, seed3d: Math.random() });
 		localStorage.setItem('vb-use-3d-thumbnails', is3d);
 		
-		if(is3d) {
-			this.loadThumbnail(`thumbnails/v1/asset?id=${this.assetId}&type=3D`, true);
-		} else {
-			this.setState({ loading: false });
+		if(is3d)
+			this.loadThumbnail(this.thumbnail3d, true);
+		else
+		{
+			if(this.thumbnail2d && this.thumbnail2d.match(/^https?:\/\/api\./gi))
+				this.loadThumbnail(this.thumbnail2d, false);
+			else
+				this.setState({ loading: false });
 		}
 	}
 	
 	render() {
 		return (
 			<>
-			{
-				this.state.initialLoading
-				?
-				<div className='position-absolute top-50 start-50 translate-middle'>
-					<Loader />
-				</div>
-				:
-				<>
-					{
-						this.state.loading
-						?
-						<div className='position-absolute top-50 start-50 translate-middle'>
-							<Loader />
-						</div>
-						:
-						(
-							this.state.is3d
-							?
-							<Canvas key={ this.state.seed3d }>
-								<Suspense fallback={null}>
-									<Scene json={ this.state.json3d } />
-								</Suspense>
-							</Canvas>
-							:
-							<ProgressiveImage
-								src={ this.thumbnail2d }
-								placeholderImg={ buildGenericApiUrl('www', (this.props.placeholder == null ? 'images/busy/asset.png' : this.props.placeholder)) }
-								alt={ this.assetName }
-								className='img-fluid'
-								width={ this.props.width }
-								height={ this.props.height }
-							/>
-						)
-					}
-					{ this.wearable || this.renderable3d ?
-					<div className='d-flex position-absolute bottom-0 end-0 pb-2 pe-2'>
-						{
-							this.wearable ?
-							<button className='btn btn-secondary me-2' onClick={ this.tryAsset } disabled={ this.state.loading }>Try On</button>
-							:
-							null
-						}
-						{
-							this.renderable3d ?
-							<button className='btn btn-secondary' onClick={ this.toggle3D } disabled={ this.state.loading }>{ this.state.is3d ? '2D' : '3D' }</button>
-							:
-							null
-						}
+				{
+					this.state.initialLoading
+					?
+					<div className='position-absolute top-50 start-50 translate-middle'>
+						<Loader />
 					</div>
 					:
-					null
-					}
-				</>
-			}
+					<>
+						{
+							this.state.loading
+							?
+							<div className='position-absolute top-50 start-50 translate-middle'>
+								<Loader />
+							</div>
+							:
+							(
+								this.state.is3d
+								?
+								<Canvas key={ this.state.seed3d }>
+									<Suspense fallback={null}>
+										<Scene json={ this.state.json3d } />
+									</Suspense>
+								</Canvas>
+								:
+								<ProgressiveImage
+									src={ this.state.image2d }
+									placeholderImg={ buildGenericApiUrl('www', (this.props.placeholder == null ? 'images/busy/asset.png' : this.props.placeholder)) }
+									alt={ this.assetName }
+									className='img-fluid'
+									width={ this.props.width }
+									height={ this.props.height }
+								/>
+							)
+						}
+						{ this.wearable || this.renderable3d ?
+						<div className='d-flex position-absolute bottom-0 end-0 pb-2 pe-2'>
+							{
+								this.wearable ?
+								<button className='btn btn-secondary me-2' onClick={ this.tryAsset } disabled={ this.state.loading }>Try On</button>
+								:
+								null
+							}
+							{
+								this.renderable3d ?
+								<button className='btn btn-secondary' onClick={ this.toggle3D } disabled={ this.state.loading }>{ this.state.is3d ? '2D' : '3D' }</button>
+								:
+								null
+							}
+						</div>
+						:
+						null
+						}
+					</>
+				}
 			</>
 		);
 	}

@@ -41,6 +41,19 @@ class AssetHelper
 		if(!$marketplaceResult->ok() || !$assetResult->ok())
 			return false;
 		
+		$assetTypeId = $marketplaceResult['AssetTypeId'];
+		if(
+			$assetTypeId == 41 || // Hair Accessory
+			$assetTypeId == 42 || // Face Accessory
+			$assetTypeId == 43 || // Neck Accessory
+			$assetTypeId == 44 || // Shoulder Accessory
+			$assetTypeId == 45 || // Front Accessory
+			$assetTypeId == 46 || // Back Accessory
+			$assetTypeId == 47    // Waist Accessory
+		) {
+			$assetTypeId = 8;
+		}
+		
 		$assetContent = Http::get($assetResult['locations'][0]['location']);
 		$hash = CdnHelper::SaveContent($assetContent->body(), $assetContent->header('Content-Type'));
 		$asset = Asset::create([
@@ -50,7 +63,7 @@ class AssetHelper
 			'approved' => true,
 			'priceInTokens' => $marketplaceResult['PriceInRobux'] ?: 0,
 			'onSale' => $marketplaceResult['IsForSale'],
-			'assetTypeId' => $marketplaceResult['AssetTypeId'],
+			'assetTypeId' => $assetTypeId,
 			'assetVersionId' => 0
 		]);
 		$assetVersion = AssetVersion::create([
@@ -82,6 +95,19 @@ class AssetHelper
 		if(!$marketplaceResult->ok())
 			return false;
 		
+		$assetTypeId = $marketplaceResult['AssetTypeId'];
+		if(
+			$assetTypeId == 41 || // Hair Accessory
+			$assetTypeId == 42 || // Face Accessory
+			$assetTypeId == 43 || // Neck Accessory
+			$assetTypeId == 44 || // Shoulder Accessory
+			$assetTypeId == 45 || // Front Accessory
+			$assetTypeId == 46 || // Back Accessory
+			$assetTypeId == 47    // Waist Accessory
+		) {
+			$assetTypeId = 8;
+		}
+		
 		$hash = CdnHelper::SaveContentB64($b64Content, 'application/octet-stream');
 		$asset = Asset::create([
 			'creatorId' => ($uploadToHolder ? 1 : Auth::user()->id),
@@ -90,7 +116,7 @@ class AssetHelper
 			'approved' => true,
 			'priceInTokens' => $marketplaceResult['PriceInRobux'] ?: 0,
 			'onSale' => $marketplaceResult['IsForSale'],
-			'assetTypeId' => $marketplaceResult['AssetTypeId'],
+			'assetTypeId' => $assetTypeId,
 			'assetVersionId' => 0
 		]);
 		$assetVersion = AssetVersion::create([

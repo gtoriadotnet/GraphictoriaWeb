@@ -123,7 +123,7 @@ class GridHelper
 	
 	public static function getDefaultThumbnail($fileName)
 	{
-		$disk = $self::getThumbDisk();
+		$disk = self::getThumbDisk();
 		
 		if(!$disk->exists($fileName))
 			throw new Exception('Unable to locate template file.');
@@ -133,7 +133,26 @@ class GridHelper
 	
 	public static function getUnknownThumbnail()
 	{
-		return $self::getDefaultThumbnail('UnknownThumbnail.png');
+		return self::getDefaultThumbnail('UnknownThumbnail.png');
+	}
+	
+	private static function getGameDisk()
+	{
+		return Storage::build([
+			'driver' => 'local',
+			'root' => storage_path('app/grid/game'),
+		]);
+	}
+	
+	public static function getBodyColorsXML()
+	{
+		$disk = self::getGameDisk();
+		$fileName = 'BodyColors.xml';
+		
+		if(!$disk->exists($fileName))
+			throw new Exception('Unable to locate template file.');
+		
+		return $disk->get($fileName);
 	}
 	
 	public static function getArbiter($name)

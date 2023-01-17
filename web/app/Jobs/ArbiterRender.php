@@ -100,12 +100,17 @@ class ArbiterRender implements ShouldQueue
 				array_push($arguments, 0); // Camera Offset X
 				array_push($arguments, 0); // Camera Offset Y
 			case 'Avatar':
-				$arguments[0] = url('test', ['id' => $this->assetId]); // TODO: this
+				$arguments[0] = route('client.characterFetch', ['userId' => $this->assetId]);
 				break;
+			case 'Torso':
+			case 'Right Arm':
+			case 'Left Arm':
+			case 'Left Leg':
+			case 'Right Leg':
+				$this->type = 'BodyPart';
 			case 'Head':
 			case 'Shirt':
 			case 'Pants':
-			case 'BodyPart':
 				// TODO: XlXi: Move this to config, as it could be different from prod in a testing environment. Also move this to it's own asset (not loading from roblox).
 				array_push($arguments, 'https://www.roblox.com/asset/?id=1785197'); // Rig
 				break;

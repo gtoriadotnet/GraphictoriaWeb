@@ -44,6 +44,21 @@ class CdnHelper
 		return $hash;
 	}
 	
+	public static function Delete($hash)
+	{
+		$disk = self::GetDisk();
+		
+		$cdnHash = CdnHash::where('hash', $hash);
+		if($disk->exists($hash) && $cdnHash->exists()) {
+			$cdnHash->delete();
+			$disk->delete($hash);
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static function SaveContentB64($contentB64, $mime)
 	{
 		return self::SaveContent(base64_decode($contentB64), $mime);

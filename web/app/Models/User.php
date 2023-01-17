@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,12 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Helpers\CdnHelper;
 use App\Notifications\ResetPasswordNotification;
-use App\Models\UserRoleset;
-use App\Models\Roleset;
-use App\Models\Friend;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -208,6 +205,49 @@ class User extends Authenticatable implements MustVerifyEmail
 		$this->thumbnail3DHash = $hash;
 		$this->timestamps = false;
 		$this->save();
+	}
+	
+	public function redraw()
+	{
+		$oldHashes = [
+			$this->thumbnailBustHash,
+			$this->thumbnail2DHash,
+			$this->thumbnail3DHash
+		];
+		
+		$this->thumbnailBustHash = null;
+		$this->thumbnail2DHash = null;
+		$this->thumbnail3DHash = null;
+		$this->timestamps = false;
+		$this->save();
+		
+		foreach($oldHashes as $hash)
+		{
+			if(!User::where('thumbnailBustHash', $hash)->orWhere('thumbnail2DHash', $hash)->orWhere('thumbnail3DHash', $hash)->exists())
+				CdnHelper::Delete($hash);
+		}
+	}
+	
+	public function isWearing($assetId)
+	{
+		return AvatarAsset::where('owner_id', $this->id)
+							->where('asset_id', $assetId)
+							->exists();
+	}
+	
+	public function getWearing()
+	{
+		return AvatarAsset::where('owner_id', $this->id)
+							->whereRelation('asset', 'moderated', 0);
+	}
+	
+	public function getBodyColors()
+	{
+		$colors = AvatarColor::user($this->id);
+		if($colors->exists())
+			return $colors->first();
+		
+		return AvatarColor::newForUser($this->id);
 	}
 	
 	public function userToJson()

@@ -127,6 +127,10 @@ Route::group(['as' => 'auth.', 'namespace' => 'Auth'], function() {
 Route::withoutMiddleware(['csrf'])->group(function () {
 	Route::group(['as' => 'client.'], function() {
 		Route::get('/asset', 'ClientController@asset')->name('asset');
+		Route::group(['prefix' => 'asset'], function() {
+			Route::get('/CharacterFetch.ashx', 'ClientAvatarController@characterFetch')->name('characterFetch');
+			Route::get('/BodyColors.ashx', 'ClientAvatarController@bodyColors')->name('bodyColors');
+		});
 		
 		Route::group(['as' => 'game.', 'prefix' => 'game'], function() {
 			Route::post('/PlaceLauncher', 'ClientGameController@placeLauncher')->name('placelauncher');

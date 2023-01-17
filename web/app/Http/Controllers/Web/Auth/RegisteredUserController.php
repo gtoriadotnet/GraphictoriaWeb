@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
+
 use App\Http\Controllers\Controller;
+use App\Models\AvatarAsset;
+use App\Models\DefaultUserAsset;
+use App\Models\UserAsset;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
 
 class RegisteredUserController extends Controller
 {	
@@ -53,7 +57,22 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+		
+		foreach(DefaultUserAsset::all() as $defaultAsset)
+		{
+			UserAsset::createSerialed($user->id, $defaultAsset->asset_id);
+			
+			if($defaultAsset->wearing)
+			{
+				AvatarAsset::create([
+					'owner_id' => $user->id,
+					'asset_id' => $defaultAsset->asset_id
+				]);
+			}
+		}
+		
+		$user->redraw();
+		
         event(new Registered($user));
 
         Auth::login($user);

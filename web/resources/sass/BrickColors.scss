@@ -1,0 +1,218 @@
+// © XlXi 2023
+
+$brickColors: (
+	1: #f2f3f3,    // White
+	2: #a1a5a2,    // Grey
+	3: #f9e999,    // Light yellow
+	5: #d7c59a,    // Brick yellow
+	6: #c2dab8,    // Light green (Mint)
+	9: #e8bac8,    // Light reddish violet
+	11: #80bbdb,   // Pastel Blue
+	12: #cb8442,   // Light orange brown
+	18: #cc8e69,   // Nougat
+	21: #c4281c,   // Bright red
+	22: #c470a0,   // Med. reddish violet
+	23: #0d69ac,   // Bright blue
+	24: #f5cd30,   // Bright yellow
+	25: #624732,   // Earth orange
+	26: #1b2a35,   // Black
+	27: #6d6e6c,   // Dark grey
+	28: #287f47,   // Dark green
+	29: #a1c48c,   // Medium green
+	36: #f3cf9b,   // Lig. Yellowich orange
+	37: #4b974b,   // Bright green
+	38: #a05f35,   // Dark orange
+	39: #c1cade,   // Light bluish violet
+	40: #ececec,   // Transparent
+	41: #cd544b,   // Tr. Red
+	42: #c1dff0,   // Tr. Lg blue
+	43: #7bb6e8,   // Tr. Blue
+	44: #f7f18d,   // Tr. Yellow
+	45: #b4d2e4,   // Light blue
+	47: #d9856c,   // Tr. Flu. Reddish orange
+	48: #84b68d,   // Tr. Green
+	49: #f8f184,   // Tr. Flu. Green
+	50: #ece8de,   // Phosph. White
+	100: #eec4b6,  // Light red
+	101: #da867a,  // Medium red
+	102: #6e99ca,  // Medium blue
+	103: #c7c1b7,  // Light grey
+	104: #6b327c,  // Bright violet
+	105: #e29b40,  // Br. yellowish orange
+	106: #da8541,  // Bright orange
+	107: #008f9c,  // Bright bluish green
+	108: #685c43,  // Earth yellow
+	110: #435493,  // Bright bluish violet
+	111: #bfb7b1,  // Tr. Brown
+	112: #6874ac,  // Medium bluish violet
+	113: #e4adc8,  // Tr. Medi. reddish violet
+	115: #c7d23c,  // Med. yellowish green
+	116: #55a5af,  // Med. bluish green
+	118: #b7d7d5,  // Light bluish green
+	119: #a4bd47,  // Br. yellowish green
+	120: #d9e4a7,  // Lig. yellowish green
+	121: #e7ac58,  // Med. yellowish orange
+	123: #d36f4c,  // Br. reddish orange
+	124: #923978,  // Bright reddish violet
+	125: #eab892,  // Light orange
+	126: #a5a5cb,  // Tr. Bright bluish violet
+	127: #dcbc81,  // Gold
+	128: #ae7a59,  // Dark nougat
+	131: #9ca3a8,  // Silver
+	133: #d5733d,  // Neon orange
+	134: #d8dd56,  // Neon green
+	135: #74869d,  // Sand blue
+	136: #877c90,  // Sand violet
+	137: #e09864,  // Medium orange
+	138: #958a73,  // Sand yellow
+	140: #203a56,  // Earth blue
+	141: #27462d,  // Earth green
+	143: #cfe2f7,  // Tr. Flu. Blue
+	145: #7988a1,  // Sand blue metallic
+	146: #958ea3,  // Sand violet metallic
+	147: #938767,  // Sand yellow metallic
+	148: #575857,  // Dark grey metallic
+	149: #161d32,  // Black metallic
+	150: #abadac,  // Light grey metallic
+	151: #789082,  // Sand green
+	153: #957977,  // Sand red
+	154: #7b2e2f,  // Dark red
+	157: #fff67b,  // Tr. Flu. Yellow
+	158: #e1a4c2,  // Tr. Flu. Red
+	168: #756c62,  // Gun metallic
+	176: #97695b,  // Red flip/flop
+	178: #b48455,  // Yellow flip/flop
+	179: #898788,  // Silver flip/flop
+	180: #d7a94b,  // Curry
+	190: #f9d62e,  // Fire Yellow
+	191: #e8ab2d,  // Flame yellowish orange
+	192: #694028,  // Reddish brown
+	193: #cf6024,  // Flame reddish orange
+	194: #a3a2a5,  // Medium stone grey
+	195: #4667a4,  // Royal blue
+	196: #23478b,  // Dark Royal blue
+	198: #8e4285,  // Bright reddish lilac
+	199: #635f62,  // Dark stone grey
+	200: #828a5d,  // Lemon metalic
+	208: #e5e4df,  // Light stone grey
+	209: #b08e44,  // Dark Curry
+	210: #709578,  // Faded green
+	211: #79b5b5,  // Turquoise
+	212: #9fc3e9,  // Light Royal blue
+	213: #6c81b7,  // Medium Royal blue
+	216: #8f4c2a,  // Rust
+	217: #7c5c46,  // Brown
+	218: #96709f,  // Reddish lilac
+	219: #6b629b,  // Lilac
+	220: #a7a9ce,  // Light lilac
+	221: #cd6298,  // Bright purple
+	222: #e4adc8,  // Light purple
+	223: #dc9095,  // Light pink
+	224: #f0d5a0,  // Light brick yellow
+	225: #ebb87f,  // Warm yellowish orange
+	226: #fdea8d,  // Cool yellow
+	232: #7dbbdd,  // Dove blue
+	268: #342b75,  // Medium lilac
+	301: #506d54,  // Slime green
+	302: #5b5d69,  // Smoky grey
+	303: #0010b0,  // Dark blue
+	304: #2c651d,  // Parsley green
+	305: #527cae,  // Steel blue
+	306: #335882,  // Storm blue
+	307: #102adc,  // Lapis
+	308: #3d1585,  // Dark indigo
+	309: #348e40,  // Sea green
+	310: #5b9a4c,  // Shamrock
+	311: #9fa1ac,  // Fossil
+	312: #592259,  // Mulberry
+	313: #1f801d,  // Forest green
+	314: #9fadc0,  // Cadet blue
+	315: #0989cf,  // Electric blue
+	316: #7b007b,  // Eggplant
+	317: #7c9c6b,  // Moss
+	318: #8aab85,  // Artichoke
+	319: #b9c4b1,  // Sage green
+	320: #cacbd1,  // Ghost grey
+	321: #a75e9b,  // Lilac
+	322: #7b2f7b,  // Plum
+	323: #94be81,  // Olivine
+	324: #a8bd99,  // Laurel green
+	325: #dfdfde,  // Quill grey
+	327: #970000,  // Crimson
+	328: #b1e5a6,  // Mint
+	329: #98c2db,  // Baby blue
+	330: #ff98dc,  // Carnation pink
+	331: #ff5959,  // Persimmon
+	332: #750000,  // Maroon
+	333: #efb838,  // Gold
+	334: #f8d96d,  // Daisy orange
+	335: #e7e7ec,  // Pearl
+	336: #c7d4e4,  // Fog
+	337: #ff9494,  // Salmon
+	338: #be6862,  // Terra Cotta
+	339: #562424,  // Cocoa
+	340: #f1e7c7,  // Wheat
+	341: #fef3bb,  // Buttermilk
+	342: #e0b2d0,  // Mauve
+	343: #d490bd,  // Sunrise
+	344: #965555,  // Tawny
+	345: #8f4c2a,  // Rust
+	346: #d3be96,  // Cashmere
+	347: #e2dcbc,  // Khaki
+	348: #edeaea,  // Lily white
+	349: #e9dada,  // Seashell
+	350: #883e3e,  // Burgundy
+	351: #bc9b5d,  // Cork
+	352: #c7ac78,  // Burlap
+	353: #cabfa3,  // Beige
+	354: #bbb3b2,  // Oyster
+	355: #6c584b,  // Pine Cone
+	356: #a0844f,  // Fawn brown
+	357: #958988,  // Hurricane grey
+	358: #aba89e,  // Cloudy grey
+	359: #af9483,  // Linen
+	360: #966766,  // Copper
+	361: #564236,  // Dirt brown
+	362: #7e683f,  // Bronze
+	363: #69665c,  // Flint
+	364: #5a4c42,  // Dark taupe
+	365: #6a3909,  // Burnt Sienna
+	1001: #f8f8f8, // Institutional white
+	1002: #cdcdcd, // Mid gray
+	1003: #111111, // Really black
+	1004: #ff0000, // Really red
+	1005: #ffaf00, // Deep orange
+	1006: #b480ff, // Alder
+	1007: #a34b4b, // Dusty Rose
+	1008: #c1be42, // Olive
+	1009: #ffff00, // New Yeller
+	1010: #0000ff, // Really blue
+	1011: #002060, // Navy blue
+	1012: #2154b9, // Deep blue
+	1013: #04afec, // Cyan
+	1014: #aa5500, // CGA brown
+	1015: #aa00aa, // Magenta
+	1016: #ff66cc, // Pink
+	1017: #ffaf00, // Deep orange
+	1018: #12eed4, // Teal
+	1019: #00ffff, // Toothpaste
+	1020: #00ff00, // Lime green
+	1021: #3a7d15, // Camo
+	1022: #7f8e64, // Grime
+	1023: #8c5b9f, // Lavender
+	1024: #afddff, // Pastel light blue
+	1025: #ffc9c9, // Pastel orange
+	1026: #b1a7ff, // Pastel violet
+	1027: #9ff3e9, // Pastel blue-green
+	1028: #ccffcc, // Pastel green
+	1029: #ffffcc, // Pastel yellow
+	1030: #ffcc99, // Pastel brown
+	1031: #6225d1, // Royal purple
+	1032: #ff00bf  // Hot pink
+);
+
+@each $color-id, $color in $brickColors {
+	.vb-bc-#{$color-id} {
+		background-color: $color;
+	}
+}
