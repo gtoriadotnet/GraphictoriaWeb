@@ -139,13 +139,25 @@ class Asset extends Model
 	
 	public function getThumbnail()
 	{
-		$renderId = $this->id;
+		if($this->moderated)
+			return '/thumbs/DeletedThumbnail.png';
 		
-		$thumbnail = Http::get(route('thumbnails.v1.asset', ['id' => $renderId, 'type' => '2d']));
-		if($thumbnail->json('status') == 'loading')
-			return ($this->assetTypeId == 9 ? '/images/busy/game.png' : '/images/busy/asset.png');
+		if(!$this->approved)
+			return '/thumbs/PendingThumbnail.png';
 		
-		return $thumbnail->json('data');
+		if(!$this->assetType->renderable)
+			return '/thumbs/UnavailableThumbnail.png';
+		
+		if(!$this->thumbnail2DHash)
+		{
+			$thumbnail = Http::get(route('thumbnails.v1.asset', ['id' => $this->id, 'type' => '2d']));
+			if($thumbnail->json('status') == 'loading')
+				return ($this->assetTypeId == 9 ? '/images/busy/game.png' : '/images/busy/asset.png');
+			
+			return $thumbnail->json('data');
+		}
+		
+		return route('content', $this->thumbnail2DHash);
 	}
 	
 	public function set2DHash($hash)

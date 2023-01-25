@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 use App\Http\Controllers\Controller;
 use App\Models\DynamicWebConfiguration;
+use App\Models\PunishmentType;
+use App\Models\Username;
 use App\Models\User;
 use App\Models\UserIp;
 
@@ -32,12 +37,126 @@ class AdminController extends Controller
 	// GET admin.useradmin
 	function userAdmin(Request $request)
 	{
-		$request->validate([
-			'ID' => ['required', 'int', 'exists:users,id']
+		$user = User::where('id', $request->get('ID'));
+		if(!$user->exists())
+			abort(400);
+		
+		return view('web.admin.useradmin')->with('user', $user->first());
+	}
+	
+	// GET admin.manualmoderateuser
+	function manualModerateUser(Request $request)
+	{
+		$user = User::where('id', $request->get('ID'));
+		if(!$user->exists())
+			abort(400);
+		
+		return view('web.admin.manualmoderateuser')->with('user', $user->first());
+	}
+	
+	// POST admin.manualmoderateusersubmit
+	function manualModerateUserSubmit(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'ID' => [
+				'required',
+				Rule::exists('App\Models\User', 'id')
+			],
+			'moderate-action' => [
+				'required',
+				Rule::exists('App\Models\PunishmentType', 'id')
+			],
+			'internal-note' => 'required'
+		], [
+			'moderate-action.required' => 'Please provide an account state.',
+			'internal-note.required' => 'An internal note must be provided on why this user\'s state was changed.'
 		]);
 		
+		if($validator->fails())
+			return $this->manualModerateUserError($validator);
+		
 		$user = User::where('id', $request->get('ID'))->first();
-		return view('web.admin.useradmin')->with('user', $user);
+		
+		if(Auth::user()->id == $user->id)
+		{
+			$validator->errors()->add('ID', 'Cannot apply account state to current user.');
+			return $this->manualModerateUserError($validator);
+		}
+		
+		if(
+			($user->hasRoleset('ProtectedUser') && !Auth::user()->hasRoleset('Owner'))
+			
+			// XlXi: Prevent lower-ranks from banning higher ranks.
+			|| (
+				($user->hasRoleset('Owner') && !Auth::user()->hasRoleset('Owner'))
+				&& ($user->hasRoleset('Administrator') && !Auth::user()->hasRoleset('Administrator'))
+			)
+		)
+		{
+			$validator->errors()->add('ID', 'User is protected. Contact an owner.');
+			return $this->manualModerateUserError($validator);
+		}
+		
+		// XlXi: Moderation action type 1 is None.
+		if($request->get('moderate-action') == 1 && !$user->hasActivePunishment())
+			return $this->manualModerateUserSuccess(sprintf('%s already has an account state of None. No changes applied.', $user->username));
+		
+		if($request->get('moderate-action') != 1 && $user->hasActivePunishment())
+		{
+			$validator->errors()->add('ID', 'User already has an active punishment.');
+			return $this->manualModerateUserError($validator);
+		}
+		
+		if(Auth::user()->hasRoleset('Administrator'))
+		{
+			if($request->has('scrub-username'))
+			{
+				$newUsername = sprintf('[ Content Deleted %d ]', $user->id);
+				
+				Username::where('user_id', $user->id)
+						->update([
+							'scrubbed' => true,
+							'scrubbed_by' => Auth::user()->id
+						]);
+				
+				Username::create([
+					'username' => $newUsername,
+					'user_id' => $user->id
+				]);
+				
+				$user->username = $newUsername;
+				$user->save();
+			}
+		}
+		
+		PunishmentType::where('id', $request->get('moderate-action'))
+						->first()
+						->applyToUser([
+							'user_id' => $user->id,
+							'user_note' => $request->get('user-note') ?: '',
+							'internal_note' => $request->get('internal-note') ?: '',
+							'moderator_id' => Auth::user()->id
+						]);
+		
+		return $this->manualModerateUserSuccess(sprintf('Successfully applied account state to %s.', $user->username));
+	}
+	
+	function manualModerateUserError($validator)
+	{
+		$user = User::where('id', request()->get('ID'))->first();
+		
+		return view('web.admin.manualmoderateuser')
+				->with('user', $user)
+				->withErrors($validator);
+	}
+	
+	function manualModerateUserSuccess($message)
+	{
+		$user = User::where('id', request()->get('ID'))->first();
+		
+		return view('web.admin.manualmoderateuser')
+				->with('user', $user)
+				->with('success', $message);
 	}
 	
 	// GET admin.usersearch
@@ -46,6 +165,7 @@ class AdminController extends Controller
 		$types = [
 			'userid' => 'UserId',
 			'username' => 'UserName',
+			'emailaddress' => 'EmailAddress',
 			'ipaddress' => 'IpAddress'
 		];
 		
@@ -61,10 +181,6 @@ class AdminController extends Controller
 	// POST admin.usersearchquery
 	function userSearchQueryUserId(Request $request)
 	{
-		$request->validate([
-			'userid' => ['required', 'int']
-		]);
-		
 		$users = User::where('id', $request->get('userid'))
 						->paginate(25)
 						->appends($request->all());
@@ -74,11 +190,19 @@ class AdminController extends Controller
 	
 	function userSearchQueryUserName(Request $request)
 	{
-		$request->validate([
-			'username' => ['required', 'string']
-		]);
-		
 		$users = User::where('username', 'like', '%' . $request->get('username') . '%')
+						->paginate(25)
+						->appends($request->all());
+		
+		return view('web.admin.usersearch')->with('users', $users);
+	}
+	
+	function userSearchQueryEmailAddress(Request $request)
+	{
+		if(!Auth::user()->hasRoleset('Owner'))
+			abort(403);
+		
+		$users = User::where('email', $request->get('emailaddress'))
 						->paginate(25)
 						->appends($request->all());
 		
@@ -87,9 +211,8 @@ class AdminController extends Controller
 	
 	function userSearchQueryIpAddress(Request $request)
 	{
-		$request->validate([
-			'ipaddress' => ['required', 'ip']
-		]);
+		if(!Auth::user()->hasRoleset('Owner'))
+			abort(403);
 		
 		$users = UserIp::where('ipAddress', $request->get('ipaddress'))
 					->join('users', 'users.id', '=', 'user_ips.userId')
@@ -109,10 +232,6 @@ class AdminController extends Controller
 	// POST admin.userlookupquery
 	function userLookupQuery(Request $request)
 	{
-		$request->validate([
-			'lookup' => ['required', 'string']
-		]);
-		
 		$users = [];
 		
 		foreach(preg_split('/\r\n|\r|\n/', $request->get('lookup')) as $username)

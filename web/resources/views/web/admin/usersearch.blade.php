@@ -19,6 +19,7 @@
 				<x-admin.user-search-input id="userid" definition="User ID" />
 				<x-admin.user-search-input id="username" definition="Username" />
 				@owner
+					<x-admin.user-search-input id="emailaddress" definition="Email Address" />
 					<x-admin.user-search-input id="ipaddress" definition="IP Address" />
 				@endowner
 			</div>

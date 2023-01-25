@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\Username;
 use App\Models\User;
 
 class LoginRequest extends FormRequest
@@ -65,11 +66,20 @@ class LoginRequest extends FormRequest
 		$this->merge([
 			$login_type => $this->input('username')
 		]);
+		$loginModel = ($login_type == 'username' ? 'App\\Models\\Username' : 'App\\Models\\User');
 		
-		if(!User::where($login_type, $this->only($login_type))->exists()) {
+		$previousUsername = $loginModel::where($login_type, $this->only($login_type))->first();
+		if(!$previousUsername) {
 			throw ValidationException::withMessages([
                 'username' => $this->messages()['username.exists'],
             ]);
+		}
+		
+		if($login_type == 'username')
+		{
+			$this->merge([
+				'username' => $previousUsername->user->username
+			]);
 		}
 		
         if(!Auth::attempt($this->only($login_type, 'password'), $this->boolean('remember'))) {

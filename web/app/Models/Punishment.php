@@ -11,6 +11,21 @@ class Punishment extends Model
     use HasFactory;
 	
 	/**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+		'punishment_type_id',
+		'active',
+		'user_note',
+		'internal_note',
+		'user_id',
+		'moderator_id',
+		'expiration'
+	];
+	
+	/**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -80,5 +95,10 @@ class Punishment extends Model
 		return self::where('user_id', $userId)
 					->where('active', true)
 					->orderByDesc('id');
+	}
+	
+	public function pardoned()
+	{
+		return $this->pardoner_id !== null;
 	}
 }

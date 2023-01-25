@@ -142,7 +142,7 @@ class User extends Authenticatable
 	
 	public function punishments()
 	{
-		return $this->hasMany(Punishment::class, 'user_id');
+		return $this->hasMany(Punishment::class, 'user_id')->orderByDesc('id');
 	}
 	
 	public function hasAsset($assetId)
@@ -166,24 +166,30 @@ class User extends Authenticatable
 	
 	public function getImageUrl()
 	{
-		$renderId = $this->id;
+		if(!$this->thumbnail2DHash)
+		{
+			$thumbnail = Http::get(route('thumbnails.v1.user', ['id' => $this->id, 'position' => 'full', 'type' => '2d']));
+			if($thumbnail->json('status') == 'loading')
+				return '/images/busy/user.png';
+			
+			return $thumbnail->json('data');
+		}
 		
-		$thumbnail = Http::get(route('thumbnails.v1.user', ['id' => $renderId, 'position' => 'full', 'type' => '2d']));
-		if($thumbnail->json('status') == 'loading')
-			return '/images/busy/user.png';
-		
-		return $thumbnail->json('data');
+		return route('content', $this->thumbnail2DHash);
 	}
 	
 	public function getHeadshotImageUrl()
 	{
-		$renderId = $this->id;
+		if(!$this->thumbnailBustHash)
+		{
+			$thumbnail = Http::get(route('thumbnails.v1.user', ['id' => $this->id, 'position' => 'bust', 'type' => '2d']));
+			if($thumbnail->json('status') == 'loading')
+				return '/images/busy/user.png';
+			
+			return $thumbnail->json('data');
+		}
 		
-		$thumbnail = Http::get(route('thumbnails.v1.user', ['id' => $renderId, 'position' => 'bust', 'type' => '2d']));
-		if($thumbnail->json('status') == 'loading')
-			return '/images/busy/user.png';
-		
-		return $thumbnail->json('data');
+		return route('content', $this->thumbnailBustHash);
 	}
 	
 	public function set2DHash($hash)
@@ -248,6 +254,19 @@ class User extends Authenticatable
 			return $colors->first();
 		
 		return AvatarColor::newForUser($this->id);
+	}
+	
+	public function changeName($newName)
+	{
+		if($newName == $this->username) return false;
+		
+		Username::create([
+			'username' => $newName,
+			'user_id' => $this->id
+		]);
+		
+		$this->username = $newName;
+		$this->save();
 	}
 	
 	public function userToJson()

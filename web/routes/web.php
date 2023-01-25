@@ -56,6 +56,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 		
 		Route::group(['prefix' => 'users'], function() {
 			Route::get('/useradmin', 'AdminController@userAdmin')->name('useradmin');
+			Route::get('/manualmoderateuser', 'AdminController@manualModerateUser')->name('manualmoderateuser');
+			Route::post('/manualmoderateuser', 'AdminController@manualModerateUserSubmit')->name('manualmoderateusersubmit');
 			Route::get('/find', 'AdminController@userSearch')->name('usersearch');
 			Route::get('/userlookuptool', 'AdminController@userLookup')->name('userlookup');
 			Route::post('/userlookuptool', 'AdminController@userLookupQuery')->name('userlookupquery');

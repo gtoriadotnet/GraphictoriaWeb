@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AvatarAsset;
 use App\Models\DefaultUserAsset;
 use App\Models\UserAsset;
+use App\Models\Username;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 
@@ -39,7 +40,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => ['required', 'string', 'min:3', 'max:20', 'regex:/^[a-zA-Z0-9]+[ _.-]?[a-zA-Z0-9]+$/i', 'unique:users'],
+            'username' => ['required', 'string', 'min:3', 'max:20', 'regex:/^[a-zA-Z0-9]+[ _.-]?[a-zA-Z0-9]+$/i', 'unique:usernames'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ], [
@@ -57,6 +58,10 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+		Username::create([
+			'username' => $user->username,
+			'user_id' => $user->id
+		]);
 		
 		foreach(DefaultUserAsset::all() as $defaultAsset)
 		{

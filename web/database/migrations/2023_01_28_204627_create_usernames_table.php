@@ -13,18 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('punishments', function (Blueprint $table) {
+        Schema::create('usernames', function (Blueprint $table) {
             $table->id();
 			
-			$table->unsignedTinyInteger('punishment_type_id');
-			$table->boolean('active');
-			$table->string('user_note');
-			$table->string('internal_note');
+			$table->string('username');
 			$table->unsignedBigInteger('user_id');
-			$table->unsignedBigInteger('moderator_id');
-			$table->unsignedBigInteger('pardoner_id')->nullable();
-			$table->string('pardoner_note')->nullable();
-			$table->timestamp('expiration')->nullable();
+			$table->boolean('scrubbed')->default(false);
+			$table->unsignedBigInteger('scrubbed_by')->nullable();
 			
             $table->timestamps();
         });
@@ -37,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('punishments');
+        Schema::dropIfExists('usernames');
     }
 };
