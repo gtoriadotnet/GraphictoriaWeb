@@ -7,7 +7,7 @@
 		<title>{{ config('app.name') }} Blog{{ View::hasSection('title') ? ' | ' . View::getSection('title') : '' }}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<meta name="theme-color" content="#348AFF"/>
+		<meta name="theme-color" content="#D90000"/>
 		<meta name="author" content="{{ config('app.name') }}"/>
 		<meta name="description" content="{{ $slogan }}"/>
 		<meta name="keywords" content="virtubrick, xdiscuss, nostalgia, roblox, private server, classic, old roblox, classic roblox, forum, game engine, mmo, classic mmo, old internet"/>
