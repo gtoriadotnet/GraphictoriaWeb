@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
+use App\Helpers\CdnHelper;
 use App\Models\AssetType;
 
 /* 
@@ -41,7 +43,7 @@ class Asset extends Model
 		'creatorId',
 		'name',
 		'description',
-		'parentAssetId',
+		'renderId',
 		'approved',
 		'priceInTokens',
 		'onSale',
@@ -139,6 +141,12 @@ class Asset extends Model
 	
 	public function getThumbnail()
 	{
+		if($this->renderId)
+		{
+			$asset = Asset::where('id', $this->renderId)->first();
+			return $asset->getThumbnail();
+		}
+		
 		if($this->moderated)
 			return '/thumbs/DeletedThumbnail.png';
 		
@@ -160,6 +168,29 @@ class Asset extends Model
 		return route('content', $this->thumbnail2DHash);
 	}
 	
+	// XlXi: For packages. https://abc.com/asset?id=1;https://abc.com/asset?id=2
+	public function getPackageAssetUrls()
+	{
+		$result = '';
+		$assets = $this->getPackageAssetIds();
+		if(!$assets)
+			return $result;
+		
+		foreach(explode(';', $assets) as $key=>$asset)
+		{
+			$result .= ($key > 0 ? ';' : '') . route('client.asset', ['id' => $asset]);
+		}
+		
+		return $result;
+	}
+	
+	public function getPackageAssetIds()
+	{
+		$disk = CdnHelper::GetDisk();
+		
+		return $disk->get($this->getContent());
+	}
+	
 	public function set2DHash($hash)
 	{
 		$this->thumbnail2DHash = $hash;
@@ -172,6 +203,19 @@ class Asset extends Model
 		$this->thumbnail3DHash = $hash;
 		$this->timestamps = false;
 		$this->save();
+	}
+	
+	public function getShopUrl()
+	{
+		return route('shop.asset', ['asset' => $this, 'assetName' => Str::slug($this->name, '-')]);
+	}
+	
+	public function logAdminUpload($uploaderId)
+	{
+		return AdminUpload::create([
+			'asset_id' => $this->id,
+			'uploader_id' => $uploaderId
+		]);
 	}
 	
 	public function getCreated()

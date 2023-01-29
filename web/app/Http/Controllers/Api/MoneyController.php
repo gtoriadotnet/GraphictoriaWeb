@@ -44,7 +44,9 @@ class MoneyController extends Controller
 			
 			foreach($dataPoint['Points'] as $transactionType)
 			{
-				$newColumn['total'] += Transaction::where('user_id', Auth::user()->id)
+				$column = $transactionType == 'Sales' ? 'seller_id' : 'user_id';
+				
+				$newColumn['total'] += Transaction::where($column, Auth::user()->id)
 										->where('transaction_type_id', TransactionType::IDFromType($transactionType))
 										->where(function($query) use($request) {
 											if(!$request->has('filter'))
@@ -110,6 +112,7 @@ class MoneyController extends Controller
 										return $query->where('user_id', Auth::user()->id);
 									})
 									->where('transaction_type_id', $transactionType->id)
+									->with('asset')
 									->orderByDesc('id')
 									->cursorPaginate(30);
 		$prevCursor = $transactions->previousCursor();
@@ -126,7 +129,7 @@ class MoneyController extends Controller
 			$asset = null;
 			if($transactionType->format != '')
 				$asset = [
-					'url' => route('shop.asset', ['asset' => $transaction->asset, 'assetName' => Str::slug($transaction->asset->name, '-')]),
+					'url' => $transaction->asset->getShopUrl(),
 					'name' => $transaction->asset->name
 				];
 			

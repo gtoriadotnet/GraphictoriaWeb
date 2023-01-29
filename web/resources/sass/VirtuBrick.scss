@@ -1098,6 +1098,29 @@ input {
   &.nav-justified > li {
     vertical-align: bottom;
   }
+  
+  &.flex-column {
+	.nav-link {
+		width: 100%;
+		text-align: left;
+		margin-top: 0;
+		border-top-right-radius: 0;
+		border-bottom-left-radius: 0.25rem;
+		
+		&:not(.disabled):hover,
+		&:not(.disabled):focus,
+		&.active {
+			padding: 0.5rem 1rem;
+		}
+	}
+	
+	border-bottom: 0;
+  }
+}
+
+.card.vb-card-navconnector {
+	border-left: 0;
+    border-top-left-radius: 0;
 }
 
 @keyframes dropdownEase {

@@ -102,6 +102,9 @@ class ArbiterRender implements ShouldQueue
 			case 'Avatar':
 				$arguments[0] = route('client.characterFetch', ['userId' => $this->assetId]);
 				break;
+			case 'Face':
+				$this->type = 'Decal';
+				break;
 			case 'Torso':
 			case 'Right Arm':
 			case 'Left Arm':
@@ -116,8 +119,9 @@ class ArbiterRender implements ShouldQueue
 				break;
 			case 'Package':
 				// TODO: XlXi: Move these to config, as it could be different from prod in a testing environment. Also move these to their own assets (not loading from roblox).
+				$arguments[0] = $this->tracker->targetObj->getPackageAssetUrls();
 				array_push($arguments, 'https://www.roblox.com/asset/?id=1785197'); // Rig
-				array_push($arguments, '27113661;25251154'); // Custom Texture URLs (shirt and pands)
+				array_push($arguments, 'https://www.roblox.com/asset/?id=27113661;https://www.roblox.com/asset/?id=25251154'); // Custom Texture URLs (shirt and pands)
 				break;
 			case 'Place':
 				$arguments[2] = 768*4; // XlXi: These get scaled down by 4.

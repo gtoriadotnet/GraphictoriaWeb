@@ -144,15 +144,29 @@ class GridHelper
 		]);
 	}
 	
-	public static function getBodyColorsXML()
+	private static function getXMLFromGameDisk($fileName)
 	{
 		$disk = self::getGameDisk();
-		$fileName = 'BodyColors.xml';
 		
 		if(!$disk->exists($fileName))
 			throw new Exception('Unable to locate template file.');
 		
 		return $disk->get($fileName);
+	}
+	
+	public static function getBodyColorsXML()
+	{
+		return self::getXMLFromGameDisk('BodyColors.xml');
+	}
+	
+	public static function getBodyPartXML()
+	{
+		return self::getXMLFromGameDisk('BodyPart.xml');
+	}
+	
+	public static function getFaceXML()
+	{
+		return self::getXMLFromGameDisk('Face.xml');
 	}
 	
 	public static function getArbiter($name)

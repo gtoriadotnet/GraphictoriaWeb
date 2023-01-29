@@ -22,6 +22,9 @@ return new class extends Migration
 			$table->boolean('copyable')->default(false); // Can be downloaded through /asset
 			$table->boolean('sellable')->default(false); // If false, can be made on sale for free only.
 			$table->boolean('locked')->default(false); // Cannot be put on sale
+			$table->boolean('trusted')->default(false); // Skips text filtering for name and description.
+			$table->boolean('userCreatable')->default(false); // Can be uploaded by a user.
+			$table->boolean('adminCreatable')->default(false); // Can be uploaded via the admin panel.
             $table->timestamps();
         });
     }

@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 use App\Helpers\AssetHelper;
+use App\Helpers\CdnHelper;
 use App\Helpers\GridHelper;
 use App\Helpers\ValidationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\AppDeployment;
+use App\Models\AssetType;
 use App\Models\Deployment;
+use App\Models\RobloxAsset;
 use App\Rules\AppDeploymentFilenameRule;
 
 class AdminController extends Controller
@@ -19,7 +23,173 @@ class AdminController extends Controller
 	
 	
 	// Admin+
+	function manualAssetUpload(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'asset-type-id' => ['required', 'int'],
+			'name' => ['required', 'string'],
+			'description' => ['string', 'nullable'],
+			'roblox-id' => ['int', 'min:0', 'nullable'],
+			'on-sale' => ['required', 'boolean'],
+			'price' => ['required_if:on-sale,true', 'int', 'min:0'],
+			'content' => ['nullable'],
+			'mesh-id' => ['int', 'nullable'],
+			'base-id' => ['int', 'nullable'],
+			'overlay-id' => ['int', 'nullable'],
+		],[
+			'asset-type-id.required' => 'An asset type ID must be provided.',
+			'roblox-id.integer' => 'Roblox ID must be an integer.'
+		]);
+		
+		if($validator->fails())
+			return ValidationHelper::generateValidatorError($validator);
+		
+		$valid = $validator->valid();
+		$isRobloxAsset = ($request->has('roblox-id') && $valid['roblox-id'] > 0);
+		
+		if($isRobloxAsset)
+		{
+			$uploadedAsset = RobloxAsset::where('robloxAssetId', $valid['roblox-id'])->first();
+			if($uploadedAsset)
+			{
+				$validator->errors()->add('roblox-id', 'This asset has already been uploaded!');
+				return ValidationHelper::generateValidatorError($validator);
+			}
+		}
+		
+		$assetType = AssetType::where('id', $valid['asset-type-id'])
+								->where('adminCreatable', 1)
+								->first();
+		if(!$assetType)
+		{
+			$validator->errors()->add('asset-type-id', 'Invalid asset type for admin upload.');
+			return ValidationHelper::generateValidatorError($validator);
+		}
+		
+		$assetFunction = 'Unknown';
+		$assetFunctionArgs = [];
+		switch($assetType->id)
+		{
+			case 27: // Torso
+			case 28: // Right Arm
+			case 29: // Left Arm
+			case 30: // Left Leg
+			case 31: // Right Leg
+				$assetFunctionArgs = [$assetType->id, $valid];
+				$assetFunction = 'BodyPart';
+				break;
+			case 18: // Face
+				$assetFunctionArgs = [$validator, $valid];
+				$assetFunction = 'Face';
+				break;
+			default:
+				$assetFunctionArgs = [$validator];
+				$assetFunction = 'Generic';
+				break;
+		}
+		
+		$assetContent = $this->{ 'manualAssetUpload' . $assetFunction }($request, ...$assetFunctionArgs);
+		
+		$hash = CdnHelper::SaveContent($assetContent, 'application/octet-stream');
+		$asset = AssetHelper::newAsset([
+			'creatorId' => 1,
+			'name' => $valid['name'],
+			'description' => $valid['description'],
+			'approved' => true,
+			'priceInTokens' => $valid['price'],
+			'onSale' => $valid['on-sale'] == 1 ? true : false,
+			'assetTypeId' => $assetType->id,
+			'assetVersionId' => 0
+		], $hash);
+		$asset->logAdminUpload(Auth::user()->id);
+		
+		if($isRobloxAsset)
+		{
+			RobloxAsset::create([
+				'robloxAssetId' => $valid['roblox-id'],
+				'localAssetId' => $asset->id
+			]);
+		}
+		
+		return response([
+			'success' => true,
+			'message' => 'Your asset has been successfully uploaded!',
+			'assetId' => $asset->id
+		]);
+	}
 	
+	function manualAssetUploadBodyPart(Request $request, $assetTypeId, $valid)
+	{
+		$bodyParts = [
+			27 => 1, // Torso
+			28 => 3, // Right Arm
+			29 => 2, // Left Arm
+			30 => 4, // Left Leg
+			31 => 5  // Right Leg 
+		];
+		
+		$document = simplexml_load_string(GridHelper::getBodyPartXML());
+		$document->xpath('//int[@name="BaseTextureId"]')[0][0] = $valid['base-id'] ?: 0;
+		$document->xpath('//token[@name="BodyPart"]')[0][0] = $bodyParts[$assetTypeId];
+		$document->xpath('//int[@name="MeshId"]')[0][0] = $valid['mesh-id'];
+		$document->xpath('//string[@name="Name"]')[0][0] = $valid['name'];
+		$document->xpath('//int[@name="OverlayTextureId"]')[0][0] = $valid['overlay-id'] ?: 0;
+		
+		$domXML = dom_import_simplexml($document);
+		$assetContent = $domXML->ownerDocument->saveXML($domXML->ownerDocument->documentElement);
+		
+		return $assetContent;
+	}
+	
+	function manualAssetUploadFace(Request $request, $validator, $valid)
+	{
+		if(!$request->has('content'))
+		{
+			$validator->errors()->add('content', 'Asset content cannot be blank!');
+			return ValidationHelper::generateValidatorError($validator);
+		}
+		
+		$hash = CdnHelper::SaveContent(
+			file_get_contents($request->file('content')->path()),
+			'application/octet-stream'
+		);
+		$imageAsset = AssetHelper::newAsset([
+			'creatorId' => 1,
+			'name' => $valid['name'],
+			'approved' => true,
+			'onSale' => false,
+			'assetTypeId' => 1, // Image
+			'assetVersionId' => 0
+		], $hash);
+		$imageAsset->logAdminUpload(Auth::user()->id);
+		$imageAssetUrl = route('client.asset', ['id' => $imageAsset->id]);
+		
+		$document = simplexml_load_string(GridHelper::getFaceXML());
+		$document->xpath('//Content[@name="Texture"]')[0][0]->addChild('url', $imageAssetUrl);
+		
+		$domXML = dom_import_simplexml($document);
+		$assetContent = $domXML->ownerDocument->saveXML($domXML->ownerDocument->documentElement);
+		
+		return $assetContent;
+	}
+	
+	function manualAssetUploadGeneric(Request $request, $validator)
+	{
+		if(!$request->has('content'))
+		{
+			$validator->errors()->add('content', 'Asset content cannot be blank!');
+			return ValidationHelper::generateValidatorError($validator);
+		}
+		
+		$assetContent = file_get_contents($request->file('content')->path());
+		
+		return $assetContent;
+	}
+	
+	function manualAssetUploadUnknown(Request $request)
+	{
+		throw new \BadMethodCallException('Not implemented');
+	}
 	
 	// Owner+
 	function deploy(Request $request)

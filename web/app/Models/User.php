@@ -229,7 +229,9 @@ class User extends Authenticatable
 		
 		foreach($oldHashes as $hash)
 		{
-			if(!User::where('thumbnailBustHash', $hash)->orWhere('thumbnail2DHash', $hash)->orWhere('thumbnail3DHash', $hash)->exists())
+			$userThumbExists = User::where('thumbnailBustHash', $hash)->orWhere('thumbnail2DHash', $hash)->orWhere('thumbnail3DHash', $hash)->exists();
+			$assetThumbExists = Asset::where('thumbnail2DHash', $hash)->orWhere('thumbnail3DHash', $hash)->exists();
+			if(!$userThumbExists && !$assetThumbExists)
 				CdnHelper::Delete($hash);
 		}
 	}
@@ -245,6 +247,27 @@ class User extends Authenticatable
 	{
 		return AvatarAsset::where('owner_id', $this->id)
 							->whereRelation('asset', 'moderated', 0);
+	}
+	
+	public function wearAsset($assetId)
+	{
+		$asset = Asset::where('id', $assetId)->first();
+		if($asset->assetType->id == 32)
+		{
+			foreach(explode(';', $asset->getPackageAssetIds()) as $asset)
+			{
+				if($this->isWearing($asset)) continue;
+				
+				$this->wearAsset($asset);
+			}
+		}
+		else
+		{
+			AvatarAsset::Create([
+				'owner_id' => $this->id,
+				'asset_id' => $assetId
+			]);
+		}
 	}
 	
 	public function getBodyColors()

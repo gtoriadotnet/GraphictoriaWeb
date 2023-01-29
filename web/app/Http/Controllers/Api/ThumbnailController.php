@@ -83,6 +83,9 @@ class ThumbnailController extends Controller
 					break;
 			}
 		} elseif($renderType == 'Asset') {
+			if($model->renderId)
+				$model = Asset::where('id', $model->renderId)->first();
+			
 			if($model->moderated)
 				return response(['status' => 'success', 'data' => '/thumbs/DeletedThumbnail.png']);
 			
@@ -108,13 +111,13 @@ class ThumbnailController extends Controller
 		if($renderType == 'User' && $valid['position'] == 'bust')
 			$trackerType .= 'bust';
 		$tracker = RenderTracker::where('type', $trackerType)
-								->where('target', $valid['id'])
+								->where('target', $model->id)
 								->where('created_at', '>', Carbon::now()->subMinute());
 		
 		if(!$tracker->exists()) {
 			$tracker = RenderTracker::create([
 				'type' => $trackerType,
-				'target' => $valid['id']
+				'target' => $model->id
 			]);
 			
 			ArbiterRender::dispatch(

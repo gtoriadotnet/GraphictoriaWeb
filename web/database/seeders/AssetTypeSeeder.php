@@ -19,14 +19,17 @@ class AssetTypeSeeder extends Seeder
 			'name' => 'Image',
 			'renderable' => true,
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'trusted' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'T-Shirt',
 			'renderable' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'Audio',
@@ -37,22 +40,26 @@ class AssetTypeSeeder extends Seeder
 			'renderable' => true,
 			'renderable3d' => true,
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Lua',
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'HTML',
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Text',
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Hat',
@@ -60,15 +67,18 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Place',
-			'renderable' => true
+			'renderable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'Model',
-			'renderable' => true
+			'renderable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'Shirt',
@@ -76,7 +86,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'Pants',
@@ -84,7 +95,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'Decal',
@@ -103,13 +115,16 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Face',
+			'renderable' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Gear',
@@ -117,7 +132,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		null,
 		[
@@ -129,28 +145,22 @@ class AssetTypeSeeder extends Seeder
 			'name' => 'Group Emblem',
 			'renderable' => true,
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'trusted' => true
 		],
 		null,
 		[
 			'name' => 'Animation',
-			'copyable' => true
+			'copyable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'Arms',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'locked' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Legs',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'locked' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Torso',
@@ -158,7 +168,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'locked' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Right Arm',
@@ -166,7 +177,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'locked' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Left Arm',
@@ -174,7 +186,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'locked' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Left Leg',
@@ -182,7 +195,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'locked' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Right Leg',
@@ -190,7 +204,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'locked' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Package',
@@ -198,7 +213,8 @@ class AssetTypeSeeder extends Seeder
 			'renderable3d' => true,
 			'copyable' => true,
 			'sellable' => true,
-			'wearable' => true
+			'wearable' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'YouTubeVideo',
@@ -206,7 +222,8 @@ class AssetTypeSeeder extends Seeder
 		],
 		[
 			'name' => 'Game Pass',
-			'sellable' => true
+			'sellable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'App',
@@ -216,11 +233,13 @@ class AssetTypeSeeder extends Seeder
 		[
 			'name' => 'Code',
 			'copyable' => true,
-			'locked' => true
+			'locked' => true,
+			'adminCreatable' => true
 		],
 		[
 			'name' => 'Plugin',
-			'sellable' => true
+			'sellable' => true,
+			'userCreatable' => true
 		],
 		[
 			'name' => 'SolidModel',
@@ -236,59 +255,31 @@ class AssetTypeSeeder extends Seeder
 		],
 		[
 			'name' => 'Hair Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Face Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Neck Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Shoulder Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Front Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Back Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Waist Accessory',
-			'renderable' => true,
-			'renderable3d' => true,
-			'copyable' => true,
-			'sellable' => true,
-			'wearable' => true
+			'locked' => true
 		],
 		[
 			'name' => 'Climb Animation',

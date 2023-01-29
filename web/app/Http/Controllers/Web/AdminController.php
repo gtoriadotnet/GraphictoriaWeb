@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminUpload;
 use App\Models\DynamicWebConfiguration;
 use App\Models\PunishmentType;
 use App\Models\Username;
@@ -264,13 +265,30 @@ class AdminController extends Controller
 		return view('web.admin.userlookup')->with('users', $users)->with('input', $request->get('lookup'));
 	}
 	
+	// Admin+
+	
 	// GET admin.autoupload
 	function autoUpload()
 	{
-		return view('web.admin.autoupload');
+		return view('web.admin.catalog.autoupload');
 	}
 	
-	// Admin+
+	// GET admin.assetupload
+	function assetUpload()
+	{
+		return view('web.admin.catalog.assetupload');
+	}
+	
+	// GET admin.adminuploads
+	function getAdminUploads(Request $request)
+	{
+		$uploads = AdminUpload::query()
+								->orderByDesc('id')
+								->paginate(25);
+		
+		return view('web.admin.catalog.adminuploads')->with('uploads', $uploads);
+	}
+	
 	function metricsVisualization()
 	{
 		return view('web.admin.metricsvisualization');

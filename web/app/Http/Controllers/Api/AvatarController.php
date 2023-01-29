@@ -76,7 +76,7 @@ class AvatarController extends Controller
 			
 			array_push($data, [
 				'id' => $asset->id,
-				'Url' => route('shop.asset', ['asset' => $asset, 'assetName' => Str::slug($asset->name, '-')]),
+				'Url' => $asset->getShopUrl(),
 				'Thumbnail' => $asset->getThumbnail(),
 				'Name' => $asset->name,
 				'Wearing' => Auth::user()->isWearing($asset->id)
@@ -100,7 +100,7 @@ class AvatarController extends Controller
 			
 			array_push($data, [
 				'id' => $asset->id,
-				'Url' => route('shop.asset', ['asset' => $asset, 'assetName' => Str::slug($asset->name, '-')]),
+				'Url' => $asset->getShopUrl(),
 				'Thumbnail' => $asset->getThumbnail(),
 				'Name' => $asset->name,
 				'Wearing' => true
@@ -160,11 +160,7 @@ class AvatarController extends Controller
 			return ValidationHelper::generateValidatorError($validator);
 		}
 		
-		AvatarAsset::Create([
-			'owner_id' => Auth::user()->id,
-			'asset_id' => $valid['id']
-		]);
-		
+		Auth::user()->wearAsset($valid['id']);
 		Auth::user()->redraw();
 		
 		return response(['success' => true]);

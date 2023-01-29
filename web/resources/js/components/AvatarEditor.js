@@ -408,7 +408,12 @@ class OutfitsTab extends Component {
 	}
 	
 	render() {
-		return (<><p>outfits</p></>);
+		return (<>
+			<div className="mb-1 d-flex">
+				<button className="btn btn-sm btn-primary ms-auto">Create New</button>
+			</div>
+			<p>outfits</p>
+		</>);
 	}
 }
 

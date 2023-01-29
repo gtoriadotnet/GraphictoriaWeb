@@ -19,7 +19,7 @@ return new class extends Migration
 			$table->unsignedBigInteger('creatorId');
 			$table->string('name');
 			$table->longText('description')->nullable();
-			$table->unsignedBigInteger('parentAssetId')->nullable()->comment('Used by things like images that were created because of something else.');
+			$table->unsignedBigInteger('renderId')->nullable();
 			
 			$table->boolean('approved')->default(false);
 			$table->boolean('moderated')->default(false);

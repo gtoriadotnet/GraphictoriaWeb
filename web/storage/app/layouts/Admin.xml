@@ -23,10 +23,6 @@
 		<category name="Private Servers">
 			<link name="Private Server Transactions" route="admin.dashboard" />
 		</category>
-		
-		<category name="Catalog">
-			<link name="Auto Uploader" route="admin.autoupload" />
-		</category>
 	</list>
 	
 	<list name="Administration" color="primary" roleset="Administrator">
@@ -72,6 +68,12 @@
 		
 		<category name="Universe Status">
 			<link name="Universe Status" route="admin.dashboard" />
+		</category>
+		
+		<category name="Catalog">
+			<link name="Upload Asset" route="admin.assetupload" />
+			<link name="Auto Uploader" route="admin.autoupload" />
+			<link name="Uploaded Assets" route="admin.adminuploads" />
 		</category>
 	</list>
 	

@@ -62,11 +62,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function() {
 			Route::get('/userlookuptool', 'AdminController@userLookup')->name('userlookup');
 			Route::post('/userlookuptool', 'AdminController@userLookupQuery')->name('userlookupquery');
 		});
-		
-		Route::get('/auto-uploader', 'AdminController@autoUpload')->name('autoupload');
 	});
 	
 	Route::middleware('roleset:administrator')->group(function () {
+		Route::group(['prefix' => 'catalog'], function() {
+			Route::get('/autoassetupload', 'AdminController@autoUpload')->name('autoupload');
+			Route::get('/manualassetupload', 'AdminController@assetUpload')->name('assetupload');
+			Route::get('/uploadedassets', 'AdminController@getAdminUploads')->name('adminuploads');
+		});
+		
 		Route::get('/metrics', 'AdminController@metricsVisualization')->name('metricsvisualization');
 		
 		Route::get('/arbiter-diag/{arbiterType?}', 'AdminController@arbiterDiag')->name('diag');

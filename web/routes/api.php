@@ -44,7 +44,11 @@ Route::middleware('auth')->group(function () {
 		Route::group(['as' => 'v1.', 'prefix' => 'v1'], function() {
 			Route::middleware('roleset:owner')->group(function () {
 				Route::get('/deploy', 'AdminController@deploy')->name('deploy');
-				Route::post('/deploy/{version}', 'AdminController@deployVersion')->name('deploy');
+				Route::post('/deploy/{version}', 'AdminController@deployVersion')->name('deployVersion');
+			});
+			
+			Route::middleware('roleset:administrator')->group(function () {
+				Route::post('/manual-asset-upload', 'AdminController@manualAssetUpload')->name('manualAssetUpload')->middleware('throttle:6,2,adminassetupload');
 			});
 			
 			// RCC Only
