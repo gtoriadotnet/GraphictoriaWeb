@@ -1,9 +1,7 @@
 // © XlXi 2023
 
 @use "sass:math";
-
-// Lumen 5.0.1
-// Bootswatch
+@import "BootstrapUtil";
 
 @import "BrickColors";
 @import "./scss/fontawesome.scss";
@@ -15,12 +13,9 @@
 @import "./scss/thin.scss";
 
 @import "Variables";
-@import "Bootstrap";
 
-// XlXi: Edit utilities API.
-// Border is removed because of how stupidly it's handled by Bootstrap. It completely breaks our dark theme.
+// XlXi: Border is removed because of how stupidly it's handled by Bootstrap. It completely breaks our dark theme.
 $utilities: map-remove($utilities, "border", "border-top", "border-end", "border-bottom", "border-start");
-@import "~bootstrap/scss/utilities/api";
 
 // Variables
 
@@ -28,6 +23,8 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,w
 @if $web-font-path {
   @import url($web-font-path);
 }
+
+@import "BootstrapComponents";
 
 // Mixins
 
