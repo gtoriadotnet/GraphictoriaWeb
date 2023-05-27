@@ -1,11 +1,11 @@
 <p align="center">
-    <img src="etc/readmecontent/WPLogoText.png?raw=true" alt="Graphictoria Logo With Web Platform Text" />
+    <img src="etc/readmecontent/WPLogoText.png?raw=true" alt="Virtubrick Logo With Web Platform Text" />
 </p>
 
 ---
 
 ## Licensing
-It is important that you understand licensing before accessing this repository; it's in plain english... You do not have permission to use, distribute, modify, or share the contents of this repository per[^1] [XlXi](mailto:XlXi@gtoria.net)'s discretion[^2].
+It is important that you understand licensing before accessing this repository; it's in plain english... You do not have permission to use, distribute, modify, or share the contents of this repository per[^1] [XlXi](mailto:wagnessgaming2014@gmail.com)'s discretion[^2].
 
 [^1]: Per: For each.
 [^2]: Discretion: The freedom to decide what should be done in a particular situation.
@@ -23,9 +23,9 @@ These branch rules allow me to merge changes using GitHub's web interface rather
 ---
 
 ## Contacts
-- [XlXi](mailto:XlXi@gtoria.net) (Owner, Primary code owner)
+- [XlXi](mailto:wagnessgaming2014@gmail.com) (Owner, Primary code owner)
 
 ---
 
-Copyright © XlXi 2022
-Graphictoria 5
+Copyright © XlXi 2023
+Virtubrick
